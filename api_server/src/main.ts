@@ -8,6 +8,7 @@ async function start() {
 
     await app.listen(PORT, () => {
         console.log(`Server started on ${PORT} port`)
+        console.log(`${process.env.NODE_ENV}`)
     })
 }
 
