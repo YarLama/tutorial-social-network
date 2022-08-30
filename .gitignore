@@ -1,1 +1,7 @@
 at_work/
+api_server/node_modules/
+api_server/dist/
+server/node_modules/
+front/node_modules/
+server/dist/
+front/dist/
