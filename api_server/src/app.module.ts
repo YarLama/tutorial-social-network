@@ -4,10 +4,14 @@ import { ConfigModule } from "@nestjs/config";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
+import { PostsService } from './posts/posts.service';
+import { PostsController } from './posts/posts.controller';
+import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module( {
-    controllers: [],
-    providers: [],
+    controllers: [PostsController],
+    providers: [PostsService],
     imports: [
         ConfigModule.forRoot({
             envFilePath: `.${process.env.NODE_ENV}.env`
@@ -25,7 +29,9 @@ import { RolesModule } from './roles/roles.module';
             autoLoadModels: true,
         }),
         UsersModule,
-        RolesModule
+        RolesModule,
+        PostsModule,
+        AuthModule
     ],
     exports: []
 })

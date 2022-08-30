@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
+const auth_module_1 = require("../auth/auth.module");
 const roles_module_1 = require("../roles/roles.module");
 const users_controller_1 = require("./users.controller");
 const users_model_1 = require("./users.model");
@@ -24,6 +25,7 @@ UsersModule = __decorate([
                 users_model_1.User
             ]),
             roles_module_1.RolesModule,
+            (0, common_1.forwardRef)(() => auth_module_1.AuthModule)
         ],
         exports: [
             users_service_1.UsersService
