@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { isNumber } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AddUserRoleDto } from './dto/add_role_user.dto';
 import { CreateUserDto } from './dto/create_user.dto';
@@ -28,11 +29,13 @@ export class UsersController {
         return this.userService.getAllUsers();
     }
 
-    @Get('/:email')
-    getUserbyEmail(@Param('email') email: string): Promise<User> {
-        return this.userService.getUserByEmail(email);
+    @UseGuards(JwtAuthGuard)
+    @Get('/:person')
+    getUser(@Param('person') person: string): Promise<User> {
+        const isNumber: boolean = Number(person) ? true : false;
+        return isNumber ? 
+            this.userService.getUserById(Number(person)) : 
+            this.userService.getUserByEmail(person);
     }
-
-    
 
 }

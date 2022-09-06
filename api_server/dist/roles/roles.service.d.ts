@@ -1,9 +1,0 @@
-import { CreateRoleDto } from './dto/create_role.dto';
-import { Role } from './roles.model';
-export declare class RolesService {
-    private roleRepository;
-    constructor(roleRepository: typeof Role);
-    createRole(dto: CreateRoleDto): Promise<Role>;
-    getAllRoles(): Promise<Role[]>;
-    getRoleByValue(value: string): Promise<Role>;
-}
