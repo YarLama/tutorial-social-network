@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
-import { isNumber } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
 import { AddUserRoleDto } from './dto/add_role_user.dto';
@@ -14,6 +13,7 @@ export class UsersController {
        private userService: UsersService,
     ) {}
 
+    @UsePipes(ValidationPipe)
     @Post()
     create(@Body() dto: CreateUserDto): Promise<User> {
         return this.userService.createUser(dto);
