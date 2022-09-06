@@ -7,6 +7,7 @@ import { User } from './users.model';
 
 @Injectable()
 export class UsersService {
+    userService: any;
 
     constructor(
         @InjectModel(User) private userRepository: typeof User,
@@ -14,6 +15,9 @@ export class UsersService {
     ) {}
 
     async createUser(dto: CreateUserDto): Promise<User> {
+        const isUserExist = await this.getUserByEmail(dto.email);
+        if (isUserExist) throw new HttpException('User arleady exist', HttpStatus.BAD_REQUEST);
+
         const user = await this.userRepository.create(dto);
         const role = await this.roleService.getRoleByValue("USER");
         await user.$set('roles', [role.id]);
