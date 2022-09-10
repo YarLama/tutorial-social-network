@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RoleNames } from "src/utils/constants";
+import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
+import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
 import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
 import { AddUserRoleDto } from './dto/add_role_user.dto';
 import { CreateUserDto } from './dto/create_user.dto';
@@ -19,18 +21,22 @@ export class UsersController {
         return this.userService.createUser(dto);
     }
 
+    @RolesForAccess(RoleNames.ADMIN)
+    @UseGuards(RolesAccessGuard)
     @Post('/role')
     addUserRole(@Body() dto: AddUserRoleDto) {
         return this.userService.addUserRole(dto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
     @Get()
     getAllUsers(): Promise<User[]> {
         return this.userService.getAllUsers();
     }
 
-    @UseGuards(JwtAuthGuard)
+    @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
     @Get('/:person')
     getUser(@Param('person') person: string): Promise<User> {
         const isNumber: boolean = Number(person) ? true : false;

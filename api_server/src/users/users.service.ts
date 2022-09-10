@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { RolesService } from 'src/roles/roles.service';
+import { RoleNames } from 'src/utils/constants';
 import { AddUserRoleDto } from './dto/add_role_user.dto';
 import { CreateUserDto } from './dto/create_user.dto';
 import { User } from './users.model';
@@ -15,11 +16,9 @@ export class UsersService {
     ) {}
 
     async createUser(dto: CreateUserDto): Promise<User> {
-        const isUserExist = await this.getUserByEmail(dto.email);
-        if (isUserExist) throw new HttpException('User arleady exist', HttpStatus.BAD_REQUEST);
 
         const user = await this.userRepository.create(dto);
-        const role = await this.roleService.getRoleByValue("USER");
+        const role = await this.roleService.getRoleByValue(RoleNames.USER);
         await user.$set('roles', [role.id]);
         user.roles = [role];
         return user;
@@ -47,6 +46,7 @@ export class UsersService {
             where: {email},
             include: {all: true}
         });
+        
         return user;
     }
 
@@ -55,7 +55,7 @@ export class UsersService {
             where: {id},
             include: {all: true}
         });
-        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+
         return user;
     }
 

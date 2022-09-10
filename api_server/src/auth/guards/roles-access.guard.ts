@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { ROLES_KEY } from "../decorators/roles-auth.decorator";
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
+export class RolesAccessGuard implements CanActivate {
     
     constructor(
         private jwtService: JwtService,
