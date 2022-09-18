@@ -3,3 +3,7 @@ export enum RoleNames {
     USER = "USER",
     TESTER = "TESTER"
 }
+
+export enum DataBaseTypes {
+    UNDEFINED = "undefined"
+}
