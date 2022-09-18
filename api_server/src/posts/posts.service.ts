@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
 import { CreatePostDto } from './dto/create_post.dto';
-import { DataBaseTypes } from 'src/utils/constants'
 import { Post } from './posts.model';
 
 @Injectable()
@@ -21,5 +20,17 @@ export class PostsService {
         }
         const post = await this.postRepository.create({...dto})
         return post;
+    }
+
+    async getPostBy(id: number) {
+        const post = await this.postRepository.findByPk(id);
+        if (post) return post;
+        throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+    }
+
+    async DeletePostHard(id: number) {
+        const post = await this.postRepository.findByPk(id);
+        if (post) return this.postRepository.destroy({where : {id}})
+        throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
     }
 }
