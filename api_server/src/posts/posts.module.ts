@@ -15,6 +15,9 @@ import { PostsService } from './posts.service';
             Post
         ]),
         FilesModule
+    ],
+    exports: [
+        PostsService
     ]
 })
 export class PostsModule {

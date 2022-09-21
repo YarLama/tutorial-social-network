@@ -11,7 +11,11 @@ import { Role } from "./roles/roles.model";
 import { UserRoles } from "./users/user_role.model";
 import { Post } from "./posts/posts.model";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { CommentsService } from './comments/comments.service';
+import { CommentsController } from './comments/comments.controller';
+import { CommentsModule } from './comments/comments.module';
 import * as path from "path";
+import { Comment } from "./comments/comments.model";
 
 @Module( {
     controllers: [],
@@ -34,7 +38,8 @@ import * as path from "path";
                 User,
                 Role,
                 UserRoles,
-                Post
+                Post,
+                Comment
             ],
             autoLoadModels: true,
         }),
@@ -42,7 +47,8 @@ import * as path from "path";
         RolesModule,
         PostsModule,
         AuthModule,
-        FilesModule
+        FilesModule,
+        CommentsModule
     ],
     exports: []
 })
