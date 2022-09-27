@@ -11,11 +11,11 @@ import { Role } from "./roles/roles.model";
 import { UserRoles } from "./users/user_role.model";
 import { Post } from "./posts/posts.model";
 import { ServeStaticModule } from "@nestjs/serve-static";
-import { CommentsService } from './comments/comments.service';
-import { CommentsController } from './comments/comments.controller';
 import { CommentsModule } from './comments/comments.module';
 import * as path from "path";
 import { Comment } from "./comments/comments.model";
+import { ContactsModule } from './contacts/contacts.module';
+import { Contact } from "./contacts/contacts.model";
 
 @Module( {
     controllers: [],
@@ -39,7 +39,8 @@ import { Comment } from "./comments/comments.model";
                 Role,
                 UserRoles,
                 Post,
-                Comment
+                Comment,
+                Contact
             ],
             autoLoadModels: true,
         }),
@@ -48,7 +49,8 @@ import { Comment } from "./comments/comments.model";
         PostsModule,
         AuthModule,
         FilesModule,
-        CommentsModule
+        CommentsModule,
+        ContactsModule
     ],
     exports: []
 })

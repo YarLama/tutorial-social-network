@@ -27,7 +27,6 @@ export class PostsController {
         return this.postService.getPostById(id);
     }
 
-
     @Put('/:id')
     @UseInterceptors(FileInterceptor('image'))
     updatePost(@Body() dto: UpdatePostDto, @Param('id') id: number, @UploadedFile() image){
