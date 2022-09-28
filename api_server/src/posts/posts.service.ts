@@ -37,7 +37,6 @@ export class PostsService {
     async updatePost(dto: UpdatePostDto, id: number, image: any) {
         const post = await this.postRepository.findByPk(id);
         let fileName = post.image;
-        console.log(fileName, image)
         if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
         if (image !== null && image !== undefined) {
             fileName = await this.fileService.createFileImage(image);

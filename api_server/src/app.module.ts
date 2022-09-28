@@ -16,6 +16,8 @@ import * as path from "path";
 import { Comment } from "./comments/comments.model";
 import { ContactsModule } from './contacts/contacts.module';
 import { Contact } from "./contacts/contacts.model";
+import { PhotosModule } from './photos/photos.module';
+import { Photo } from "./photos/photos.model";
 
 @Module( {
     controllers: [],
@@ -40,7 +42,8 @@ import { Contact } from "./contacts/contacts.model";
                 UserRoles,
                 Post,
                 Comment,
-                Contact
+                Contact,
+                Photo
             ],
             autoLoadModels: true,
         }),
@@ -50,7 +53,8 @@ import { Contact } from "./contacts/contacts.model";
         AuthModule,
         FilesModule,
         CommentsModule,
-        ContactsModule
+        ContactsModule,
+        PhotosModule
     ],
     exports: []
 })
