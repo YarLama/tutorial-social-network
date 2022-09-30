@@ -36,14 +36,10 @@ export class PostsService {
 
     async updatePost(dto: UpdatePostDto, id: number, image: any) {
         const post = await this.postRepository.findByPk(id);
-        let fileName = post.image;
         if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-        if (image !== null && image !== undefined) {
-            fileName = await this.fileService.createFileImage(image);
-        }
-        if (image === undefined || image === null) {
-            fileName = null;
-        }
+        let fileName = post.image;
+        const imageCondition = (image !== null && image !== undefined);
+        fileName = imageCondition ? await this.fileService.createFileImage(image) : null;
 
         const updatePost = await this.postRepository.update(
             {...dto, image: fileName},
@@ -55,9 +51,9 @@ export class PostsService {
 
     async removePostHard(id: number) {
         const post = await this.postRepository.findByPk(id);
-        const response = { commentId: post.id, message: "Remove success."}
+        const response = { postId: post.id, message: "Remove success."}
         if (post) {
-            const removedPost = this.postRepository.destroy({where : {id}});
+            const removedPost = await this.postRepository.destroy({where : {id}});
             if (!removedPost) return {...response, message: "Remove error"}
             return response;
         }

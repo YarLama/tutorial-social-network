@@ -36,7 +36,7 @@ export class PhotosService {
         if (!photo) throw new HttpException('Photo not found', HttpStatus.NOT_FOUND);
         const response = { photoId: photo.id, message: "Remove success."};
         if (photo) {
-            const removedPhoto = this.photoRepository.destroy({where: {id: photoId}});
+            const removedPhoto = await this.photoRepository.destroy({where: {id: photoId}});
             if (!removedPhoto) return {...response, message: "Remove error"};
             return response;
         }

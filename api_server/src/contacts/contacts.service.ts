@@ -48,7 +48,7 @@ export class ContactsService {
         const contact = await this.contactRepository.findByPk(id);
         const response = { contactId: contact.id, message: "Remove success."}
         if (contact) {
-            const removedContact = this.contactRepository.destroy({where: {id}});
+            const removedContact = await this.contactRepository.destroy({where: {id}});
             if (!removedContact) return {...response, message: "Remove error"};
             return response;
         }
