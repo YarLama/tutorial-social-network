@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
+import { removeLocalImage } from 'src/utils/fs_functions';
 import { CreatePhotoDto } from './dto/create_photo.dto';
 import { Photo } from './photos.model';
 
@@ -37,6 +38,7 @@ export class PhotosService {
         const response = { photoId: photo.id, message: "Remove success."};
         if (photo) {
             const removedPhoto = await this.photoRepository.destroy({where: {id: photoId}});
+            const removeFromDist = await removeLocalImage(photo.image)
             if (!removedPhoto) return {...response, message: "Remove error"};
             return response;
         }
@@ -50,8 +52,6 @@ export class PhotosService {
                 is_avatar: true
             }
         })
-        
-
         if (!avatarUser.length) return false;
 
         const removeAvatarState = await this.photoRepository.update(

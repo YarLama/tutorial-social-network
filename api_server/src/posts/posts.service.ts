@@ -90,6 +90,7 @@ export class PostsService {
         const response = { postId: post.id, message: "Remove success."}
         if (post) {
             const removedPost = await this.postRepository.destroy({where : {id}});
+            const removeFromDist = await removeLocalImage(post.image)
             if (!removedPost) return {...response, message: "Remove error"}
             return response;
         }

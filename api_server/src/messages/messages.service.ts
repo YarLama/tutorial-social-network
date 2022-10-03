@@ -92,6 +92,9 @@ export class MessagesService {
         const response = { messageId: message.id, message: "Remove success."}
         if (message) {
             const removedMessage = await this.messageRepository.destroy({where: {id}});
+            if (message.image) {
+                const removeFromDist = await removeLocalImage(message.image)
+            }
             return response;
         }
         throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
