@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from 'src/files/files.service';
+import { getImageBuffer, isImageExist, removeLocalImage } from 'src/utils/fs_functions';
 import { CreatePostDto } from './dto/create_post.dto';
 import { UpdatePostDto } from './dto/update_post.dto';
 import { Post } from './posts.model';
@@ -37,10 +38,45 @@ export class PostsService {
     async updatePost(dto: UpdatePostDto, id: number, image: any) {
         const post = await this.postRepository.findByPk(id);
         if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-        let fileName = post.image;
-        const imageCondition = (image !== null && image !== undefined);
-        fileName = imageCondition ? await this.fileService.createFileImage(image) : null;
-
+        const image_exist = await isImageExist(post.image);
+        let fileName: string | null;
+        
+        if (image_exist && image) {
+            const image_exist_buffer = await getImageBuffer(post.image);
+            const buffer_compare_result = Buffer.compare(image.buffer, image_exist_buffer);
+            if (buffer_compare_result === 0) {
+                const updatePostWithoutImage = await this.postRepository.update(
+                    {...dto},
+                    {where: {id}}
+                );
+            } else {
+                fileName = await this.fileService.createFileImage(image);
+                const updatePost = await this.postRepository.update(
+                    {...dto, image: fileName},
+                    {where: {id}}
+                );
+                const removeFromDist = await removeLocalImage(post.image)
+            }
+        } else if (image_exist && image == null) {
+            fileName = null;
+            const updatePost = await this.postRepository.update(
+                {...dto, image: fileName},
+                {where: {id}}
+            );
+            const removeFromDist = await removeLocalImage(post.image)
+        } else if (!image_exist && image == null) {
+            const updatePostWithoutImage = await this.postRepository.update(
+                {...dto},
+                {where: {id}}
+            );
+        } else if (!image_exist && image) {
+            fileName = await this.fileService.createFileImage(image);
+            const updatePost = await this.postRepository.update(
+                {...dto, image: fileName},
+                {where: {id}}
+            );
+        }
+        
         const updatePost = await this.postRepository.update(
             {...dto, image: fileName},
             {where: {id}}

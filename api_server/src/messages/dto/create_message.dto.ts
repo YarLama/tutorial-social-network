@@ -1,6 +1,6 @@
 export class CreateMessageDto {
-    readonly fromUserId: number;
-    readonly toUserId: number;
+    readonly from_userId: number;
+    readonly to_userId: number;
     readonly content: string;
-    readonly isVisible: boolean;
+    readonly is_visible: boolean;
 }

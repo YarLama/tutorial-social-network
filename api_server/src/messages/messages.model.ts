@@ -27,11 +27,11 @@ export class Message extends Model<Message, MessageCreationAttrs> {
     is_visible: boolean;
 
     @ForeignKey(() => User)
-    @Column({type: DataType.INTEGER})
+    @Column({type: DataType.INTEGER, allowNull: false})
     from_userId: number;
 
     @ForeignKey(() => User)
-    @Column({type: DataType.INTEGER})
+    @Column({type: DataType.INTEGER, allowNull: false})
     to_userId: number;
 
 }
