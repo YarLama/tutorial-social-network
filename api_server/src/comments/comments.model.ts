@@ -1,4 +1,5 @@
-import { Model, Table, Column, DataType, BelongsToMany, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { LikesComment } from 'src/likes/likes_comments.model';
 import { Post } from 'src/posts/posts.model';
 import { User } from 'src/users/users.model';
 
@@ -29,6 +30,9 @@ export class Comment extends Model<Comment, CommentCreationAttrs> {
 
     @BelongsTo(() => User)
     user: User;
+
+    @HasMany(() => LikesComment)
+    likes: LikesComment[];
 
     @BelongsTo(() => Post)
     post: Post;

@@ -20,6 +20,8 @@ import { PhotosModule } from './photos/photos.module';
 import { Photo } from "./photos/photos.model";
 import { MessagesModule } from './messages/messages.module';
 import { LikesModule } from './likes/likes.module';
+import { LikesComment } from "./likes/likes_comments.model";
+import { LikesPost } from "./likes/likes_posts.model";
 
 @Module( {
     controllers: [],
@@ -45,7 +47,9 @@ import { LikesModule } from './likes/likes.module';
                 Post,
                 Comment,
                 Contact,
-                Photo
+                Photo,
+                LikesComment,
+                LikesPost
             ],
             autoLoadModels: true,
         }),
