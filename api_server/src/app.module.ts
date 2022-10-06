@@ -19,6 +19,7 @@ import { Contact } from "./contacts/contacts.model";
 import { PhotosModule } from './photos/photos.module';
 import { Photo } from "./photos/photos.model";
 import { MessagesModule } from './messages/messages.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module( {
     controllers: [],
@@ -56,7 +57,8 @@ import { MessagesModule } from './messages/messages.module';
         CommentsModule,
         ContactsModule,
         PhotosModule,
-        MessagesModule
+        MessagesModule,
+        LikesModule
     ],
     exports: []
 })
