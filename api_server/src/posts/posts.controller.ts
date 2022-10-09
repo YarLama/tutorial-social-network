@@ -17,7 +17,6 @@ export class PostsController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @UsePipes(ValidationPipe)
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     createPost(@Body() dto: CreatePostDto, @UploadedFile() image) {
@@ -40,7 +39,6 @@ export class PostsController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @UsePipes(ValidationPipe)
     @Put('/:id')
     @UseInterceptors(FileInterceptor('image'))
     updatePost(@Body() dto: UpdatePostDto, @Param('id') id: number, @UploadedFile() image){

@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { AuthModule } from 'src/auth/auth.module';
 import { Post } from 'src/posts/posts.model';
 import { PostsModule } from 'src/posts/posts.module';
 import { User } from 'src/users/users.model';
@@ -12,6 +13,7 @@ import { CommentsService } from './comments.service';
     controllers: [CommentsController],
     providers: [CommentsService],
     imports: [
+        forwardRef(() => AuthModule),
         SequelizeModule.forFeature([
             User,
             Post,

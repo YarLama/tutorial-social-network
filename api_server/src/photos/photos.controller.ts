@@ -14,7 +14,6 @@ export class PhotosController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @UsePipes(ValidationPipe)
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     createPhoto(@Body() dto: CreatePhotoDto, @UploadedFile() image) {
