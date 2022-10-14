@@ -16,7 +16,6 @@ export class MessagesController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @UsePipes(ValidationPipe)
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     createMessage(@Body() dto: CreateMessageDto, @UploadedFile() image) {
@@ -39,7 +38,6 @@ export class MessagesController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @UsePipes(ValidationPipe)
     @Put('/:id')
     @UseInterceptors(FileInterceptor('image'))
     updateMessage(@Body() dto: CreateMessageDto, @Param('id') id: number, @UploadedFile() image){
