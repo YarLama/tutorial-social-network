@@ -39,13 +39,6 @@ export class ContactsController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @Get('/user/:id')
-    getUserContacts(@Param('id') id: number, @Req() request: Request) {
-        return this.contactService.getUserContacts(Number(id), request);
-    }
-
-    @RolesForAccess(RoleNames.USER)
-    @UseGuards(RolesAccessGuard)
     @UsePipes(ValidationPipe)
     @Put('/:id')
     updateContact(@Body() dto: UpdateContactDto, @Param('id') id: number, @Req() request: Request) {

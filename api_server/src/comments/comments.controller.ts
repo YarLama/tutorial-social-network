@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards, UsePipes } from '@nestjs/common';
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
 import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
@@ -18,11 +18,11 @@ export class CommentsController {
     @UseGuards(RolesAccessGuard)
     @UsePipes(ValidationPipe)
     @Post()
-    createComment(@Body() dto: CreateCommentDto) {
+    createComment(@Body() dto: CreateCommentDto, @Req() request: Request) {
         return this.commentService.createComment(dto);
     }
 
-    @RolesForAccess(RoleNames.USER)
+    @RolesForAccess(RoleNames.ADMIN)
     @UseGuards(RolesAccessGuard)
     @Get()
     getAllComments() {

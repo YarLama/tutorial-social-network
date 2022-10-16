@@ -39,15 +39,6 @@ export class ContactsService {
         throw new HttpException('Contact not found', HttpStatus.NOT_FOUND)
     }
 
-    async getUserContacts(userId: number, request: Request) {
-        
-        const isOwner = await this.authService.isEqualUserId(request, userId);
-        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
-        const contacts = await this.contactRepository.findAll({where: {userId}});
-        if (!contacts.length) throw new HttpException('Contacts not found', HttpStatus.NOT_FOUND);
-        return contacts;
-    }
-
     async getAllContacts() {
         const contacts = await this.contactRepository.findAll({include: {all: true}});
         return contacts;

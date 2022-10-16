@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards, UsePipes } from '@nestjs/common';
 import { RoleNames } from "src/utils/constants";
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
@@ -34,6 +34,20 @@ export class UsersController {
     @Get()
     getAllUsers(): Promise<User[]> {
         return this.userService.getAllUsers();
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:id/comments/')
+    getUserComments(@Param('id') id: number) {
+        return this.userService.getUserComments(Number(id));
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:id/contacts/')
+    getUserContacts(@Param('id') id: number, @Req() request: Request) {
+        return this.userService.getUserContacts(Number(id), request);
     }
 
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)

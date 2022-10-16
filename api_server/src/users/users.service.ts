@@ -1,10 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { RolesService } from 'src/roles/roles.service';
 import { RoleNames } from 'src/utils/constants';
 import { AddUserRoleDto } from './dto/add_role_user.dto';
 import { CreateUserDto } from './dto/create_user.dto';
 import { User } from './users.model';
+import { Comment } from 'src/comments/comments.model'
+import { Contact } from 'src/contacts/contacts.model';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +15,7 @@ export class UsersService {
 
     constructor(
         @InjectModel(User) private userRepository: typeof User,
+        @Inject(forwardRef(() => AuthService)) private authService: AuthService,
         private roleService: RolesService,
     ) {}
 
@@ -24,11 +28,6 @@ export class UsersService {
         return user;
     }
 
-    async getAllUsers(): Promise<User[]> {
-        const users = await this.userRepository.findAll({include: {all: true}});
-        return users;
-    }
-
     async addUserRole(dto: AddUserRoleDto): Promise<AddUserRoleDto> {
         const user = await this.userRepository.findByPk(dto.userId);
         const role = await this.roleService.getRoleByValue(dto.value);
@@ -39,6 +38,11 @@ export class UsersService {
         }
 
         throw new HttpException('User or role not found', HttpStatus.NOT_FOUND);
+    }
+
+    async getAllUsers(): Promise<User[]> {
+        const users = await this.userRepository.findAll({include: {all: true}});
+        return users;
     }
 
     async getUserByEmail(email: string): Promise<User> {
@@ -57,6 +61,31 @@ export class UsersService {
         });
 
         return user;
+    }
+
+    async getUserComments(id: number): Promise<Comment[]> {
+        const user = await this.userRepository.findByPk(id, {
+            include: [{
+                model: Comment
+            }]
+        });
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const comments = user.comments;
+        return comments;
+    }
+
+    async getUserContacts(id: number, request: Request): Promise<Contact[]> {
+        const isOwner = await this.authService.isEqualUserId(request, id);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const user = await this.userRepository.findByPk(id, {
+            include: [{
+                model: Contact
+            }]
+        });
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const contacts = user.contacts;
+        if (!contacts.length) throw new HttpException('Contacts not found', HttpStatus.NOT_FOUND);
+        return contacts;
     }
 
 }
