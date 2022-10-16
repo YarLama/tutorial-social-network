@@ -39,6 +39,15 @@ export class ContactsService {
         throw new HttpException('Contact not found', HttpStatus.NOT_FOUND)
     }
 
+    async getUserContacts(userId: number, request: Request) {
+        
+        const isOwner = await this.authService.isEqualUserId(request, userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const contacts = await this.contactRepository.findAll({where: {userId}});
+        if (!contacts.length) throw new HttpException('Contacts not found', HttpStatus.NOT_FOUND);
+        return contacts;
+    }
+
     async getAllContacts() {
         const contacts = await this.contactRepository.findAll({include: {all: true}});
         return contacts;
@@ -49,14 +58,6 @@ export class ContactsService {
         if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const contact = await this.contactRepository.findByPk(id);
         if (!contact) throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
-        const allUserContacts = await this.contactRepository.findAll({where: {userId: dto.userId}});
-        const arleadyContactExist = allUserContacts.some(contact => {
-            if (contact.id != id) {
-                if (dto.targetUserId === contact.targetUserId) throw new HttpException('Contact arleady exist', HttpStatus.FORBIDDEN);
-                return true;
-            } 
-            return false;
-        })
         const updateContact = await this.contactRepository.update({...dto}, {where: {id}})
         const updatedContact = await this.contactRepository.findByPk(id);
         return updatedContact;
