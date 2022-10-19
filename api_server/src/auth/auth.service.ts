@@ -34,7 +34,7 @@ export class AuthService {
         const token = request.headers['authorization'].split(' ')[1];
         const user = this.jwtService.verify(token);
         const id: number = user.id;
-        return id === userId ? true: false;
+        return Number(id) === Number(userId) ? true: false;
     }
 
     private async generateToken(user: User): Promise<IToken> {

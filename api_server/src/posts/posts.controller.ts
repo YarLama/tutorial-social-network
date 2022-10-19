@@ -1,8 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
-import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
 import { RoleNames } from 'src/utils/constants';
 import { CreatePostDto } from './dto/create_post.dto';
 import { UpdatePostDto } from './dto/update_post.dto';
@@ -19,11 +18,11 @@ export class PostsController {
     @UseGuards(RolesAccessGuard)
     @Post()
     @UseInterceptors(FileInterceptor('image'))
-    createPost(@Body() dto: CreatePostDto, @UploadedFile() image) {
-        return this.postService.createPost(dto, image)
+    createPost(@Body() dto: CreatePostDto, @UploadedFile() image, @Req() request: Request) {
+        return this.postService.createPost(dto, image, request)
     }
 
-    @RolesForAccess(RoleNames.USER)
+    @RolesForAccess(RoleNames.USER, RoleNames.ADMIN)
     @UseGuards(RolesAccessGuard)
     @Get()
     getAllPosts() {
@@ -41,14 +40,14 @@ export class PostsController {
     @UseGuards(RolesAccessGuard)
     @Put('/:id')
     @UseInterceptors(FileInterceptor('image'))
-    updatePost(@Body() dto: UpdatePostDto, @Param('id') id: number, @UploadedFile() image){
-        return this.postService.updatePost(dto, id, image);
+    updatePost(@Body() dto: UpdatePostDto, @Param('id') id: number, @UploadedFile() image, @Req() request: Request){
+        return this.postService.updatePost(dto, id, image, request);
     }
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Delete('/:id')
-    deletePost(@Param('id') id: number) {
-        return this.postService.removePostHard(id);
+    deletePost(@Param('id') id: number, @Req() request: Request) {
+        return this.postService.removePostHard(id, request);
     }
 }

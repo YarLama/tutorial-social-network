@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { AuthService } from 'src/auth/auth.service';
 import { FilesService } from 'src/files/files.service';
 import { getImageBuffer, isImageExist, removeLocalImage } from 'src/utils/fs_functions';
 import { CreatePostDto } from './dto/create_post.dto';
@@ -11,10 +12,13 @@ export class PostsService {
 
     constructor(
         @InjectModel(Post) private postRepository: typeof Post,
+        private authService: AuthService,
         private fileService: FilesService
     ) {}
 
-    async createPost(dto: CreatePostDto, image: any) {
+    async createPost(dto: CreatePostDto, image: any, request: Request) {
+        const isOwner = await this.authService.isEqualUserId(request, dto.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         if(image) {
             const fileName = await this.fileService.createFileImage(image);
             const post = await this.postRepository.create({...dto, image: fileName})
@@ -35,9 +39,12 @@ export class PostsService {
         return posts;
     }
 
-    async updatePost(dto: UpdatePostDto, id: number, image: any) {
+    async updatePost(dto: UpdatePostDto, id: number, image: any, request: Request) {
         const post = await this.postRepository.findByPk(id);
         if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, post.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        
         const image_exist = await isImageExist(post.image);
         let fileName: string | null;
         
@@ -85,15 +92,15 @@ export class PostsService {
         return updatedPost;
     }
 
-    async removePostHard(id: number) {
+    async removePostHard(id: number, request: Request) {
         const post = await this.postRepository.findByPk(id);
+        if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, post.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const response = { postId: post.id, message: "Remove success."}
-        if (post) {
-            const removedPost = await this.postRepository.destroy({where : {id}});
-            const removeFromDist = await removeLocalImage(post.image)
-            if (!removedPost) return {...response, message: "Remove error"}
-            return response;
-        }
-        throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const removedPost = await this.postRepository.destroy({where : {id}});
+        const removeFromDist = await removeLocalImage(post.image)
+        if (!removedPost) return {...response, message: "Remove error"}
+        return response;
     }
 }

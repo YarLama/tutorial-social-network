@@ -50,6 +50,13 @@ export class UsersController {
         return this.userService.getUserContacts(Number(id), request);
     }
 
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:id/posts/')
+    getUserPosts(@Param('id') id: number) {
+        return this.userService.getUserPosts(Number(id));
+    }
+
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Get('/:person')

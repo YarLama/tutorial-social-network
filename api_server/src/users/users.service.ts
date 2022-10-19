@@ -8,6 +8,7 @@ import { User } from './users.model';
 import { Comment } from 'src/comments/comments.model'
 import { Contact } from 'src/contacts/contacts.model';
 import { AuthService } from 'src/auth/auth.service';
+import { Post } from 'src/posts/posts.model';
 
 @Injectable()
 export class UsersService {
@@ -73,6 +74,18 @@ export class UsersService {
         const comments = user.comments;
         if (!comments.length) throw new HttpException('Comments not found', HttpStatus.NOT_FOUND);
         return comments;
+    }
+
+    async getUserPosts(id: number): Promise<Post[]> {
+        const user = await this.userRepository.findByPk(id, {
+            include: [{
+                model: Post
+            }]
+        });
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const posts = user.posts;
+        if (!posts.length) throw new HttpException('Posts not found', HttpStatus.NOT_FOUND);
+        return posts;
     }
 
     async getUserContacts(id: number, request: Request): Promise<Contact[]> {
