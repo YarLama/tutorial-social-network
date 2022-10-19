@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { AuthService } from 'src/auth/auth.service';
 import { FilesService } from 'src/files/files.service';
+import { LikesPost } from 'src/likes/likes_posts.model';
 import { getImageBuffer, isImageExist, removeLocalImage } from 'src/utils/fs_functions';
 import { CreatePostDto } from './dto/create_post.dto';
 import { UpdatePostDto } from './dto/update_post.dto';
@@ -29,7 +30,11 @@ export class PostsService {
     }
 
     async getPostById(id: number) {
-        const post = await this.postRepository.findByPk(id);
+        const post = await this.postRepository.findByPk(id, {
+            include: {
+                model: LikesPost
+            }
+        });
         if (post) return post;
         throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
     }
@@ -88,7 +93,11 @@ export class PostsService {
             {...dto, image: fileName},
             {where: {id}}
         );
-        const updatedPost = await this.postRepository.findByPk(id);
+        const updatedPost = await this.postRepository.findByPk(id, {
+            include: {
+                model: LikesPost
+            }
+        });
         return updatedPost;
     }
 
