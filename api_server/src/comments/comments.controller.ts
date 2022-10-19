@@ -19,7 +19,7 @@ export class CommentsController {
     @UsePipes(ValidationPipe)
     @Post()
     createComment(@Body() dto: CreateCommentDto, @Req() request: Request) {
-        return this.commentService.createComment(dto);
+        return this.commentService.createComment(dto, request);
     }
 
     @RolesForAccess(RoleNames.ADMIN)
@@ -40,14 +40,14 @@ export class CommentsController {
     @UseGuards(RolesAccessGuard)
     @UsePipes(ValidationPipe)
     @Put('/:id')
-    updateComment(@Body() dto: UpdateCommentDto, @Param('id') id: number){
-        return this.commentService.updateComment(dto, id);
+    updateComment(@Body() dto: UpdateCommentDto, @Param('id') id: number, @Req() request: Request){
+        return this.commentService.updateComment(dto, id, request);
     }
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Delete('/:id')
-    removeComment(@Param('id') id: number) {
-        return this.commentService.removeCommentHard(id);
+    removeComment(@Param('id') id: number, @Req() request: Request) {
+        return this.commentService.removeCommentHard(id, request);
     }
 }

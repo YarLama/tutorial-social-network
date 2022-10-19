@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { AuthService } from 'src/auth/auth.service';
 import { PostsService } from 'src/posts/posts.service';
 import { UsersService } from 'src/users/users.service';
 import { Comment } from './comments.model';
@@ -12,10 +13,13 @@ export class CommentsService {
     constructor(
         @InjectModel(Comment) private commentRepository: typeof Comment,
         private userService: UsersService,
+        private authService: AuthService,
         private postService: PostsService
     ) {}
 
-    async createComment(dto: CreateCommentDto): Promise<Comment> {
+    async createComment(dto: CreateCommentDto, request: Request): Promise<Comment> {
+        const isOwner = await this.authService.isEqualUserId(request, dto.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const user = await this.userService.getUserById(dto.userId);
         const post = await this.postService.getPostById(dto.postId);
 
@@ -38,7 +42,9 @@ export class CommentsService {
         return comment;
     }
 
-    async updateComment(dto: UpdateCommentDto, id: number) {
+    async updateComment(dto: UpdateCommentDto, id: number, request: Request) {
+        const isOwner = await this.authService.isEqualUserId(request, dto.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const comment = await this.commentRepository.findByPk(id);
         if (!comment) throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
         const updateComment = await this.commentRepository.update(
@@ -49,14 +55,14 @@ export class CommentsService {
         return updatedComment;
     }
 
-    async removeCommentHard(id: number) {
+    async removeCommentHard(id: number, request: Request) {
         const comment = await this.commentRepository.findByPk(id);
+        if (!comment) throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, comment.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const response = { commentId: comment.id, message: "Remove success."}
-        if (comment) {
-            const removedComment = await this.commentRepository.destroy({where: {id}})
-            if (!removedComment) return {...response, message: "Remove error"};
-            return response;
-        } 
-        throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        const removedComment = await this.commentRepository.destroy({where: {id}})
+        if (!removedComment) return {...response, message: "Remove error"};
+        return response;
     }
 }

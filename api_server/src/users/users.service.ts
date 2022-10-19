@@ -71,6 +71,7 @@ export class UsersService {
         });
         if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         const comments = user.comments;
+        if (!comments.length) throw new HttpException('Comments not found', HttpStatus.NOT_FOUND);
         return comments;
     }
 
