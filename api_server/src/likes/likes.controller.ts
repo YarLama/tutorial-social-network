@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards, UsePipes } from '@nestjs/common';
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
 import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
@@ -6,6 +6,7 @@ import { RoleNames } from 'src/utils/constants';
 import { CreateLikesCommentDto } from './dto/create_likes_comment.dto';
 import { CreateLikesPostDto } from './dto/create_likes_post.dto';
 import { LikesService } from './likes.service';
+
 @Controller('/api/likes')
 export class LikesController {
     
@@ -17,16 +18,16 @@ export class LikesController {
     @UseGuards(RolesAccessGuard)
     @UsePipes(ValidationPipe)
     @Post('/post/')
-    createLikePost(@Body() dto: CreateLikesPostDto){
-        return this.likesService.createLikePost(dto);
+    createLikePost(@Body() dto: CreateLikesPostDto, @Req() request: Request){
+        return this.likesService.createLikePost(dto, request);
     }
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @UsePipes(ValidationPipe)
     @Post('/comment/')
-    createLikeComment(@Body() dto: CreateLikesCommentDto){
-        return this.likesService.createLikeComment(dto);
+    createLikeComment(@Body() dto: CreateLikesCommentDto, @Req() request: Request){
+        return this.likesService.createLikeComment(dto, request);
     }
 
     @RolesForAccess(RoleNames.USER)
@@ -74,15 +75,15 @@ export class LikesController {
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Delete('/comment/:id')
-    removeCommentLikes(@Param('id') id: number) {
-        return this.likesService.removeCommentLikeHard(id);
+    removeCommentLikes(@Param('id') id: number, @Req() request: Request) {
+        return this.likesService.removeCommentLikeHard(id, request);
     }
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Delete('/post/:id')
-    removePostLikes(@Param('id') id: number) {
-        return this.likesService.removePostLikeHard(id);
+    removePostLikes(@Param('id') id: number, @Req() request: Request) {
+        return this.likesService.removePostLikeHard(id, request);
     }
 
 }

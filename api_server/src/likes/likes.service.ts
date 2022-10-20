@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { AuthService } from 'src/auth/auth.service';
 import { Comment } from 'src/comments/comments.model';
 import { Post } from 'src/posts/posts.model';
 import { User } from 'src/users/users.model';
@@ -16,10 +17,13 @@ export class LikesService {
         @InjectModel(LikesPost) private likePostRepository: typeof LikesPost,
         @InjectModel(User) private userRepository: typeof User,
         @InjectModel(Post) private postRepository: typeof Post,
-        @InjectModel(Comment) private commentRepository: typeof Comment
+        @InjectModel(Comment) private commentRepository: typeof Comment,
+        private authService: AuthService
     ) {}
 
-    async createLikePost(dto: CreateLikesPostDto) {
+    async createLikePost(dto: CreateLikesPostDto, request: Request) {
+        const isOwner = await this.authService.isEqualUserId(request, dto.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const user = await this.userRepository.findByPk(dto.userId);
         const post = await this.postRepository.findByPk(dto.postId);
 
@@ -38,7 +42,9 @@ export class LikesService {
         return like;
     }
 
-    async createLikeComment(dto: CreateLikesCommentDto) {
+    async createLikeComment(dto: CreateLikesCommentDto, request: Request) {
+        const isOwner = await this.authService.isEqualUserId(request, dto.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const user = await this.userRepository.findByPk(dto.userId);
         const comment = await this.commentRepository.findByPk(dto.commentId);
 
@@ -101,26 +107,26 @@ export class LikesService {
         return foundedLikes;
     }
 
-    async removePostLikeHard(id: number) {
+    async removePostLikeHard(id: number, request: Request) {
         const like = await this.likePostRepository.findByPk(id);
+        if (!like) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, like.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const response = { like_id: like.id, message: "Remove success."}
-        if (like) {
-            const removedLike = await this.likePostRepository.destroy({where : {id}});
-            if (!removedLike) return {...response, message: "Remove error"}
-            return response;
-        }
-        throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const removedLike = await this.likePostRepository.destroy({where : {id}});
+        if (!removedLike) return {...response, message: "Remove error"}
+        return response;
     }
 
-    async removeCommentLikeHard(id: number) {
+    async removeCommentLikeHard(id: number, request: Request) {
         const like = await this.likeCommentRepository.findByPk(id);
+        if (!like) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, like.userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const response = { like_id: like.id, message: "Remove success."}
-        if (like) {
-            const removedLike = await this.likeCommentRepository.destroy({where : {id}});
-            if (!removedLike) return {...response, message: "Remove error"}
-            return response;
-        }
-        throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const removedLike = await this.likeCommentRepository.destroy({where : {id}});
+        if (!removedLike) return {...response, message: "Remove error"}
+        return response;
     }
 
 }
