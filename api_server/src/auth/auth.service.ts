@@ -30,11 +30,26 @@ export class AuthService {
         return this.generateToken(user);
     }
 
-    async isEqualUserId(request: Request, userId: number): Promise<boolean> {
+    private async getUserFromToken(request: Request): Promise<User> {
         const token = request.headers['authorization'].split(' ')[1];
         const user = this.jwtService.verify(token);
+        return user;
+    }
+
+    async isEqualUserId(request: Request, userId: number): Promise<boolean> {
+        const user = await this.getUserFromToken(request);
         const id: number = user.id;
-        return Number(id) === Number(userId) ? true: false;
+        return Number(id) === Number(userId);
+    }
+
+    async isAdminAccessible(request: Request): Promise<boolean> {
+        const user = await this.getUserFromToken(request);
+        return user.roles.some((role: { value: string; }) => role.value === "ADMIN");
+    }
+
+    async isCertainUser(request: Request, id: number): Promise<Boolean> {
+        const user = await this.getUserFromToken(request);
+        return Number(user.id) === Number(id)
     }
 
     private async generateToken(user: User): Promise<IToken> {

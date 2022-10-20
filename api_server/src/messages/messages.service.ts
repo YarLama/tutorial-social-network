@@ -6,16 +6,20 @@ import { FilesService } from 'src/files/files.service';
 import { CreateMessageDto } from './dto/create_message.dto';
 import { Message } from './messages.model';
 import { getImageBuffer, isImageExist, removeLocalImage } from 'src/utils/fs_functions';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class MessagesService {
 
     constructor(
         @InjectModel(Message) private messageRepository: typeof Message,
-        private fileService: FilesService
+        private fileService: FilesService,
+        private authService: AuthService
     ) {}
 
-    async createMessage(dto: CreateMessageDto, image: any) {
+    async createMessage(dto: CreateMessageDto, image: any, request: Request) {
+        const isOwner = await this.authService.isEqualUserId(request, dto.from_userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         if (!dto.content && !image) throw new HttpException('Message content and image attach are ampty', HttpStatus.BAD_REQUEST); 
         if (image) {
             const fileName = await this.fileService.createFileImage(image);
@@ -26,10 +30,13 @@ export class MessagesService {
         return message;
     }
 
-    async getMessageById(id: number): Promise<Message> {
+    async getMessageById(id: number, request: Request): Promise<Message> {
         const message = await this.messageRepository.findByPk(id);
-        if (message) return message;
-        throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+        if (!message) throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, message.from_userId);
+        const isCoOwner = await this.authService.isCertainUser(request, message.to_userId);
+        if (!isOwner && !isCoOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        return message;
     }
 
     async getAllMessages(): Promise<Message[]> {
@@ -37,9 +44,11 @@ export class MessagesService {
         return messages;
     }
 
-    async updateMessage(dto: CreateMessageDto, id: number, image: any) {
+    async updateMessage(dto: CreateMessageDto, id: number, image: any, request: Request) {
         const message = await this.messageRepository.findByPk(id);
         if (!message) throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, message.from_userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const image_exist = await isImageExist(message.image);
         let fileName: string | null;
         
@@ -87,17 +96,16 @@ export class MessagesService {
         return updatedMessage;
     }
 
-    async removeMessageHard(id: number) {
+    async removeMessageHard(id: number, request: Request) {
         const message = await this.messageRepository.findByPk(id);
-        const response = { messageId: message.id, message: "Remove success."}
-        if (message) {
-            const removedMessage = await this.messageRepository.destroy({where: {id}});
-            if (message.image) {
-                const removeFromDist = await removeLocalImage(message.image)
-            }
-            return response;
+        if (!message) throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, message.from_userId);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const response = { messageId: message.id, message: "Remove success."};
+        const removedMessage = await this.messageRepository.destroy({where: {id}});
+        if (message.image) {
+            const removeFromDist = await removeLocalImage(message.image)
         }
-        throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
-
+        return response;
     }
 }
