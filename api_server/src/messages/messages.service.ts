@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import * as path from 'path';
-import * as fs from 'fs';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
 import { FilesService } from 'src/files/files.service';
 import { CreateMessageDto } from './dto/create_message.dto';
 import { Message } from './messages.model';
@@ -33,15 +32,36 @@ export class MessagesService {
     async getMessageById(id: number, request: Request): Promise<Message> {
         const message = await this.messageRepository.findByPk(id);
         if (!message) throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
-        const isOwner = await this.authService.isEqualUserId(request, message.from_userId);
-        const isCoOwner = await this.authService.isCertainUser(request, message.to_userId);
-        if (!isOwner && !isCoOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const isOwner =  await this.authService.isCertainUser(request, [message.to_userId, message.from_userId]);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         return message;
     }
 
     async getAllMessages(): Promise<Message[]> {
         const messages = await this.messageRepository.findAll();
         return messages;
+    }
+
+    async getUserMessages(request: Request): Promise<Message[]> {
+        const user = await this.authService.getUserFromToken(request);
+        const userId = Number(user.id)
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const messages = await this.messageRepository.findAll({
+            where: {
+                [Op.or]: [
+                    {from_userId: userId},
+                    {to_userId: userId}
+                ]
+            }
+        })
+        if (!messages.length) throw new HttpException('Messages not found', HttpStatus.NOT_FOUND);
+        const acceptedMessages = messages.filter(async m => {
+            const isCertainUser = await this.authService.isCertainUser(request, [m.from_userId, m.to_userId]);
+            const condition = (m.from_userId === userId || m.to_userId === userId) && isCertainUser
+            return condition
+        });
+        if (!acceptedMessages.length) throw new HttpException('Messages not found', HttpStatus.NOT_FOUND);
+        return acceptedMessages
     }
 
     async updateMessage(dto: CreateMessageDto, id: number, image: any, request: Request) {

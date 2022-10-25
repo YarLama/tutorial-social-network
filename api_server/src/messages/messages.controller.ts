@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Req, UploadedFile, Use
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
-import { ValidationPipe } from 'src/pipes/validation/validation.pipe';
 import { RoleNames } from 'src/utils/constants';
 import { CreateMessageDto } from './dto/create_message.dto';
 import { MessagesService } from './messages.service';
@@ -27,6 +26,13 @@ export class MessagesController {
     @Get()
     getAllMessages() {
         return this.messageService.getAllMessages();
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/user/')
+    getUserMessages(@Req() request: Request) {
+        return this.messageService.getUserMessages(request);
     }
 
     @RolesForAccess(RoleNames.USER)
