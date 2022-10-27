@@ -57,6 +57,20 @@ export class UsersController {
         return this.userService.getUserPosts(Number(id));
     }
 
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:id/photos/')
+    getUserPhotos(@Param('id') id: number) {
+        return this.userService.getUserPhotos(Number(id));
+    }
+    
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:id/avatar/')
+    getUserAvatar(@Param('id') id: number) {
+        return this.userService.getUserAvatar(Number(id));
+    }
+
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Get('/:person')

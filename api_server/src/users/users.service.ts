@@ -9,6 +9,7 @@ import { Comment } from 'src/comments/comments.model'
 import { Contact } from 'src/contacts/contacts.model';
 import { AuthService } from 'src/auth/auth.service';
 import { Post } from 'src/posts/posts.model';
+import { Photo } from 'src/photos/photos.model';
 
 @Injectable()
 export class UsersService {
@@ -86,6 +87,24 @@ export class UsersService {
         const posts = user.posts;
         if (!posts.length) throw new HttpException('Posts not found', HttpStatus.NOT_FOUND);
         return posts;
+    }
+
+    async getUserPhotos(id: number): Promise<Photo[]> {
+        const user = await this.userRepository.findByPk(id, {
+            include: [{
+                model: Photo
+            }]
+        });
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const photos = user.photos;
+        if (!photos.length) throw new HttpException('Photos not found', HttpStatus.NOT_FOUND);
+        return photos;
+    }
+
+    async getUserAvatar(id: number): Promise<Photo> {
+        const photos = await this.getUserPhotos(id);
+        const avatar = photos.filter(photo => photo.is_avatar == true)
+        return avatar[0];
     }
 
     async getUserContacts(id: number, request: Request): Promise<Contact[]> {
