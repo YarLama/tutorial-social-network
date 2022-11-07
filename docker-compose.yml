@@ -6,7 +6,7 @@ services:
     container_name: postgres
     image: postgres:12
     env_file:
-      - .backend_dev.env
+      - ./api_server/.dev.env
     environment:
       - PG_DATA=/var/lib/postgresql/data
     ports:

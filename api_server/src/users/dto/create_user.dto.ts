@@ -11,7 +11,7 @@ export class CreateUserDto {
     readonly last_name: string;
 
     @IsString({message: 'Could be string parameter'})
-    @Length(10, 10, {message: 'Phone number is must be 10 number length'})
+    @Length(11, 11, {message: 'Phone number is must be 10 number length'})
     readonly phone: string;
 
     @IsString({message: 'Could be string parameter'})
