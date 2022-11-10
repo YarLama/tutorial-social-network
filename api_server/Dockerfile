@@ -36,9 +36,9 @@ USER node
 
 FROM node:18-alpine As production
 
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/api/node_modules ./node_modules
 
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/api/dist ./dist
 
 CMD [ "node", "dist/main.js" ]
 

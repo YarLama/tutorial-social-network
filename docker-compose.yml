@@ -2,11 +2,25 @@ version: '3.0'
 
 services:
 
+  api_server:
+    container_name: api_server
+    build:
+      context: ./api_server
+    volumes:
+      - .:/usr/src/api
+      - /usr/src/api/node_modules
+    ports:
+      - 7000:7000
+      - 9229:9229
+    depends_on:
+      - postgres
+    restart: always
+
   postgres:
     container_name: postgres
     image: postgres:12
     env_file:
-      - ./api_server/.dev.env
+      - ./api_server/.production.env
     environment:
       - PG_DATA=/var/lib/postgresql/data
     ports:
