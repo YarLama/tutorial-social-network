@@ -4,11 +4,12 @@ services:
 
   api_server:
     container_name: api_server
+    env_file:
+      - ./api_server/.production.env
     build:
       context: ./api_server
     volumes:
-      - .:/usr/src/api
-      - /usr/src/api/node_modules
+      - api_server_data:/dist/static
     ports:
       - 7000:7000
       - 9229:9229
@@ -45,3 +46,4 @@ services:
 volumes:
   local_pgdata:
   pgadmin_data:
+  api_server_data:

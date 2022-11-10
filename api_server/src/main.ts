@@ -7,8 +7,7 @@ async function start() {
     const app = await NestFactory.create(AppModule);
 
     await app.listen(PORT, () => {
-        console.log(`Server started on ${PORT} port`)
-        console.log(`${process.env.NODE_ENV}`)
+        console.log(`Api server started on ${PORT} port`)
     })
 }
 
