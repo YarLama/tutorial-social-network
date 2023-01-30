@@ -7,8 +7,8 @@ const plugins = [
             template: paths.public_html
     }),
     new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css',
-        chunkFilename: '[id].css'
+        filename: '[name].css',
+        chunkFilename: '[name].chunk.css'
     })
 ]
 
