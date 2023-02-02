@@ -6,4 +6,4 @@ const rules = [
     sass_rule
 ]
 
-module.exports = { rules }
+module.exports = rules

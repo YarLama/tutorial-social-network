@@ -1,0 +1,33 @@
+@import '../../styles_extension/colors.scss';
+
+$test : true;
+
+body{
+    background-color: $color_major_background;
+}
+
+.button-ui {
+    color: $color_minor_background;
+    background-color: $color_button_background;
+    border: 1px solid $color_minor_background;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 14px 30px 14px 30px;
+    transition-duration: 0.45s;
+    //min-width: 400px;
+    font: {
+        size: 16pt;
+        weight: bold;
+    };
+    cursor: pointer;
+
+    @if $test {
+        &:hover {
+            color: $color_button_background;
+            background-color: $color_minor_background;
+            border: 1px solid $color_button_background;
+            
+        }
+    }
+    
+}

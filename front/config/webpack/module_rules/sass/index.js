@@ -4,7 +4,12 @@ module.exports = {
     test: /\.(scss|css)$/,
       use: [
         MiniCssExtractPlugin.loader,
-        'css-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true
+          }
+        },
         {
           loader: 'sass-loader',
           options: {
