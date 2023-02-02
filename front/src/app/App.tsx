@@ -9,7 +9,7 @@ const App: React.FC = () => {
             <Button content='App button'/>
             <Button content='kek'/>
             <Button content='Registration'/>
-            <Button content='Login'/>
+            <Button content='Login 12353'/>
         </div>
     );
 };
