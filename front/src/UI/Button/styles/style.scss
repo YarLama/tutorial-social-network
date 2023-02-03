@@ -6,7 +6,7 @@ body{
     background-color: $color_major_background;
 }
 
-.button-ui {
+.btn {
     color: $color_button_font;
     background-color: $color_button_background;
     border: 2px solid $color_button_background;
@@ -25,6 +25,17 @@ body{
         background-color: $color_button_font;
         border: 2px solid $color_button_background;    
     }
-    
-    
+      
+}
+
+.btn-m {
+    font-size: 20pt;
+}
+
+.btn-l {
+    font-size: 24pt;
+}
+
+.btn-s {
+    font-size: 16pt;
 }

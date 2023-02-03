@@ -3,13 +3,16 @@ import './styles/style.scss'
 
 interface IButtonProps {
     content: string;
+    type?: 's' | 'm' | 'l';
     extraClassName?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<IButtonProps> = ({content, extraClassName, onClick, ...props}) => {
+const Button: React.FC<IButtonProps> = ({content, extraClassName, type = 'm', onClick, ...props}) => {
 
-    const classNames = ['button-ui'];
+    const classNames = ['btn'];
+
+    classNames.push(type === 'm' ? 'btn-m' : type === 's' ? 'btn-s' : 'btn-l')
 
     if (extraClassName) classNames.push(extraClassName);
 
