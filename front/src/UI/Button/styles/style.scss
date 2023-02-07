@@ -1,14 +1,9 @@
-@import '../../styles_extension/colors.scss';
-
-$test : true;
-
-body{
-    background-color: $color_major_background;
-}
+@import '../../styles_extension/_colors.scss';
+@import '../../styles_extension/_variables.scss';
+@import '../../styles_extension/_breakpoints.scss';
 
 .btn {
     color: $color_button_font;
-    background-color: $color_button_background;
     border: 2px solid $color_button_background;
     border-radius: 15px;
     margin: 10px;
@@ -25,17 +20,17 @@ body{
         background-color: $color_button_font;
         border: 2px solid $color_button_background;    
     }
-      
+
+    @include mobile {
+        background-color: red;
+        font-size: 6pt;
+
+        &:hover {
+            color: red;
+            background-color: blue;
+            border: 2px solid $color_button_background;    
+        }
+    };
 }
 
-.btn-m {
-    font-size: 20pt;
-}
 
-.btn-l {
-    font-size: 24pt;
-}
-
-.btn-s {
-    font-size: 16pt;
-}

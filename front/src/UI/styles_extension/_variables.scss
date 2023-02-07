@@ -1,0 +1,9 @@
+@import 'breakpoints.scss';
+
+@mixin mobile () {
+    @media screen and (max-width: $md) {
+        @content;
+    };  
+}
+
+
