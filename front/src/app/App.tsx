@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useWindowSize } from '../hooks/UI/useWindowSize';
 import { Button } from '../UI';
-import './global_styles/_global.scss'
+import './global_styles/_global.scss';
 
 
 const App: React.FC = () => {
+
+    const w = useWindowSize();
+
     return (
         <div>
-            <Button content='App button' type='s'/>
-            <Button content='kek' type='l'/>
-            <Button content='Registration'/>
-            <Button content='Login 12353'/>
+            <Button content='Find' type='s'/><br/>
+            {w.width > 768 && <Button content='Message' type='s'/>}<br/>
+            <Button content='Send Message' type='l'/><br/>
+            <Button content='Add to contact' type='l'/><br/>
+            <Button content='Registration' type='m'/><br/>
+            <Button content='Login' type='m'/>
         </div>
     );
 };

@@ -1,6 +1,5 @@
 @import '../../styles_extension/_colors.scss';
 @import '../../styles_extension/_variables.scss';
-@import '../../styles_extension/_breakpoints.scss';
 
 .btn {
     color: $color_button_font;
@@ -9,11 +8,18 @@
     margin: 10px;
     padding: 14px 30px 14px 30px;
     transition-duration: 0.45s;
+
     font: {
         size: 16pt;
         weight: 600;
     };
     cursor: pointer;
+
+    @include mobile {
+        padding: 0px 30px 0px 30px;
+        height: 40px;
+        font-size: 14pt;
+    };
 
     &:hover {
         color: $color_button_background;
@@ -21,16 +27,38 @@
         border: 2px solid $color_button_background;    
     }
 
-    @include mobile {
-        background-color: red;
-        font-size: 6pt;
+    &.btn-m {
+        min-width: 375px;
+        height: 55px;
 
-        &:hover {
-            color: red;
-            background-color: blue;
-            border: 2px solid $color_button_background;    
+        @include mobile {
+            height: 45px;
+            min-width: 240px;
         }
-    };
+    }
+
+    &.btn-s {
+        min-width: 200px;
+
+        @include mobile {
+            padding: 0px 15px 0px 15px;
+            min-width: 80px;
+        }
+    }
+
+    &.btn-l {
+        min-width: 400px;
+        height: 85px;
+        font-size: 20pt;
+
+        @include mobile {
+            min-width: 300px;
+            font-size: 16pt;
+            height: 50px;
+        }
+    }
+
+    
 }
 
 
