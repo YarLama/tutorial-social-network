@@ -1,0 +1,24 @@
+.btn-icon{
+    background-color: #212121;
+    color: white;
+
+    &.btn-icon-m {
+
+        svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        path {
+            fill: white;
+        }
+    }
+
+    &.btn-icon-s {
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}

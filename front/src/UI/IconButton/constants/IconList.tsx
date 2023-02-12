@@ -1,0 +1,34 @@
+import React from 'react';
+import Send  from '../assets/send.svg';
+import Left  from '../assets/left.svg';
+import Edit  from '../assets/edit.svg';
+import Cancel  from '../assets/cancel.svg';
+import Like  from '../assets/like.svg';
+import Comment  from '../assets/comment.svg';
+
+export const icons = {
+    'send': {
+        src: <Send />,
+        class: 'icon-send' 
+    },
+    'left' : {
+        src: <Left />,
+        class: 'icon-left'
+    },
+    'edit' : {
+        src: <Edit />,
+        class: 'icon-edit'
+    },
+    'cancel' : {
+        src: <Cancel />,
+        class: 'icon-cancel'
+    },
+    'like' : {
+        src: <Like />,
+        class: 'icon-like'
+    },
+    'comment' : {
+        src: <Comment />,
+        class: 'icon-comment'
+    }
+}
