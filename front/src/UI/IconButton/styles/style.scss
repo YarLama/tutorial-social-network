@@ -1,17 +1,37 @@
+@import '../../styles_extension/colors';
+@import '../../styles_extension/variables';
+
 .btn-icon{
     background-color: #212121;
-    color: white;
+    border: none;
 
-    &.btn-icon-m {
+    svg {
+        path {
+            fill: $color_button_background;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+
+
+    &.btn-icon-l {
 
         svg {
             width: 48px;
             height: 48px;
         }
+    }
 
-        path {
-            fill: white;
+    &.btn-icon-m {
+
+        svg {
+            width: 32px;
+            height: 32px;
         }
+        
     }
 
     &.btn-icon-s {
