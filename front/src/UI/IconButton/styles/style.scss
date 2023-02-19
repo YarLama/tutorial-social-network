@@ -2,10 +2,13 @@
 @import '../../styles_extension/variables';
 
 .btn-icon{
-    background-color: #212121;
+    background-color: $color_minor_background;
     border: none;
+    padding: 3px;
 
     svg {
+        display: flex;
+        align-items: center;
         path {
             fill: $color_button_background;
         }
@@ -20,21 +23,29 @@
     &.btn-icon-l {
 
         svg {
-            width: 48px;
-            height: 48px;
+            width: 72px;
+            height: 72px;
         }
     }
 
     &.btn-icon-m {
 
         svg {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
         }
         
     }
 
     &.btn-icon-s {
+
+        svg {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &.btn-icon-xs {
 
         svg {
             width: 16px;

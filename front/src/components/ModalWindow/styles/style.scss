@@ -1,0 +1,49 @@
+@import '/src/UI/styles_extension/_colors.scss';
+@import '/src/UI/styles_extension/_variables.scss';
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(black, 0.3);
+
+    .modal-window {
+        background-color: $color_minor_background;
+        border-radius: 15px;
+
+        .modal-window-tooltip {
+            padding: 5px;
+            border: 1px solid $color_major_background;
+            border-bottom: none;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            display: flex;
+            align-items: right;
+            justify-content: right;
+        }
+        
+        .modal-window-content {
+            padding: 10px;
+            border: 1px solid $color_major_background;
+            border-top: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-window-controls{
+            padding: 5px;
+            border: 1px solid $color_major_background;
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+    }
+}

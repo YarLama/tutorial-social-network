@@ -38,7 +38,9 @@
     }
 
     &.btn-s {
-        min-width: 200px;
+        min-width: 150px;
+        font-size: 14pt;
+        padding: 7px 15px 7px 15px;
 
         @include mobile {
             padding: 0px 15px 0px 15px;

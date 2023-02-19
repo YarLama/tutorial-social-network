@@ -5,7 +5,7 @@ import './styles/style.scss';
 type Icon = keyof typeof icons;
 
 interface IIconButtonProps {
-    type?: 's' | 'm' | 'l';
+    type?: 'xs' | 's' | 'm' | 'l';
     icon: Icon;
     extraClassName?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>
