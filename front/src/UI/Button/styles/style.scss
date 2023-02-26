@@ -29,10 +29,10 @@
 
     &.btn-m {
         min-width: 375px;
-        height: 55px;
+        
 
         @include mobile {
-            height: 45px;
+            
             min-width: 240px;
         }
     }

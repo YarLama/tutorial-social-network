@@ -6,4 +6,10 @@
     };  
 }
 
+@mixin desktop () {
+    @media screen and (min-width: $md) {
+        @content;
+    };  
+}
+
 

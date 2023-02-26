@@ -1,14 +1,12 @@
 @import './fonts.scss';
 
 * {
-    
     font: {
         family: 'Raleway';
         style: normal;
         weight: normal;
     }
     font-feature-settings: "lnum";
-
     margin: 0;
     padding: 0;
 }

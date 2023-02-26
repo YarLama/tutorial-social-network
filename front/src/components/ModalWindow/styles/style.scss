@@ -1,6 +1,10 @@
 @import '/src/UI/styles_extension/_colors.scss';
 @import '/src/UI/styles_extension/_variables.scss';
 
+.body-no-scroll {
+    overflow: hidden;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -10,11 +14,35 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(black, 0.3);
+    background-color: rgba(black, 0.7);
+    
+    @include desktop {
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: $color_minor_background;
+            border-radius: 15px;
+        }
+        ::-webkit-scrollbar-thumb{
+            width: 6px;
+            background-color: $color_major_background;
+            border-radius: 15px;
+        }
+    }
 
     .modal-window {
         background-color: $color_minor_background;
         border-radius: 15px;
+        margin: 15px;
+        max-width: 800px;
+
+        @include mobile {
+            max-width: none;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            border-radius: 0;
+            overflow-y: auto;
+        }
 
         .modal-window-tooltip {
             padding: 5px;
@@ -25,14 +53,44 @@
             display: flex;
             align-items: right;
             justify-content: right;
+
+            @include mobile {
+                position: fixed;
+                z-index: 2;
+                width: 100vw;
+                right: 7px;
+                border: none;
+                background-color: $color_minor_background;
+                border-radius: 0px;
+            }
         }
         
         .modal-window-content {
-            padding: 10px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 15px;
             border: 1px solid $color_major_background;
             border-top: none;
+            display: flex;
             align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            //text-align: justify;
+            color:$color_button_background;
+            font-size: 14pt;
+            line-height: 1.5em;
+            white-space: pre-wrap;
+            word-break: break-word;
+
+            @include desktop {
+                max-height: 70vh;
+            }
+
+            @include mobile {
+                position: relative;
+                z-index: 1;
+                top: 48px;
+                border: none;
+            }
         }
 
         .modal-window-controls{
@@ -43,6 +101,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
+            @include mobile {
+                margin-top: 48px;
+                border: none;
+                border-radius: 0px;
+            }
         }
         
     }
