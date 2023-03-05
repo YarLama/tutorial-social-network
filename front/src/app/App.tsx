@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useWindowSize } from '../hooks/UI/useWindowSize';
 import { Button, IconButton } from '../UI';
 import { ModalWindow } from '../components';
+import { TestForm } from '../modules/TestForm'
 import './global_styles/_global.scss';
 
 
@@ -10,32 +11,38 @@ const App: React.FC = () => {
     const [testModalActive, setTestModalActive] = useState<boolean>(false);
     const [testModalActive1, setTestModalActive1] = useState<boolean>(false);
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
+    const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
     return (
         <div>
-            <Button content='Open Modal' type='s' onClick={() => setTestModalActive(true)}/><br/>
-            <Button content='Open Modal1' type='s' onClick={() => setTestModalActive1(true)}/><br/>
-            <Button content='Open Modal2' type='s' onClick={() => setTestModalActive2(true)}/><br/>
+            <Button content='Open Modal' size='s' onClick={() => setTestModalActive(true)}/><br/>
+            <Button content='Open Modal1' size='s' onClick={() => setTestModalActive1(true)}/><br/>
+            <Button content='Open Modal2' size='s' onClick={() => setTestModalActive2(true)}/><br/>
+            <Button content='Open Modal3' size='s' onClick={() => setTestModalActive3(true)}/><br/>
+            <TestForm />
+            <ModalWindow active={testModalActive3} setActive={setTestModalActive3} controls={false}>     
+                <TestForm />
+            </ModalWindow>
             <ModalWindow active={testModalActive} setActive={setTestModalActive}>
-                <Button content='1' type='m'/>
-                <Button content='2' type='m'/>
-                <Button content='3' type='m'/>
-                <Button content='4' type='m'/>
-                <Button content='5' type='m'/>
-                <Button content='6' type='m'/>
-                <Button content='7' type='m'/>
-                <Button content='8' type='m'/>
-                <Button content='9' type='m'/>
-                <Button content='10' type='m'/>
-                <Button content='11' type='m'/>
-                <Button content='12' type='m'/>
-                <Button content='13' type='m'/>
-                <Button content='14' type='m'/>
-                <Button content='15' type='m'/>
-                <Button content='16' type='m'/>
-                <Button content='17' type='m'/>
-                <Button content='18' type='m'/>
+                <Button content='1' size='m'/>
+                <Button content='2' size='m'/>
+                <Button content='3' size='m'/>
+                <Button content='4' size='m'/>
+                <Button content='5' size='m'/>
+                <Button content='6' size='m'/>
+                <Button content='7' size='m'/>
+                <Button content='8' size='m'/>
+                <Button content='9' size='m'/>
+                <Button content='10' size='m'/>
+                <Button content='11' size='m'/>
+                <Button content='12' size='m'/>
+                <Button content='13' size='m'/>
+                <Button content='14' size='m'/>
+                <Button content='15' size='m'/>
+                <Button content='16' size='m'/>
+                <Button content='17' size='m'/>
+                <Button content='18' size='m'/>
             </ModalWindow>
             <ModalWindow active={testModalActive1} setActive={setTestModalActive1}>
             В качестве жанрообразующих признаков журналистских текстов современные исследователи журналистики (А.А. Тертычный, Г.В. Лазутина, С.С. Распопова, О.Р. Самарцев1 и др.) называют предмет отображения, цель творчества, метод исследования материала, широту отображения действительности, выразительно-изобразительные средства, используемые автором, отношение автора к описываемому предмету, а также вид творчества, имеющий особенности и на уровне журналистского материала, и на уровне способа работы над ним. Объем текста в качестве жанрообразующего признака ни в одной из работ не упоминается. При этом подразумевается, что некоторые жанры (очерк, специальный репортаж, журналистское расследование) предполагают скорее объемные тексты, нежели короткие. Объем текста традиционно считается производным от количества и качества собранной журналистом информации с учетом формата издания и принятых в нем размеров материалов.
@@ -49,31 +56,31 @@ const App: React.FC = () => {
 Что же касается соотнесенности лонгридов с другими жанрами, то тексты этого жанра следует отнести к группе аналитических жанров. Близким к лонгриду является жанр аналитической статьи: их объединяет глубокое проникновение в тему, представление в материале разных точек зрения и достижение читателем нового понимания предмета после прочтения текста. Однако аналитическая статья обычно строится по принципу научного исследования: гипотеза, аргументы за и против и уточненная с учетом этого гипотеза, которую можно считать истинным знанием. Лонгрид же предусматривает более наглядную подачу материала за счет использования примеров и репортажных вставок, которые не только облегчают восприятие (аналитическая статья пишется в большей мере для интеллектуальной элиты, лонгрид – для широкой аудитории), но и обогащают его. Как именно это делается, будет показано ниже.
             </ModalWindow>
             <ModalWindow active={testModalActive2} setActive={setTestModalActive2} controlsConfirmLabel='Отправить' controlsCancelLabel='Отменить'>
-            <Button content='1' type='m'/>
-                <Button content='2' type='m'/>
-                <Button content='3' type='m'/>
-                <Button content='4' type='m'/>
-                <Button content='5' type='m'/>
+            <Button content='1' size='m'/>
+                <Button content='2' size='m'/>
+                <Button content='3' size='m'/>
+                <Button content='4' size='m'/>
+                <Button content='5' size='m'/>
             </ModalWindow>
-            <IconButton icon='send' type='l'/><IconButton icon='send'/><IconButton icon='send' type='s'/><IconButton icon='send' type='xs'/><br />
-            <IconButton icon='left' type='l'/><IconButton icon='left'/><IconButton icon='left' type='s'/><IconButton icon='left' type='xs'/><br />
-            <IconButton icon='edit' type='l'/><IconButton icon='edit'/><IconButton icon='edit' type='s'/><IconButton icon='edit' type='xs'/><br />
-            <IconButton icon='cancel' type='l'/><IconButton icon='cancel'/><IconButton icon='cancel' type='s'/><IconButton icon='cancel' type='xs'/><br />
-            <IconButton icon='comment' type='l'/><IconButton icon='comment'/><IconButton icon='comment' type='s'/><IconButton icon='comment' type='xs'/><br />
-            <IconButton icon='like' type='l'/><IconButton icon='like'/><IconButton icon='like' type='s'/><IconButton icon='like' type='xs'/><br />
-            <IconButton icon='about' type='l'/><IconButton icon='about'/><IconButton icon='about' type='s'/><IconButton icon='about' type='xs'/><br />
-            <IconButton icon='logout' type='l'/><IconButton icon='logout'/><IconButton icon='logout' type='s'/><IconButton icon='logout' type='xs'/><br />
-            <IconButton icon='profile' type='l'/><IconButton icon='profile'/><IconButton icon='profile' type='s'/><IconButton icon='profile' type='xs'/><br />
-            <IconButton icon='attach' type='l'/><IconButton icon='attach'/><IconButton icon='attach' type='s'/><IconButton icon='attach' type='xs'/><br />
-            <IconButton icon='contact' type='l'/><IconButton icon='contact'/><IconButton icon='contact' type='s'/><IconButton icon='contact' type='xs'/><br />
-            <IconButton icon='chat' type='l'/><IconButton icon='chat'/><IconButton icon='chat' type='s'/><IconButton icon='chat' type='xs'/><br />
+            <IconButton icon='send' size='l'/><IconButton icon='send'/><IconButton icon='send' size='s'/><IconButton icon='send' size='xs'/><br />
+            <IconButton icon='left' size='l'/><IconButton icon='left'/><IconButton icon='left' size='s'/><IconButton icon='left' size='xs'/><br />
+            <IconButton icon='edit' size='l'/><IconButton icon='edit'/><IconButton icon='edit' size='s'/><IconButton icon='edit' size='xs'/><br />
+            <IconButton icon='cancel' size='l'/><IconButton icon='cancel'/><IconButton icon='cancel' size='s'/><IconButton icon='cancel' size='xs'/><br />
+            <IconButton icon='comment' size='l'/><IconButton icon='comment'/><IconButton icon='comment' size='s'/><IconButton icon='comment' size='xs'/><br />
+            <IconButton icon='like' size='l'/><IconButton icon='like'/><IconButton icon='like' size='s'/><IconButton icon='like' size='xs'/><br />
+            <IconButton icon='about' size='l'/><IconButton icon='about'/><IconButton icon='about' size='s'/><IconButton icon='about' size='xs'/><br />
+            <IconButton icon='logout' size='l'/><IconButton icon='logout'/><IconButton icon='logout' size='s'/><IconButton icon='logout' size='xs'/><br />
+            <IconButton icon='profile' size='l'/><IconButton icon='profile'/><IconButton icon='profile' size='s'/><IconButton icon='profile' size='xs'/><br />
+            <IconButton icon='attach' size='l'/><IconButton icon='attach'/><IconButton icon='attach' size='s'/><IconButton icon='attach' size='xs'/><br />
+            <IconButton icon='contact' size='l'/><IconButton icon='contact'/><IconButton icon='contact' size='s'/><IconButton icon='contact' size='xs'/><br />
+            <IconButton icon='chat' size='l'/><IconButton icon='chat'/><IconButton icon='chat' size='s'/><IconButton icon='chat' size='xs'/><br />
             
-            <Button content='Find' type='s'/><br/>
-            <Button content='Message' type='s' disabled={isMobile}/><br/>
-            <Button content='Send Message' type='l'/><br/>
-            <Button content='Add to contact' type='l'/><br/>
-            <Button content='Registration' type='m'/><br/>
-            <Button content='Login' type='m'/><br/>
+            <Button content='Find' size='s'/><br/>
+            <Button content='Message' size='s' disabled={isMobile}/><br/>
+            <Button content='Send Message' size='l'/><br/>
+            <Button content='Add to contact' size='l'/><br/>
+            <Button content='Registration' size='m'/><br/>
+            <Button content='Login' size='m'/><br/>
         </div>
     );
 };

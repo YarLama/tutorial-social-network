@@ -3,15 +3,16 @@ import './styles/style.scss'
 
 interface IButtonProps {
     content: string;
-    type?: 's' | 'm' | 'l';
+    size?: 's' | 'm' | 'l';
+    type?: 'button' | 'reset' | 'submit'
     disabled?: boolean;
     extraClassName?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<IButtonProps> = ({content, extraClassName, type = 'm', disabled = false, onClick, ...props}) => {
+const Button: React.FC<IButtonProps> = ({content, extraClassName, size = 'm', disabled = false, onClick, ...props}) => {
 
-    const classNames = ['btn', `btn-${type}`];
+    const classNames = ['btn', `btn-${size}`];
 
     if (extraClassName) classNames.push(extraClassName);
     if (disabled) return null;

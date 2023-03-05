@@ -29,15 +29,15 @@ const ModalWindow: React.FC<IModalWindowProps> = ({ active, controls = true, set
                 <div className='modal' onClick={handleModalClose}>
                     <div className='modal-window' onClick={e => e.stopPropagation()}>
                         <div className='modal-window-tooltip'>
-                            <IconButton type='s' icon='cancel' onClick={handleModalClose}/>
+                            <IconButton size='s' icon='cancel' onClick={handleModalClose}/>
                         </div>
                         <div className='modal-window-content'>{children}</div>
                         <div className='modal-window-controls'>
                             {controls
                                 ? 
                                 <>
-                                    <Button type='s' content={controlsConfirmLabel}/>     
-                                    <Button type='s' content={controlsCancelLabel} onClick={handleModalClose}/>
+                                    <Button size='s' content={controlsConfirmLabel}/>     
+                                    <Button size='s' content={controlsCancelLabel} onClick={handleModalClose}/>
                                 </>
                                 : null
                             }        

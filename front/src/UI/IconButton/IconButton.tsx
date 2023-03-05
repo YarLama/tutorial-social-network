@@ -5,15 +5,15 @@ import './styles/style.scss';
 type Icon = keyof typeof icons;
 
 interface IIconButtonProps {
-    type?: 'xs' | 's' | 'm' | 'l';
+    size?: 'xs' | 's' | 'm' | 'l';
     icon: Icon;
     extraClassName?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const IconButton: React.FC<IIconButtonProps> = ({extraClassName, type = 'm', icon, onClick, ...props}) => {
+const IconButton: React.FC<IIconButtonProps> = ({extraClassName, size = 'm', icon, onClick, ...props}) => {
 
-    const classNames = ['btn-icon', `btn-icon-${type}`, icons[icon].class];
+    const classNames = ['btn-icon', `btn-icon-${size}`, icons[icon].class];
 
     if (extraClassName) classNames.push(extraClassName);
 

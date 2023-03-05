@@ -1,0 +1,72 @@
+@import '../../styles_extension/_colors.scss';
+@import '../../styles_extension/_variables.scss';
+
+$padding-up-down: 14px;
+$padding-left-right: 30px;
+$margin: 10px;
+$border-size: 2px;
+$size-bezel: 20px;
+
+.input-text-field {
+    background-color: $color_major_background;
+    border: $border-size solid $color_button_background;
+    border-radius: 15px;
+    padding: $padding-up-down $padding-left-right;
+    margin: $margin;
+    color: $color_button_background;
+    transition-duration: 0.45s;
+    min-width: 375px;
+    
+    font-size: 16pt;
+    font-weight: 600;
+
+    @include mobile {
+        padding: 0px 30px 0px 30px;
+        height: 40px;
+        font-size: 14pt;    
+        min-width: 240px;
+    }
+
+    &:placeholder-shown ~ .input-text-label{
+        position: absolute;
+        cursor: text;
+        color: $color_button_background;
+        left: calc(#{$padding-left-right} + #{$margin} + #{$border-size});
+        top: calc(#{$padding-up-down} + #{$margin} + #{$border-size});
+    }
+
+    &:focus, &:not(:placeholder-shown) {  
+
+        ~.input-text-label{
+            font-size: 12pt;
+            position: absolute;
+            opacity: 1;
+            top: 0;
+            left: calc(#{$padding-left-right} + #{$margin} + #{$border-size} - #{$size-bezel});
+            color:$color_button_background;
+            padding:0 5px 0 5px;
+            background-color: $color_major_background;
+        }
+    }
+}
+
+.input-text-field {
+    &::placeholder {
+        opacity: 0;
+    }
+  }
+
+.input-text {
+    position: relative;
+
+    .input-text-label {
+        font-size: 16pt;
+        font-weight: 600;
+        display: block;
+        
+        transition-duration: 0.2s;
+    }
+}
+
+
+
