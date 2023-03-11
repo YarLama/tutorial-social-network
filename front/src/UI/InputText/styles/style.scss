@@ -16,12 +16,15 @@ $size-bezel: 20px;
     color: $color_button_background;
     transition-duration: 0.45s;
     min-width: 375px;
-    
     font-size: 16pt;
     font-weight: 600;
 
+    &.error-input {
+        border: $border-size solid $color_error;
+    }
+
     @include mobile {
-        padding: 0px 30px 0px 30px;
+        padding: 0px $padding-left-right;
         height: 40px;
         font-size: 14pt;    
         min-width: 240px;
@@ -33,6 +36,10 @@ $size-bezel: 20px;
         color: $color_button_background;
         left: calc(#{$padding-left-right} + #{$margin} + #{$border-size});
         top: calc(#{$padding-up-down} + #{$margin} + #{$border-size});
+        
+        @include mobile {
+            top: calc(#{$padding-up-down} + #{$margin} - #{$border-size});
+        }
     }
 
     &:focus, &:not(:placeholder-shown) {  
@@ -46,6 +53,10 @@ $size-bezel: 20px;
             color:$color_button_background;
             padding:0 5px 0 5px;
             background-color: $color_major_background;
+
+            @include mobile {
+                font-size: 10pt;
+            }
         }
     }
 }
@@ -59,12 +70,23 @@ $size-bezel: 20px;
 .input-text {
     position: relative;
 
+    .error-message {
+        display: block;
+        color: $color_error;
+        padding: 0 $padding-left-right;
+    }
+
     .input-text-label {
+        pointer-events: none;
         font-size: 16pt;
         font-weight: 600;
         display: block;
-        
         transition-duration: 0.2s;
+
+        @include mobile {
+            font-size: 14pt;
+        }
+        
     }
 }
 

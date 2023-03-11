@@ -35,13 +35,16 @@ const TestForm: React.FC<IFormikFormProps> = () => {
 
     return (
         <div className='test-form'>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} autoComplete="off">
                 <div className='test-form-content'>
                     <InputText 
                         name='firstName' 
                         value={formik.values.firstName} 
                         onChange={formik.handleChange} 
                         label='Имя'
+                        hasError
+                        contentError='Пароль должен содержать от 8 до 20 символов'
+                        required={true}
                     />
                     <InputText 
                         name='color' 
@@ -50,10 +53,10 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                         label='Фамилия'
                     />
                 </div>
-                <Button content='Test' size='m'/>
                 <Button content='Submit' type='submit' size='s'/>
                 <Button content='Reset' type='reset' onClick={resetForm} size='s'/>
             </form>
+            <Button content='Test' size='m'/>
         </div>
     );
 };
