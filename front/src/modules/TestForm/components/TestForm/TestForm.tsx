@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from 'formik';
 import React from 'react';
-import { Button, InputSelect, InputText } from '../../../../UI';
+import { Button, InputSelect, InputText, InputTextarea } from '../../../../UI';
 import './styles/style.scss';
 
 interface IFormikFormProps {
@@ -16,6 +16,7 @@ interface IFormValues {
 interface IFormErrors {
     firstName?: string | null;
     color?: string | null;
+    optional?: string | null;
 }
 
 const TestForm: React.FC<IFormikFormProps> = () => {
@@ -39,6 +40,7 @@ const TestForm: React.FC<IFormikFormProps> = () => {
         const errors: IFormErrors = {};
         !data.firstName ? errors.firstName="Нужно ввести свою фамилию" : null; 
         !data.color ? errors.color="Нужно выбрать цвет" :  null; 
+        !data.optional ? errors.optional="Я хз че тут вписать" :  null; 
         return errors;
     }
 
@@ -77,7 +79,7 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                         hasError={!!formik.errors.color}
                         contentError={formik.errors.color}
                     />
-                    <InputText 
+                    <InputTextarea 
                         name='optional' 
                         value={formik.values.optional} 
                         onChange={formik.handleChange}
