@@ -76,7 +76,7 @@ const App: React.FC = () => {
             <IconButton icon='chat' size='l'/><IconButton icon='chat'/><IconButton icon='chat' size='s'/><IconButton icon='chat' size='xs'/><br />
             
             <Button content='Find' size='s'/><br/>
-            <Button content='Message' size='s' disabled={isMobile}/><br/>
+            <Button content='Message' size='s' hide={isMobile}/><br/>
             <Button content='Send Message' size='l'/><br/>
             <Button content='Add to contact' size='l'/><br/>
             <Button content='Registration' size='m'/><br/>
