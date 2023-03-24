@@ -19,9 +19,9 @@ const IconButton: React.FC<IIconButtonProps> = ({extraClassName, size = 'm', ico
 
     return (
         <>
-            <button className={classNames.join(' ')} onClick={onClick} {...props}>
+            <span className={classNames.join(' ')} onClick={onClick} {...props}>
                 {icons[icon].src}  
-            </button>
+            </span>
         </>
     );
 };

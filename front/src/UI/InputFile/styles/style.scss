@@ -1,0 +1,29 @@
+@import '../../styles_extension/_colors.scss';
+
+$padding-up-down: 14px;
+$margin: 10px;
+$border-size: 2px;
+
+.input-file {
+    margin: $margin;
+
+    .input-file-field {
+        &.error-input {
+            svg {
+                border: $border-size solid $color_error;
+            }
+        }
+    }
+
+    .error-message {
+        display: block;
+        color: $color_error;
+        margin-bottom: $margin;
+    }
+
+    .input-file-label {
+        svg {
+            border-radius: 15px;
+        }
+    }
+}

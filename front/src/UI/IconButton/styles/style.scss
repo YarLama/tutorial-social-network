@@ -2,11 +2,12 @@
 @import '../../styles_extension/variables';
 
 .btn-icon{
-    background-color: $color_minor_background;
     border: none;
     padding: 3px;
 
     svg {
+        background-color: $color_minor_background;
+        border-radius: 15px;
         display: flex;
         align-items: center;
         path {

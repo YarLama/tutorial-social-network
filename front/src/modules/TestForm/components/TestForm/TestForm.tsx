@@ -1,6 +1,7 @@
 import { FormikHelpers, useFormik } from 'formik';
 import React from 'react';
-import { Button, InputSelect, InputText, InputTextarea } from '../../../../UI';
+import { ImageUploadPreview } from '../../../../components';
+import { Button, InputFile, InputText, InputTextarea } from '../../../../UI';
 import './styles/style.scss';
 
 interface IFormikFormProps {
@@ -9,27 +10,37 @@ interface IFormikFormProps {
 
 interface IFormValues {
     firstName: string;
-    color: string;
     optional: string;
+    image_file: File | null;
 }
 
 interface IFormErrors {
     firstName?: string | null;
-    color?: string | null;
     optional?: string | null;
+    image_file?: string | null;
 }
 
 const TestForm: React.FC<IFormikFormProps> = () => {
 
     const initialValues: IFormValues = {
         firstName: '',
-        color: '',
-        optional: ''
+        optional: '',
+        image_file: null
     };
 
     const handleSubmit = (values: IFormValues, actions: FormikHelpers<IFormValues>): void => {
+        
         console.log('Submit', values)   
         actions.resetForm({values: initialValues})
+    }
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+        formik.setFieldValue(e.target.name, e.target.files[0])  
+    }
+
+    const handlePreviewCancel = () => {
+        formik.setFieldValue('image_file', initialValues.image_file)
     }
 
     const resetForm = () => {
@@ -39,8 +50,8 @@ const TestForm: React.FC<IFormikFormProps> = () => {
     const validateData = (data: IFormValues): IFormErrors => {
         const errors: IFormErrors = {};
         !data.firstName ? errors.firstName="Нужно ввести свою фамилию" : null; 
-        !data.color ? errors.color="Нужно выбрать цвет" :  null; 
         !data.optional ? errors.optional="Я хз че тут вписать" :  null; 
+        !data.image_file ? errors.image_file="Нужно выбрать фото" :  null; 
         return errors;
     }
 
@@ -48,14 +59,8 @@ const TestForm: React.FC<IFormikFormProps> = () => {
         initialValues: initialValues,
         validate: validateData,
         validateOnChange: false,
-        onSubmit: handleSubmit,
+        onSubmit: handleSubmit
     })
-
-    const SelectValues = [
-        { value: 'red', label: 'Красный'},
-        { value: 'blue', label: 'Синий'},
-        { value: 'black', label: 'Чернейший'},
-    ]
 
     return (
         <div className='test-form'>
@@ -70,23 +75,20 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                         contentError={formik.errors.firstName}
                         
                     />
-                    <InputSelect 
-                        name='color' 
-                        onChange={formik.handleChange}
-                        label='Выбрать цвет'
-                        values={SelectValues}
-                        valueDefault={''}
-                        hasError={!!formik.errors.color}
-                        contentError={formik.errors.color}
-                    />
                     <InputTextarea 
                         name='optional' 
                         value={formik.values.optional} 
                         onChange={formik.handleChange}
-                        label='Необязательно'
+                        label='Сообщение'
                         hasError={!!formik.errors.optional}
                         contentError={formik.errors.optional}
                     />
+                    <InputFile 
+                        name='image_file' 
+                        onChange={handleFileUpload}
+                        hasError={!!formik.errors.image_file}
+                    />
+                    <ImageUploadPreview image={formik.values.image_file} onCancelClick={handlePreviewCancel}/>
                 </div>
                 <Button content='Submit' type='submit' size='s' disabled={formik.isSubmitting}/>
                 <Button content='Reset' type='reset' onClick={resetForm} size='s'/>

@@ -1,0 +1,33 @@
+@import '../../../UI//styles_extension/variables';
+
+.image-preview-box {
+    position: relative;
+    display: block;
+    margin: 15px;
+
+    @include mobile {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .image-preview-content {
+        width: 72px;
+        height: 72px;
+    }
+
+    .image-preview-cancel {
+        position: absolute;
+        right: 0;
+
+        @include mobile {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    }
+}
