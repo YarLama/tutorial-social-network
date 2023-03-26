@@ -51,7 +51,8 @@ const TestForm: React.FC<IFormikFormProps> = () => {
         const errors: IFormErrors = {};
         !data.firstName ? errors.firstName="Нужно ввести свою фамилию" : null; 
         !data.optional ? errors.optional="Я хз че тут вписать" :  null; 
-        !data.image_file ? errors.image_file="Нужно выбрать фото" :  null; 
+        !data.image_file ? errors.image_file="Нужно выбрать фото" :  null;
+        console.log(errors) 
         return errors;
     }
 
