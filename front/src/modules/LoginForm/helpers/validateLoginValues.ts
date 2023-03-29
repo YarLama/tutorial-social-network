@@ -46,8 +46,8 @@ export const validateLoginValues = (values: ILoginValues): ILoginErrors => {
     const password = validatePassword(values.password);
     console.log(email, password)
 
-    email.isValid ? null : errors.email = email.errorMessage;
-    password.isValid ? null : errors.password = password.errorMessage;
+    //email.isValid ? null : errors.email = email.errorMessage;
+    //password.isValid ? null : errors.password = password.errorMessage;
     console.log(errors)
     return errors;
 }

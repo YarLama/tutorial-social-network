@@ -4,7 +4,7 @@ module.exports = {
     proxy: {
         '/api': {
             target: {
-                host: 'localhost',
+                host: "localhost",
                 protocol: 'http:',
                 port: 1337
             },
