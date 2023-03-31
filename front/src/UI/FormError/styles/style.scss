@@ -1,0 +1,8 @@
+@import '../../styles_extension/_colors.scss';
+@import '../../styles_extension/_variables.scss';
+
+.form-error {
+    display: block;
+    color: $color_error;
+    padding: 10px;
+}

@@ -1,21 +1,35 @@
 import { FormikHelpers, useFormik } from 'formik';
-import React from 'react';
-import { Button, InputText } from '../../../../UI';
+import React, { useState } from 'react';
+import { Button, FormError, InputText } from '../../../../UI';
 import { getLoginToken } from '../../api/loginRequest';
 import { ILoginValues } from '../../helpers/types';
 import { validateLoginValues } from '../../helpers/validateLoginValues';
 
 const LoginForm: React.FC = () => {
 
+    const [errorForm, setErrorForm] = useState<string>('');
+
+    // const initialValues: ILoginValues = {
+    //     email: '',
+    //     password: ''
+    // }
+
     const initialValues: ILoginValues = {
-        email: '',
-        password: ''
+        email: 'senya228@kek.ru',
+        password: 'qwerty1234'
     }
 
     const handleSubmit = async (values: ILoginValues, actions: FormikHelpers<ILoginValues>): Promise<void> => {
-        console.log('Submit start', values)  
-        const kek = await getLoginToken(values.email, values.password);
-        console.log(kek)
+        setErrorForm('')
+        const responce = getLoginToken(values.email, values.password);
+        responce.then((data) => {
+            console.log(data)
+        }).catch((error: Error) => {
+            actions.setSubmitting(false);
+            setErrorForm(error.message)
+        }).finally(() => {
+            actions.resetForm()
+        })
     }
 
     const formik = useFormik({
@@ -30,6 +44,10 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className='login-form'>
+            <p style={{color: 'white'}}>
+                senya228@kek.ru<br/>
+                qwerty1234
+            </p>
             <form onSubmit={formik.handleSubmit} autoComplete="off">
                 <InputText 
                     name='email' 
@@ -47,6 +65,7 @@ const LoginForm: React.FC = () => {
                     hasError={!!errors.password}
                     contentError={errors.password}
                 />
+                {!errorForm ? null : <FormError content={errorForm}/>}
                 <Button content='Login' type='submit' disabled={formik.isSubmitting}/>
             </form>
         </div>
