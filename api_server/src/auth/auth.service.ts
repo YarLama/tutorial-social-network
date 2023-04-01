@@ -64,6 +64,7 @@ export class AuthService {
 
     private async validateUser(dto: CreateUserDto): Promise<User> {
         const user = await this.userService.getUserByEmail(dto.email);
+        if (!user) throw new UnauthorizedException('Uncorrect email');
         const passwordEqual = await bcrypt.compare(dto.password, user.password);
         if (user && passwordEqual) return user;
         throw new UnauthorizedException('Uncorrect email or password');
