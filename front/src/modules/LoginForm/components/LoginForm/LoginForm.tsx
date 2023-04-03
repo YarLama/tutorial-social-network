@@ -19,15 +19,21 @@ const LoginForm: React.FC = () => {
         password: 'qwerty1234'
     }
 
-    const handleSubmit = async (values: ILoginValues, actions: FormikHelpers<ILoginValues>): Promise<void> => {
+    // const initialValues: ILoginValues = {
+    //     email: 'asd',
+    //     password: 'asd'
+    // }
+
+    const handleSubmit = (values: ILoginValues, actions: FormikHelpers<ILoginValues>): void => {
         setErrorForm('')
+        actions.setSubmitting(true)
         const responce = getLoginToken(values.email, values.password);
         responce.then((data) => {
             console.log(data)
         }).catch((error: Error) => {
-            actions.setSubmitting(false);
             setErrorForm(error.message)
         }).finally(() => {
+            actions.setSubmitting(false);
             actions.resetForm()
         })
     }
@@ -56,14 +62,17 @@ const LoginForm: React.FC = () => {
                     onChange={formik.handleChange}
                     hasError={!!errors.email}
                     contentError={errors.email}
+                    readonly={formik.isSubmitting}
                 />
                 <InputText 
                     name='password' 
                     label='Password'
+                    type='password'
                     value={values.password} 
                     onChange={formik.handleChange}
                     hasError={!!errors.password}
                     contentError={errors.password}
+                    readonly={formik.isSubmitting}
                 />
                 {!errorForm ? null : <FormError content={errorForm}/>}
                 <Button content='Login' type='submit' disabled={formik.isSubmitting}/>

@@ -5,9 +5,11 @@ interface IInputTextProps {
     name: string;
     value: string;
     label?: string;
+    type?: 'text' | 'password';
     hasError?: boolean;
     contentError?: string;
     required?: boolean;
+    readonly?: boolean;
     onChange: (e: React.ChangeEvent<any>) => void;
 }
 
@@ -15,10 +17,12 @@ const InputText: React.FC<IInputTextProps> = ({
     name,
     value,
     label,
+    type = 'text',
     hasError = false,
     contentError,
     onChange,
     required,
+    readonly = false
 }) => {
 
     const classNames = ['input-text-field']
@@ -28,7 +32,7 @@ const InputText: React.FC<IInputTextProps> = ({
     return (
         <div className='input-text'>
             <input 
-                type="text"
+                type={type}
                 className={classNames.join(' ')} 
                 id={name} 
                 name={name} 
@@ -36,6 +40,7 @@ const InputText: React.FC<IInputTextProps> = ({
                 value={value}
                 onChange={onChange}
                 required={required}
+                readOnly={readonly}
             />
             <label className='input-text-label' htmlFor={name}>{label}</label>
             {contentError && hasError ? <span className='error-message'>{contentError}</span> : null}
