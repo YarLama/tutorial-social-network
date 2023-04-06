@@ -5,6 +5,7 @@ import { ModalWindow } from '../components';
 import { TestForm } from '../modules/TestForm'
 import './global_styles/_global.scss';
 import { LoginPage } from '../pages/LoginPage';
+import MediaViewer from '../components/MediaViewer/MediaViewer';
 
 
 const App: React.FC = () => {
@@ -16,7 +17,11 @@ const App: React.FC = () => {
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
     return (
-            <LoginPage />
+            //<LoginPage />
+            <>
+            <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
+            <MediaViewer active={testModalActive} setActive={setTestModalActive}/>
+            </>
 //         <div>
 //             <Button content='Open Modal' size='s' onClick={() => setTestModalActive(true)}/><br/>
 //             <Button content='Open Modal1' size='s' onClick={() => setTestModalActive1(true)}/><br/>

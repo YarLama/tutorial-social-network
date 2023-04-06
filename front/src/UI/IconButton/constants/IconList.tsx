@@ -11,6 +11,7 @@ import Profile  from '../assets/profile.svg';
 import Attach  from '../assets/attach.svg';
 import Contact  from '../assets/contact.svg';
 import Chat  from '../assets/chat.svg';
+import Right from '../assets/right.svg'
 
 export const icons = {
     'send': {
@@ -20,6 +21,10 @@ export const icons = {
     'left' : {
         src: <Left />,
         class: 'icon-left'
+    },
+    'right': {
+        src: <Right />,
+        class: 'icon-right'
     },
     'edit' : {
         src: <Edit />,
