@@ -10,7 +10,7 @@ import MediaViewer from '../components/MediaViewer/MediaViewer';
 
 const App: React.FC = () => {
 
-    const [testModalActive, setTestModalActive] = useState<boolean>(false);
+    const [testModalActive, setTestModalActive] = useState<boolean>(true);
     const [testModalActive1, setTestModalActive1] = useState<boolean>(false);
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);

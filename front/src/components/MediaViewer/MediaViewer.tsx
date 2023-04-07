@@ -23,6 +23,10 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
         <img src='https://images.unsplash.com/photo-1535083988052-565ca9546643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'/>
     ]
 
+    const handleMediaViewerClose = () => {
+        setActive(false)
+    }
+
     const handleToNextMedia = () => {
         if (ch.length - 1 === currentMediaIndex) return
         setCurrentMediaIndex(currentMediaIndex + 1)
@@ -38,15 +42,22 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
             ?
             <>
                 <div className='media-viewer'>
-                    <div className='media-viewer-overlay'></div>
-                    <div className='media-viewer-content'>
+                    <div className='media-viewer-overlay' onClick={() => console.log('overlay')}></div>
+                    <div className='media-viewer-content'  onClick={() => console.log('content')}>
                         <div className='media-viewer-switcher media-viewer-switcher-left'><IconButton icon='left' size='m' onClick={handleToPreviousMedia}/></div>
-                        <div className='media-viewer-switcher'>
+                        <div className='media-viewer-current-media'>
                             {ch[currentMediaIndex]}
                         </div>
                         <div className='media-viewer-switcher media-viewer-switcher-right'><IconButton icon='right' size='m' onClick={handleToNextMedia}/></div>
                     </div>
-                    <div className='media-viewer-preview' style={{'color': 'white'}}>{`${currentMediaIndex + 1}/${ch.length}`}</div>
+                    <div className='media-viewer-preview' style={{'color': 'white'}}>
+                        <span>
+                            {`${currentMediaIndex + 1}/${ch.length}`}
+                        </span>
+                        <span>
+                            Сделать аватаркой
+                        </span>
+                    </div>
                 </div>
             </>
             : null
