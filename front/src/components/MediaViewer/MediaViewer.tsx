@@ -15,6 +15,7 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
 }) => {
 
     const [currentMediaIndex, setCurrentMediaIndex] = useState<number>(0)
+    const [mediaTouched, setMediaTouched] = useState<boolean>(false);
 
     const ch = [
         <img src={testPhoto1} />,
@@ -37,18 +38,36 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
         setCurrentMediaIndex(currentMediaIndex - 1)
     }
 
+    const handleMouseOverMediaTouched = () => {
+        setMediaTouched(true);
+    }
+
+    const handleMouseOutMediaTouched = () => {
+        setMediaTouched(false);
+    }
+
     return (
         active 
             ?
             <>
                 <div className='media-viewer'>
-                    <div className='media-viewer-overlay' onClick={() => console.log('overlay')}></div>
-                    <div className='media-viewer-content'  onClick={() => console.log('content')}>
-                        <div className='media-viewer-switcher media-viewer-switcher-left'><IconButton icon='left' size='m' onClick={handleToPreviousMedia}/></div>
-                        <div className='media-viewer-current-media'>
+                    <div 
+                        className='media-viewer-content' 
+                        onMouseOver={handleMouseOverMediaTouched} 
+                        onMouseOut={handleMouseOutMediaTouched}
+                    >
+                        <div className={`media-viewer-switcher media-viewer-switcher-left${mediaTouched ? ' active' : ''}`} onClick={handleToPreviousMedia} >
+                            <IconButton icon='left' size='m' />
+                        </div>
+                        <div 
+                            className='media-viewer-current-media' 
+                            onClick={handleMediaViewerClose}
+                        >
                             {ch[currentMediaIndex]}
                         </div>
-                        <div className='media-viewer-switcher media-viewer-switcher-right'><IconButton icon='right' size='m' onClick={handleToNextMedia}/></div>
+                        <div className={`media-viewer-switcher media-viewer-switcher-right${mediaTouched ? ' active' : ''}`} onClick={handleToNextMedia}>
+                            <IconButton icon='right' size='m' />
+                        </div> 
                     </div>
                     <div className='media-viewer-preview' style={{'color': 'white'}}>
                         <span>
