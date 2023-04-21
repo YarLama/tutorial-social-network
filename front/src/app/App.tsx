@@ -16,11 +16,19 @@ const App: React.FC = () => {
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
+    const ch1 = [
+        {id:1, src: 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U'},
+        {id:2, src: 'https://images.unsplash.com/photo-1535083988052-565ca9546643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'},
+        {id:3, src: 'https://druzhniy-center.ru/wp-content/uploads/5/4/1/5414e8e32f62528febc49e9ab9e16819.png'},
+        {id:4, src: 'http://risovach.ru/upload/2015/01/mem/muzhik_71675710_orig_.jpg'},
+        {id:5, src: 'https://sun9-76.userapi.com/c10428/u164336031/-7/x_dbaa37aa.jpg', isAvatar: true},
+    ]
+
     return (
             //<LoginPage />
             <>
             <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
-            <MediaViewer active={testModalActive} setActive={setTestModalActive}/>
+            <MediaViewer active={testModalActive} setActive={setTestModalActive} elements={ch1}/>
             </>
 //         <div>
 //             <Button content='Open Modal' size='s' onClick={() => setTestModalActive(true)}/><br/>

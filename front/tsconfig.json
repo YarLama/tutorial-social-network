@@ -13,7 +13,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    
+    "strictPropertyInitialization": true,
     /* Module Resolution Options */
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,

@@ -1,41 +1,68 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IconButton } from '../../UI';
+import { ImageMedia } from './helpers/types';
 import './styles/style.scss';
-import testPhoto1 from './test/1.jpg';
-import testPhoto2 from './test/2.jpg';
 
 interface IMediaViewerProps {
     active: boolean;
     setActive: Dispatch<SetStateAction<boolean>>;
+    elements: ImageMedia[];
 }
 
 const MediaViewer: React.FC<IMediaViewerProps> = ({
     active = false,
-    setActive
+    setActive,
+    elements
 }) => {
 
+    const [media, setMedia] = useState<JSX.Element[]>([]);
     const [currentMediaIndex, setCurrentMediaIndex] = useState<number>(0)
     const [mediaTouched, setMediaTouched] = useState<boolean>(false);
 
-    const ch = [
-        <img src={testPhoto1} />,
-        <img src={testPhoto2} />,
-        <img src='https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U'/>,
-        <img src='https://images.unsplash.com/photo-1535083988052-565ca9546643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'/>
-    ]
+    useEffect(() => {
+        setMedia(elements.map(element => {
+            return <img key={element.id} src={element.src} alt={element.alt}/>
+        }))
+    },[])
 
     const handleMediaViewerClose = () => {
         setActive(false)
     }
 
     const handleToNextMedia = () => {
-        if (ch.length - 1 === currentMediaIndex) return
+        if (media.length - 1 === currentMediaIndex) return
         setCurrentMediaIndex(currentMediaIndex + 1)
     }
 
     const handleToPreviousMedia = () => {
         if (currentMediaIndex === 0) return
         setCurrentMediaIndex(currentMediaIndex - 1)
+    }
+
+    const hanldeDeletePhoto = () => {
+        const test = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('Типа сообщение удалении фото');
+            }, 2000);
+        })
+
+        test.then((value) => {
+            console.log(value);
+            handleMediaViewerClose();
+        })
+    }
+
+    const handleAvatarSet = () => {
+        const test = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('Типа делаю фото аватаркой');
+            }, 2000);
+        })
+
+        test.then((value) => {
+            console.log(value);
+            handleMediaViewerClose();
+        })
     }
 
     const handleMouseOverMediaTouched = () => {
@@ -47,7 +74,7 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
     }
 
     return (
-        active 
+        active && media.length !== 0
             ?
             <>
                 <div className='media-viewer'>
@@ -63,18 +90,21 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
                             className='media-viewer-current-media' 
                             onClick={handleMediaViewerClose}
                         >
-                            {ch[currentMediaIndex]}
+                            {media[currentMediaIndex]}
                         </div>
                         <div className={`media-viewer-switcher media-viewer-switcher-right${mediaTouched ? ' active' : ''}`} onClick={handleToNextMedia}>
                             <IconButton icon='right' size='m' />
                         </div> 
                     </div>
                     <div className='media-viewer-preview' style={{'color': 'white'}}>
-                        <span>
-                            {`${currentMediaIndex + 1}/${ch.length}`}
+                        <span className='media-viewer-preview-count'>
+                            {`${currentMediaIndex + 1}/${media.length}`}
                         </span>
-                        <span>
-                            Сделать аватаркой
+                        <span className='media-viewer-preview-detail'>
+                            <div className='detail-drowup'>
+                                <span className='drowup-element' onClick={hanldeDeletePhoto}>Delete photo</span>
+                                <span className='drowup-element' onClick={handleAvatarSet}>Set as avatar</span>
+                            </div>
                         </span>
                     </div>
                 </div>

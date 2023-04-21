@@ -21,11 +21,14 @@
             position: absolute;
             display: flex;
             z-index: 1;
-            opacity: 0.4;
             top: 0;
             align-items: center;
-            background-color: $color_minor_background;
             transition: 0.35s;
+
+            @include desktop{
+                opacity: 0.4;
+                background-color: $color_minor_background;
+            }
 
             &:not(.active ){
                 opacity: 0;
@@ -42,10 +45,6 @@
 
             &:hover {
                 opacity: 0.9;
-            }
-
-            @include mobile{
-                display: none;
             }
         }
 
@@ -78,6 +77,48 @@
             background-color: $color_minor_background;
             border-radius: 15px;
             padding: 5px 10px;
+            margin: 0 5px 0 5px;
         }
+
+        .media-viewer-preview-detail {
+            &::after {  
+                cursor: pointer;
+                content: "•••";
+                letter-spacing: 0.2em;
+                margin-right: -0.2em;
+                text-align: center;
+            }
+
+            &:active .detail-drowup {
+                display: block;
+            }
+
+            .detail-drowup {
+                position: absolute;
+                display: none;
+                bottom: 10px;
+                padding: 20px;
+                margin-left: -0.2em;
+
+                @include mobile {
+                    font-size: 10pt;
+                }
+
+                &:hover {
+                    display: block;
+                }
+                
+                .drowup-element {
+                    cursor: pointer;
+                    padding: 10px;
+                    display: block;
+                    color: white;
+                    border: 1px solid white;
+                    border-radius: 0px;
+                }
+            }
+                
+            }
+        
     }
 }
