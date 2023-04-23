@@ -113,4 +113,4 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
     );
 };
 
-export default MediaViewer;
+export {MediaViewer};
