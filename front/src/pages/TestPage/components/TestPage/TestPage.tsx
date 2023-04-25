@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MediaViewer } from '../../../../components';
-import { useWindowSize } from '../../../../hooks/UI/useWindowSize';
+import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { IconButton } from '../../../../UI';
 
 const TestPage = () => {
