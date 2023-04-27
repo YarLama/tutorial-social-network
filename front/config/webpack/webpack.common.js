@@ -6,6 +6,7 @@ module.exports = {
     output: {
         path: paths.output,
         filename: "bundle.[fullhash].js",
+        publicPath: '/',
         clean: true
     },
     module: {

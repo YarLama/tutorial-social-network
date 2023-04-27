@@ -9,17 +9,16 @@ interface IAppRouterProps {
 
 const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
 
-    const routes = isAuthorizate ? publicRoutes : privateRoutes;
+    const routes = isAuthorizate ? privateRoutes : publicRoutes;
     const rootElement = isAuthorizate ? <Navigate to={RoutePaths.TEST_PAGE}/> : <Navigate to={RoutePaths.LOGIN_PAGE}/> ;
     console.log(routes[0].path, routes[0].element)
 
     return (
         <Routes>
+            {publicRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> )}
+            {isAuthorizate ? privateRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> ) : null}
             <Route path={RoutePaths.ROOT} element={rootElement}/>
-            {routes.map((route, index) => 
-                <Route key={index} path={route.path} element={<route.element />}/>   
-            )}
-            {/* <Route path='/*' element={<Navigate to={RoutePaths.ROOT}/>}/> */}
+            <Route path='*' element={<Navigate to={RoutePaths.ROOT}/>}/>
         </Routes>
     );
 };
