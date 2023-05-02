@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MediaViewer } from '../../../../components';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { IconButton } from '../../../../UI';
+import { useAppSelector } from '../../../../app/hooks/redux/redux';
 
 const TestPage = () => {
 
@@ -18,6 +19,8 @@ const TestPage = () => {
         {id:4, src: 'http://risovach.ru/upload/2015/01/mem/muzhik_71675710_orig_.jpg'},
         {id:5, src: 'https://sun9-76.userapi.com/c10428/u164336031/-7/x_dbaa37aa.jpg', isAvatar: true},
     ]
+
+    
 
     return (
         //<LoginPage />

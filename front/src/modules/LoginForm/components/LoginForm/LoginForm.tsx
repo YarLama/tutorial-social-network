@@ -1,5 +1,7 @@
 import { FormikHelpers, useFormik } from 'formik';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { parseJwt, setLocalToken } from '../../../../app/helper/tokenHelpers';
 import { Button, FormError, InputText } from '../../../../UI';
 import { getLoginToken } from '../../api/loginRequest';
 import { ILoginValues } from '../../helpers/types';
@@ -13,23 +15,21 @@ const LoginForm: React.FC = () => {
     //     email: '',
     //     password: ''
     // }
+    const navigate = useNavigate();
 
     const initialValues: ILoginValues = {
         email: 'senya228@kek.ru',
         password: 'qwerty1234'
     }
 
-    // const initialValues: ILoginValues = {
-    //     email: 'asd',
-    //     password: 'asd'
-    // }
-
     const handleSubmit = (values: ILoginValues, actions: FormikHelpers<ILoginValues>): void => {
         setErrorForm('')
         actions.setSubmitting(true)
         const responce = getLoginToken(values.email, values.password);
         responce.then((data) => {
-            console.log(data)
+            console.log(data, parseJwt(data.token))
+            navigate('/test')
+            setLocalToken(data.token);
         }).catch((error: Error) => {
             setErrorForm(error.message)
         }).finally(() => {

@@ -15,8 +15,9 @@ const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
 
     return (
         <Routes>
-            {publicRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> )}
-            {isAuthorizate ? privateRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> ) : null}
+            {isAuthorizate 
+            ? privateRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> ) 
+            : publicRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> )}
             <Route path={RoutePaths.ROOT} element={rootElement}/>
             <Route path='*' element={<Navigate to={RoutePaths.ROOT}/>}/>
         </Routes>
