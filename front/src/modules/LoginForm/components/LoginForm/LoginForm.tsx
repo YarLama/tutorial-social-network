@@ -2,6 +2,9 @@ import { FormikHelpers, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { parseJwt, setLocalToken } from '../../../../app/helper/tokenHelpers';
+import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { RoutePaths } from '../../../../app/routes/constants/routePaths';
+import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputText } from '../../../../UI';
 import { getLoginToken } from '../../api/loginRequest';
 import { ILoginValues } from '../../helpers/types';
@@ -10,12 +13,13 @@ import { validateLoginValues } from '../../helpers/validateLoginValues';
 const LoginForm: React.FC = () => {
 
     const [errorForm, setErrorForm] = useState<string>('');
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     // const initialValues: ILoginValues = {
     //     email: '',
     //     password: ''
     // }
-    const navigate = useNavigate();
 
     const initialValues: ILoginValues = {
         email: 'senya228@kek.ru',
@@ -28,8 +32,9 @@ const LoginForm: React.FC = () => {
         const responce = getLoginToken(values.email, values.password);
         responce.then((data) => {
             console.log(data, parseJwt(data.token))
-            navigate('/test')
             setLocalToken(data.token);
+            dispatch(authSlice.actions.authorizationSuccess(data.token))
+            navigate(RoutePaths.TEST_PAGE)
         }).catch((error: Error) => {
             setErrorForm(error.message)
         }).finally(() => {
