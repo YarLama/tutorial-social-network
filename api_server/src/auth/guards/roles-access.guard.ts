@@ -24,17 +24,21 @@ export class RolesAccessGuard implements CanActivate {
 
             const req = context.switchToHttp().getRequest();
             const authHeader = req.headers.authorization;
-            const bearer = authHeader.split(' ')[0];
-            const token = authHeader.split(' ')[1];
+            const bearer = authHeader?.split(' ')[0];
+            const token = authHeader?.split(' ')[1];
 
-            if (bearer !== 'Bearer' || !token) throw new UnauthorizedException({ message: 'User not authorization' });
+            if (bearer !== 'Bearer' || !token) throw new UnauthorizedException('User not authorization');
 
             const user = this.jwtService.verify(token);
+            
             req.user = user;
             return user.roles.some((role: { value: string; }) => requiredRoles.includes(role.value));
             
         } catch(e) {
-            throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+            const status = e instanceof UnauthorizedException || e.name === 'JsonWebTokenError' ? 401 : 403
+            const AccessDenied = new HttpException('Access denied', HttpStatus.FORBIDDEN);
+            const Unauthorized = new HttpException('User not authorization', HttpStatus.UNAUTHORIZED);
+            throw status === 401 ? Unauthorized : AccessDenied;
         } 
     }
 }
