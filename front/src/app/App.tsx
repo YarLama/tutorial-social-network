@@ -9,10 +9,10 @@ import { checkAuth } from './store/reducers/AuthActionCreators';
 const App: React.FC = () => {
 
     const dispatch = useAppDispatch()
-    const { isAuthenticated } = useAppSelector(state => state.authReducer)
+    const { isAuthenticated, user } = useAppSelector(state => state.authReducer)
 
     useEffect(() => {
-        console.log(isAuthenticated)
+        console.log(isAuthenticated, user)
         dispatch(checkAuth())
     })
 

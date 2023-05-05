@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getUserInfoFromLocalToken, parseJwt } from "../../helper/tokenHelpers";
-import { AuthUserInfo, IUser } from "../../helper/types/types";
+import { getUserInfoFromLocalToken, parseJwt, removeLocalToken, setLocalToken } from "../../helpers/tokenHelpers";
+import { AuthUserInfo, IUser } from "../../helpers/types/types";
 
 interface AuthState {
     user: AuthUserInfo;
@@ -18,13 +18,15 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        authorizationSuccess(state, action: PayloadAction<string>) {
+        login(state, action: PayloadAction<string>) {
+            setLocalToken(action.payload);
             const user: IUser = parseJwt(action.payload)
             state.user.id = user.id;
             state.user.email = user.email;
             state.isAuthenticated = true;
         },
-        authorizationFailed(state) {
+        logout(state) {
+            removeLocalToken();
             state.user.id = null;
             state.user.email = null;
             state.isAuthenticated = false;

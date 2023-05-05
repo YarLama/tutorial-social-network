@@ -1,7 +1,7 @@
 import { FormikHelpers, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { parseJwt, setLocalToken } from '../../../../app/helper/tokenHelpers';
+import { parseJwt, setLocalToken } from '../../../../app/helpers/tokenHelpers';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
@@ -32,8 +32,7 @@ const LoginForm: React.FC = () => {
         const responce = getLoginToken(values.email, values.password);
         responce.then((data) => {
             console.log(data, parseJwt(data.token))
-            setLocalToken(data.token);
-            dispatch(authSlice.actions.authorizationSuccess(data.token))
+            dispatch(authSlice.actions.login(data.token))
             navigate(RoutePaths.TEST_PAGE)
         }).catch((error: Error) => {
             setErrorForm(error.message)

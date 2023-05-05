@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MediaViewer } from '../../../../components';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
-import { IconButton } from '../../../../UI';
+import { Button, IconButton } from '../../../../UI';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
 
 const TestPage = () => {
@@ -10,6 +10,7 @@ const TestPage = () => {
     const [testModalActive1, setTestModalActive1] = useState<boolean>(false);
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
+    const [count, setCount] = useState<number>(0);
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
     const ch1 = [
@@ -20,12 +21,16 @@ const TestPage = () => {
         {id:5, src: 'https://sun9-76.userapi.com/c10428/u164336031/-7/x_dbaa37aa.jpg', isAvatar: true},
     ]
 
-    
+    const handleClick = () => {
+        setCount(count + 1);
+    }
 
     return (
         //<LoginPage />
         <>
+        <span style={{'color': 'white'}}>{count}</span>
         <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
+        <Button content='Прибавить' onClick={handleClick}/>
         <MediaViewer active={testModalActive} setActive={setTestModalActive} elements={ch1}/>
         </>
 //         <div>

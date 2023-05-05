@@ -42,7 +42,7 @@ export function isLocalTokenActual(): boolean {
 export function getUserInfoFromLocalToken(): AuthUserInfo {
     const token = getLocalToken();
     const info: AuthUserInfo = {id: null, email: null}
-    if (!token) return info
+    if (!token || !isLocalTokenActual()) return info
     const user: IUser = parseJwt(token);
     info.id = user.id;
     info.email = user.email;
