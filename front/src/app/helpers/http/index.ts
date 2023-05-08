@@ -1,16 +1,3 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { getLocalToken } from "../tokenHelpers";
-
-export const API_URL = 'http://localhost:7000/api';
-
-const $api = axios.create({
-    withCredentials: true,
-    baseURL: API_URL
-})
-
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${getLocalToken()}`;
-    return config;
-})
-
-export default $api;
+export enum apiInfo {
+    API_URL = "http://localhost:7000/api"
+}

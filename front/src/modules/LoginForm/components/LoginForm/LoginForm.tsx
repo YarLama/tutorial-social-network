@@ -1,12 +1,12 @@
+import { AxiosError } from 'axios';
 import { FormikHelpers, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { parseJwt, setLocalToken } from '../../../../app/helpers/tokenHelpers';
+import { authApi } from '../../../../app/api/authApi';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputText } from '../../../../UI';
-import { getLoginToken } from '../../api/loginRequest';
 import { ILoginValues } from '../../helpers/types';
 import { validateLoginValues } from '../../helpers/validateLoginValues';
 
@@ -15,6 +15,7 @@ const LoginForm: React.FC = () => {
     const [errorForm, setErrorForm] = useState<string>('');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [login, {data, error, isLoading}] = authApi.useLoginMutation();
 
     // const initialValues: ILoginValues = {
     //     email: '',
@@ -26,20 +27,19 @@ const LoginForm: React.FC = () => {
         password: 'qwerty1234'
     }
 
-    const handleSubmit = (values: ILoginValues, actions: FormikHelpers<ILoginValues>): void => {
-        setErrorForm('')
-        actions.setSubmitting(true)
-        const responce = getLoginToken(values.email, values.password);
-        responce.then((data) => {
-            console.log(data, parseJwt(data.token))
-            dispatch(authSlice.actions.login(data.token))
+    const handleSubmit = async (values: ILoginValues, actions: FormikHelpers<ILoginValues>) => {
+        try {
+            setErrorForm('')
+            actions.setSubmitting(true)
+            const kek = await login({email: values.email, password: values.password}).unwrap();
+            dispatch(authSlice.actions.login(kek.token))
             navigate(RoutePaths.TEST_PAGE)
-        }).catch((error: Error) => {
-            setErrorForm(error.message)
-        }).finally(() => {
-            actions.setSubmitting(false);
-            actions.resetForm()
-        })
+            console.log(kek, kek.token, data?.token, error, isLoading)
+        } catch (e) {
+            setErrorForm((e as AxiosError).status === 401 ? 'Неправильный логин или пароль' : 'Что-то пошло не так')
+        }
+        actions.setSubmitting(false);
+        actions.resetForm();
     }
 
     const formik = useFormik({
@@ -54,10 +54,6 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className='login-form'>
-            <p style={{color: 'white'}}>
-                senya228@kek.ru<br/>
-                qwerty1234
-            </p>
             <form onSubmit={formik.handleSubmit} autoComplete="off">
                 <InputText 
                     name='email' 

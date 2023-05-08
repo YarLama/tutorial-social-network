@@ -14,7 +14,7 @@ const App: React.FC = () => {
     useEffect(() => {
         console.log(isAuthenticated, user)
         dispatch(checkAuth())
-    })
+    }, [dispatch])
 
     return (
         <BrowserRouter>

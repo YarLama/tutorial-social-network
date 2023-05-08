@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { MediaViewer } from '../../../../components';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { Button, IconButton } from '../../../../UI';
-import { useAppSelector } from '../../../../app/hooks/redux/redux';
+import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 
 const TestPage = () => {
 
-    const [testModalActive, setTestModalActive] = useState<boolean>(true);
+    const [testModalActive, setTestModalActive] = useState<boolean>(false);
     const [testModalActive1, setTestModalActive1] = useState<boolean>(false);
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
+    const dispatch = useAppDispatch();
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
     const ch1 = [
@@ -22,7 +24,7 @@ const TestPage = () => {
     ]
 
     const handleClick = () => {
-        setCount(count + 1);
+        dispatch(authSlice.actions.logout())
     }
 
     return (
@@ -30,7 +32,8 @@ const TestPage = () => {
         <>
         <span style={{'color': 'white'}}>{count}</span>
         <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
-        <Button content='Прибавить' onClick={handleClick}/>
+        <Button content='Выйти' onClick={handleClick}/>
+        <Button content='Открыть медиа' onClick={() => setTestModalActive(true)}/>
         <MediaViewer active={testModalActive} setActive={setTestModalActive} elements={ch1}/>
         </>
 //         <div>

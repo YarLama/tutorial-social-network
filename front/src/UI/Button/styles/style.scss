@@ -28,12 +28,12 @@
     }
 
     &.btn-m {
-        min-width: 375px;
+        min-width: 435px;
         
 
         @include mobile {
             
-            min-width: 240px;
+            min-width: 300px;
         }
     }
 
@@ -49,7 +49,7 @@
     }
 
     &.btn-l {
-        min-width: 400px;
+        min-width: 470px;
         height: 85px;
         font-size: 20pt;
 
