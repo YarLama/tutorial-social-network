@@ -11,7 +11,6 @@ const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
 
     const routes = isAuthorizate ? privateRoutes : publicRoutes;
     const rootElement = isAuthorizate ? <Navigate to={RoutePaths.TEST_PAGE}/> : <Navigate to={RoutePaths.LOGIN_PAGE}/> ;
-    console.log(routes[0].path, routes[0].element)
 
     return (
         <Routes>

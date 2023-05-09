@@ -10,6 +10,7 @@ interface IInputTextProps {
     contentError?: string;
     required?: boolean;
     readonly?: boolean;
+    numberOnly?: boolean;
     onChange: (e: React.ChangeEvent<any>) => void;
 }
 
@@ -22,10 +23,17 @@ const InputText: React.FC<IInputTextProps> = ({
     contentError,
     onChange,
     required,
+    numberOnly = false,
     readonly = false
 }) => {
 
     const classNames = ['input-text-field']
+
+    const handleNumberOnly = (e: React.KeyboardEvent) => {
+        const reg: RegExp = /[0-9]/;
+        const includeAccessKey: string[] = ['Backspace','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter']
+        if (!reg.test(e.key) && !includeAccessKey.includes(e.key)) e.preventDefault();
+    }
 
     if (hasError) classNames.push('error-input');
 
@@ -38,6 +46,7 @@ const InputText: React.FC<IInputTextProps> = ({
                 name={name} 
                 placeholder={label} 
                 value={value}
+                onKeyDown={numberOnly ? handleNumberOnly : undefined}
                 onChange={onChange}
                 required={required}
                 readOnly={readonly}

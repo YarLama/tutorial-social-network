@@ -3,9 +3,10 @@ import { FormikHelpers, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
-import { authRegRequest } from '../../../../app/api/authApi/types';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
-import { Button, FormError, InputText } from '../../../../UI';
+import { Button, FormError, InputPhone, InputText } from '../../../../UI';
+import { prepareRegistrationData } from '../../helpers/prepareSubmit';
+import { RegistrationFormValues } from '../../helpers/types';
 import { validateRegistrationValues } from '../../helpers/validateRegistrationValues';
 
 const RegistrationForm: React.FC = () => {
@@ -15,20 +16,27 @@ const RegistrationForm: React.FC = () => {
     const navigate = useNavigate();
     const [registration] = authApi.useRegistrationMutation();
 
-    const initialValues: authRegRequest = {
+    const initialValues: RegistrationFormValues = {
         first_name: '',
         last_name: '',
         phone: '',
         email: '',
-        password: ''
+        password: '',
+        confirm_password: ''
     }
 
-    const hadleSubmit = async (values: authRegRequest, actions: FormikHelpers<authRegRequest>) => {
+    const hadleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
         
         try {
             setErrorForm('')
             actions.setSubmitting(true)
-            console.log('Отправка на регистрацию', values)
+            console.log('Отправка на регистрацию', values, prepareRegistrationData(
+                values.first_name, 
+                values.last_name, 
+                values.phone,
+                values.email,
+                values.password
+            ))
         } catch (e) {
             setErrorForm((e as AxiosError).status === 400 ? 'Такой пользователь уже существует' : 'Что-то пошло не так')
         }
@@ -67,7 +75,7 @@ const RegistrationForm: React.FC = () => {
                     contentError={errors.last_name}
                     readonly={formik.isSubmitting}
                 />
-                <InputText 
+                <InputPhone 
                     name='phone'
                     label='Phone'
                     value={values.phone}
@@ -93,6 +101,16 @@ const RegistrationForm: React.FC = () => {
                     onChange={formik.handleChange}
                     hasError={!!errors.password}
                     contentError={errors.password}
+                    readonly={formik.isSubmitting}
+                />
+                <InputText 
+                    name='confirm_password' 
+                    label='Confirm Password'
+                    type='password'
+                    value={values.confirm_password} 
+                    onChange={formik.handleChange}
+                    hasError={!!errors.confirm_password}
+                    contentError={errors.confirm_password}
                     readonly={formik.isSubmitting}
                 />
                 {!errorForm ? null : <FormError content={errorForm}/>}

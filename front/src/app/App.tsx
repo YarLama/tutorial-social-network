@@ -12,7 +12,6 @@ const App: React.FC = () => {
     const { isAuthenticated, user } = useAppSelector(state => state.authReducer)
 
     useEffect(() => {
-        console.log(isAuthenticated, user)
         dispatch(checkAuth())
     }, [dispatch])
 

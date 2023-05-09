@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUserInfoFromLocalToken, parseJwt, removeLocalToken, setLocalToken } from "../../helpers/tokenHelpers";
-import { AuthUserInfo, IUser } from "../../helpers/types/types";
+import { AuthUserInfo, IUser } from "../../helpers/types/common";
 
 interface AuthState {
     user: AuthUserInfo;
