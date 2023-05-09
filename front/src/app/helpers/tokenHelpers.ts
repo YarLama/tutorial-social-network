@@ -1,4 +1,4 @@
-import { AuthUserInfo, IUser } from "./types/types";
+import { AuthUserInfo, IUser } from "./types/common";
 
 export function parseJwt (token: string) {
     let base64Url = token.split('.')[1];

@@ -1,8 +1,9 @@
-import { ILoginValues } from "./types";
+import { authLoginRequest } from "../../../app/api/authApi/types"
+
 
 export const prepareLoginData = (email: string, password: string): string => {
 
-    const body: ILoginValues = {
+    const body: authLoginRequest = {
         email: email,
         password: password
     }

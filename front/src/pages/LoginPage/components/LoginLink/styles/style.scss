@@ -1,0 +1,11 @@
+@import '/src/UI/styles_extension/_colors.scss';
+@import '/src/UI/styles_extension/_variables.scss';
+
+.login-link {
+    color: $color_button_background;
+
+    a {
+        color: $color_button_background;
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,9 @@
+@import '/src/UI/styles_extension/_colors.scss';
+@import '/src/UI/styles_extension/_variables.scss';
+
+.login-caption-h1 {
+    color: $color_button_background;
+    font-size: 30pt;
+    font-weight: bold;
+    margin: 20px 0;
+}

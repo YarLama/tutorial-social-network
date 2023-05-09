@@ -1,9 +1,5 @@
-import { ILoginErrors, ILoginValues } from "./types";
-
-type ValidateResult = {
-    isValid: boolean;
-    errorMessage: string | null;
-}
+import { authLoginRequest, authLoginRequestErrors } from "../../../app/api/authApi/types";
+import { ValidateResult } from "../../../app/helpers/types/form";
 
 const validate = (foo: () => ValidateResult['errorMessage']): ValidateResult => {
     let result: ValidateResult = {
@@ -17,7 +13,7 @@ const validate = (foo: () => ValidateResult['errorMessage']): ValidateResult => 
     return result;
 }
 
-const validateEmail = (email: ILoginValues['email']): ValidateResult => {
+const validateEmail = (email: authLoginRequest['email']): ValidateResult => {
     return validate(() => {
         let error = null
 
@@ -28,7 +24,7 @@ const validateEmail = (email: ILoginValues['email']): ValidateResult => {
     
 }
 
-const validatePassword = (password: ILoginValues['password']): ValidateResult => {
+const validatePassword = (password: authLoginRequest['password']): ValidateResult => {
     return validate(() => {
         let error = null
 
@@ -38,8 +34,8 @@ const validatePassword = (password: ILoginValues['password']): ValidateResult =>
     })
 }
 
-export const validateLoginValues = (values: ILoginValues): ILoginErrors => {
-    const errors: ILoginErrors = {};
+export const validateLoginValues = (values: authLoginRequest): authLoginRequestErrors => {
+    const errors: authLoginRequestErrors = {};
     const email = validateEmail(values.email);
     const password = validatePassword(values.password);
 

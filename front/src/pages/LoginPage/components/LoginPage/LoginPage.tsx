@@ -1,12 +1,15 @@
 import React from 'react';
 import { LoginForm } from '../../../../modules/LoginForm';
+import LoginCaption from '../LoginCaption/LoginCaption';
+import LoginLink from '../LoginLink/LoginLink';
 import './styles/style.scss'
 
 const LoginPage = () => {
     return (
         <div className='login-page'>
+            <LoginCaption />
             <LoginForm />
-            <p>Don’t have an account? Create one</p>
+            <LoginLink />
         </div>
     );
 };

@@ -7,6 +7,11 @@ export type authLoginRequest = {
     password: string;
 }
 
+export type authLoginRequestErrors = {
+    email?: string | null;
+    password?: string | null;
+}
+
 export type authRegRequest = {
     first_name: string,
     last_name: string,
@@ -15,7 +20,10 @@ export type authRegRequest = {
     password: string
 }
 
-export type LoginErrors = {
-    email?: string | null;
-    password?: string | null;
+export type authRegRequestErrors = {
+    first_name?: string | null,
+    last_name?: string | null,
+    phone?: string | null,
+    email?: string | null,
+    password?: string | null
 }
