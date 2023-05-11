@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputPhoneProps {
@@ -9,7 +10,7 @@ interface IInputPhoneProps {
     contentError?: string;
     required?: boolean;
     readonly?: boolean;
-    onChange: (e: React.ChangeEvent<any>) => void;
+    //onChange: (e: React.ChangeEvent<any>) => void;
 }
 
 const InputPhone: React.FC<IInputPhoneProps> = ({
@@ -18,63 +19,66 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
     label,
     hasError = false,
     contentError,
-    onChange,
+    //onChange,
     required,
     readonly = false
 }) => {
 
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [inputNumber, setInputNumber] = useState<string>('');
+    const {handleChange} = useFormikContext();
     const classNames = ['input-phone-field'];
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        const reg: RegExp = /[0-9]/;
-        const includeAccessKey: string[] = ['Backspace','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter']
-        if (!reg.test(e.key) && !includeAccessKey.includes(e.key)) e.preventDefault();
+    useEffect(() => {
+        prepareDisplayPhoneNumber()
+    }, [])
+
+    useEffect(() => {
+        console.log(['useEffect inputNumber', inputNumber])
+    }, [inputNumber])
+
+    const prepareDisplayPhoneNumber = (phone = value) => {
+        if (phone.length === 0) return;
+        if (phone.length === 11) phone = phone.substring(1);
+        setInputNumber(phone);
     }
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.replace(/\D/g, ''); // Убрать все нецифровые символы
-        const length = value.length;
-        
-        if (length === 0) {
-          setPhoneNumber('');
-          return;
-        }
-    
-        if (length <= 3) {
-          setPhoneNumber(`+7 (${value}`);
-          return;
-        }
-    
-        if (length <= 6) {
-          setPhoneNumber(`+7 (${value.slice(0, 3)}) ${value.slice(3)}`);
-          return;
-        }
-    
-        if (length <= 8) {
-          setPhoneNumber(`+7 (${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`);
-          return;
-        }
-    
-        if (length <= 10) {
-          setPhoneNumber(`+7 (${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 8)}-${value.slice(8)}`);
-          return;
-        }
-    
-        setPhoneNumber(`+7 (${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 8)}-${value.slice(8, 10)}`);
-      };
+    const handlePhoneChange = (e: React.ChangeEvent<any>) => {
+        console.log(e.target.value);
+        handleChange(e);
+    }
 
-    const formatPhoneNumber = (phoneNumber: string) => {
-        const phoneNumberLength = phoneNumber.length;
-        if (phoneNumberLength < 4) return phoneNumber;
-        if (phoneNumberLength < 7) {
-          return `+7 (${phoneNumber.slice(1, 4)}) ${phoneNumber.slice(4)}`;
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const numberOnlyRegexp: RegExp = new RegExp(`[0-9]`);
+        const accessKeys: string[] = ['Enter','Backspace'];
+        if (!(numberOnlyRegexp.test(e.key) || accessKeys.includes(e.key))) {
+            e.preventDefault();
+            return;
         }
-        if (phoneNumberLength < 9) {
-          return `+7 (${phoneNumber.slice(1, 4)}) ${phoneNumber.slice(4, 7)}-${phoneNumber.slice(7)}`;
-        }
-        return `+7 (${phoneNumber.slice(1, 4)}) ${phoneNumber.slice(4, 7)}-${phoneNumber.slice(7, 9)}-${phoneNumber.slice(9, 11)}`;
-      };
+        if (e.key === 'Backspace') setInputNumber(inputNumber.slice(0, -1))
+        if (inputNumber.length >= 10) return;
+
+        
+        if (numberOnlyRegexp.test(e.key)) {
+            setInputNumber(inputNumber.concat(e.key))
+            
+        } 
+        console.log(['keydown', e.key, inputNumber])
+        return
+    }
+
+    const formatPhoneNumber = (phone: string) => {
+        const length = phone.length;
+        console.log(['formatPhoneNumber', phone, length])
+        if (length === 0) return ('');
+        if (length <= 3) return (`+7 (${phone}`);
+        if (length <= 6) return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3)}`);
+        if (length <= 8) return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6)}`);
+        if (length <= 10) return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 8)}-${phone.slice(8)}`);
+        if (length === 11) phone = phone.substring(1);
+
+        return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 8)}-${phone.slice(8, 10)}`);
+        
+    };
 
     if (hasError) classNames.push('error-input');
 
@@ -86,9 +90,9 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
                 id={name} 
                 name={name} 
                 placeholder={label} 
-                value={phoneNumber}
-                onChange={handleChange}
-                //onKeyDown={handleKeyDown}
+                value={formatPhoneNumber(inputNumber)}
+                onChange={handlePhoneChange}
+                onKeyDown={handleKeyDown}
                 required={required}
                 readOnly={readonly}
             />

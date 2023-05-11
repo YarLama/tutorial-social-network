@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { FormikHelpers, useFormik } from 'formik';
+import { Formik, FormikHelpers, FormikProvider, useFormik, useFormikContext } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
@@ -19,13 +19,13 @@ const RegistrationForm: React.FC = () => {
     const initialValues: RegistrationFormValues = {
         first_name: '',
         last_name: '',
-        phone: '',
+        phone: '79023342365',
         email: '',
         password: '',
         confirm_password: ''
     }
 
-    const hadleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
+    const handleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
         
         try {
             setErrorForm('')
@@ -48,7 +48,7 @@ const RegistrationForm: React.FC = () => {
         initialValues: initialValues,
         validate: validateRegistrationValues,
         validateOnChange: false,
-        onSubmit: hadleSubmit
+        onSubmit: handleSubmit,
     })
 
     const errors = formik.errors;
@@ -56,66 +56,67 @@ const RegistrationForm: React.FC = () => {
 
     return (
         <div className='registration-form'>
-            <form onSubmit={formik.handleSubmit} autoComplete="off">
-                <InputText 
-                    name='first_name'
-                    label='First name'
-                    value={values.first_name}
-                    onChange={formik.handleChange}
-                    hasError={!!errors.first_name}
-                    contentError={errors.first_name}
-                    readonly={formik.isSubmitting}
-                />
-                <InputText 
-                    name='last_name'
-                    label='Last name'
-                    value={values.last_name}
-                    onChange={formik.handleChange}
-                    hasError={!!errors.last_name}
-                    contentError={errors.last_name}
-                    readonly={formik.isSubmitting}
-                />
-                <InputPhone 
-                    name='phone'
-                    label='Phone'
-                    value={values.phone}
-                    onChange={formik.handleChange}
-                    hasError={!!errors.phone}
-                    contentError={errors.phone}
-                    readonly={formik.isSubmitting}
-                />
-                <InputText 
-                    name='email' 
-                    label='E-mail'
-                    value={values.email} 
-                    onChange={formik.handleChange}
-                    hasError={!!errors.email}
-                    contentError={errors.email}
-                    readonly={formik.isSubmitting}
-                />
-                <InputText 
-                    name='password' 
-                    label='Password'
-                    type='password'
-                    value={values.password} 
-                    onChange={formik.handleChange}
-                    hasError={!!errors.password}
-                    contentError={errors.password}
-                    readonly={formik.isSubmitting}
-                />
-                <InputText 
-                    name='confirm_password' 
-                    label='Confirm Password'
-                    type='password'
-                    value={values.confirm_password} 
-                    onChange={formik.handleChange}
-                    hasError={!!errors.confirm_password}
-                    contentError={errors.confirm_password}
-                    readonly={formik.isSubmitting}
-                />
-                {!errorForm ? null : <FormError content={errorForm}/>}
-                <Button content='Registration' type='submit' disabled={formik.isSubmitting}/>
-            </form>
+            <FormikProvider value={formik}>
+                <form onSubmit={formik.handleSubmit} autoComplete="off">
+                    <InputText 
+                        name='first_name'
+                        label='First name'
+                        value={values.first_name}
+                        onChange={formik.handleChange}
+                        hasError={!!errors.first_name}
+                        contentError={errors.first_name}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputText 
+                        name='last_name'
+                        label='Last name'
+                        value={values.last_name}
+                        onChange={formik.handleChange}
+                        hasError={!!errors.last_name}
+                        contentError={errors.last_name}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputPhone 
+                        name='phone'
+                        label='Phone'
+                        value={values.phone}
+                        hasError={!!errors.phone}
+                        contentError={errors.phone}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputText 
+                        name='email' 
+                        label='E-mail'
+                        value={values.email} 
+                        onChange={formik.handleChange}
+                        hasError={!!errors.email}
+                        contentError={errors.email}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputText 
+                        name='password' 
+                        label='Password'
+                        type='password'
+                        value={values.password} 
+                        onChange={formik.handleChange}
+                        hasError={!!errors.password}
+                        contentError={errors.password}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputText 
+                        name='confirm_password' 
+                        label='Confirm Password'
+                        type='password'
+                        value={values.confirm_password} 
+                        onChange={formik.handleChange}
+                        hasError={!!errors.confirm_password}
+                        contentError={errors.confirm_password}
+                        readonly={formik.isSubmitting}
+                    />
+                    {!errorForm ? null : <FormError content={errorForm}/>}
+                    <Button content='Registration' type='submit' disabled={formik.isSubmitting}/>
+                </form>
+            </FormikProvider>
         </div>
     );
 };
