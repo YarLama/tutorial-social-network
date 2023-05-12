@@ -16,6 +16,15 @@ const RegistrationForm: React.FC = () => {
     const navigate = useNavigate();
     const [registration] = authApi.useRegistrationMutation();
 
+    // const initialValues: RegistrationFormValues = {
+    //     first_name: '',
+    //     last_name: '',
+    //     phone: '79023342365',
+    //     email: '',
+    //     password: '',
+    //     confirm_password: ''
+    // }
+
     const initialValues: RegistrationFormValues = {
         first_name: '',
         last_name: '',
