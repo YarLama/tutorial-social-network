@@ -71,8 +71,6 @@ const RegistrationForm: React.FC = () => {
                         name='first_name'
                         label='First name'
                         value={values.first_name}
-                        onChange={formik.handleChange}
-                        hasError={!!errors.first_name}
                         contentError={errors.first_name}
                         readonly={formik.isSubmitting}
                     />
@@ -80,8 +78,6 @@ const RegistrationForm: React.FC = () => {
                         name='last_name'
                         label='Last name'
                         value={values.last_name}
-                        onChange={formik.handleChange}
-                        hasError={!!errors.last_name}
                         contentError={errors.last_name}
                         readonly={formik.isSubmitting}
                     />
@@ -89,7 +85,6 @@ const RegistrationForm: React.FC = () => {
                         name='phone'
                         label='Phone'
                         value={values.phone}
-                        hasError={!!errors.phone}
                         contentError={errors.phone}
                         readonly={formik.isSubmitting}
                     />
@@ -97,8 +92,6 @@ const RegistrationForm: React.FC = () => {
                         name='email' 
                         label='E-mail'
                         value={values.email} 
-                        onChange={formik.handleChange}
-                        hasError={!!errors.email}
                         contentError={errors.email}
                         readonly={formik.isSubmitting}
                     />
@@ -107,8 +100,6 @@ const RegistrationForm: React.FC = () => {
                         label='Password'
                         type='password'
                         value={values.password} 
-                        onChange={formik.handleChange}
-                        hasError={!!errors.password}
                         contentError={errors.password}
                         readonly={formik.isSubmitting}
                     />
@@ -117,8 +108,6 @@ const RegistrationForm: React.FC = () => {
                         label='Confirm Password'
                         type='password'
                         value={values.confirm_password} 
-                        onChange={formik.handleChange}
-                        hasError={!!errors.confirm_password}
                         contentError={errors.confirm_password}
                         readonly={formik.isSubmitting}
                     />

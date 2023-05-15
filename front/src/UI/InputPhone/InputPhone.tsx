@@ -6,7 +6,6 @@ interface IInputPhoneProps {
     name: string;
     value: string;
     label?: string;
-    hasError?: boolean;
     contentError?: string;
     required?: boolean;
     readonly?: boolean;
@@ -16,15 +15,13 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
     name,
     value,
     label,
-    hasError = false,
     contentError,
     required,
     readonly = false
 }) => {
 
     const [inputNumber, setInputNumber] = useState<string>('');
-    const [phoneN, setPhoneN] = useState<string>('');
-    const { values, handleChange, setFieldValue } = useFormikContext();
+    const { setFieldValue } = useFormikContext();
     const classNames = ['input-phone-field'];
 
     useEffect(() => {
@@ -50,8 +47,10 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
 
     const formatPhoneNumber = (phoneNumber: string) => {
         let phone = phoneNumber.replace(/\D/g, '');
-        phone = (inputNumber.length >= 1 && phone[0] === '7') ? phone.substring(1) : phone;
+
         if (phone.length === 0) return ('');
+        if (phone.length === 1 && phone[0] === '7') return (`+7`)
+        if (phone.length > 1 && phone[0] === '7') phone = (inputNumber.length > 1 && phone[0] === '7') ? phone.substring(1) : phone;
         if (phone.length <= 3) return (`+7 (${phone}`);
         if (phone.length <= 6) return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3)}`);
         if (phone.length <= 8) return (`+7 (${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6)}`);
@@ -62,7 +61,7 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
         
     };
 
-    if (hasError) classNames.push('error-input');
+    if (contentError) classNames.push('error-input');
 
     return (
         <div className='input-phone'>
@@ -79,7 +78,7 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
                 readOnly={readonly}
             />
             <label className='input-phone-label' htmlFor={name}>{label}</label>
-            {contentError && hasError ? <span className='error-message'>{contentError}</span> : null}
+            {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     )
 };

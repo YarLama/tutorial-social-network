@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { FormikHelpers, useFormik } from 'formik';
+import { FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
@@ -53,29 +53,27 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className='login-form'>
-            <form onSubmit={formik.handleSubmit} autoComplete="off">
-                <InputText 
-                    name='email' 
-                    label='E-mail'
-                    value={values.email} 
-                    onChange={formik.handleChange}
-                    hasError={!!errors.email}
-                    contentError={errors.email}
-                    readonly={formik.isSubmitting}
-                />
-                <InputText 
-                    name='password' 
-                    label='Password'
-                    type='password'
-                    value={values.password} 
-                    onChange={formik.handleChange}
-                    hasError={!!errors.password}
-                    contentError={errors.password}
-                    readonly={formik.isSubmitting}
-                />
-                {!errorForm ? null : <FormError content={errorForm}/>}
-                <Button content='Login' type='submit' disabled={formik.isSubmitting}/>
-            </form>
+            <FormikProvider value={formik}>
+                <form onSubmit={formik.handleSubmit} autoComplete="off">
+                    <InputText 
+                        name='email' 
+                        label='E-mail'
+                        value={values.email} 
+                        contentError={errors.email}
+                        readonly={formik.isSubmitting}
+                    />
+                    <InputText 
+                        name='password' 
+                        label='Password'
+                        type='password'
+                        value={values.password} 
+                        contentError={errors.password}
+                        readonly={formik.isSubmitting}
+                    />
+                    {!errorForm ? null : <FormError content={errorForm}/>}
+                    <Button content='Login' type='submit' disabled={formik.isSubmitting}/>
+                </form>
+            </FormikProvider>
         </div>
     );
 };

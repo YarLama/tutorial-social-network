@@ -1,4 +1,5 @@
-import React from 'react';
+import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputTextProps {
@@ -6,12 +7,10 @@ interface IInputTextProps {
     value: string;
     label?: string;
     type?: 'text' | 'password';
-    hasError?: boolean;
     contentError?: string;
     required?: boolean;
     readonly?: boolean;
     numberOnly?: boolean;
-    onChange: (e: React.ChangeEvent<any>) => void;
 }
 
 const InputText: React.FC<IInputTextProps> = ({
@@ -19,23 +18,37 @@ const InputText: React.FC<IInputTextProps> = ({
     value,
     label,
     type = 'text',
-    hasError = false,
     contentError,
-    onChange,
     required,
     numberOnly = false,
     readonly = false
 }) => {
 
+    const [inputText, setInputText] = useState<string>('');
+    const {setFieldValue} = useFormikContext();
     const classNames = ['input-text-field']
 
-    const handleNumberOnly = (e: React.KeyboardEvent) => {
-        const reg: RegExp = /[0-9]/;
-        const includeAccessKey: string[] = ['Backspace','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter']
-        if (!reg.test(e.key) && !includeAccessKey.includes(e.key)) e.preventDefault();
+    useEffect(() => {
+        prepareDisplayText();
+    }, [])
+
+    useEffect(() => {
+        setFieldValue(name, inputText);
+    }, [inputText])
+
+    const prepareDisplayText = (text = value) => {
+        text = numberOnly ? text.replace(/\D/g, '') : text;
+        if (text.length) setInputText(text);
+        return;
     }
 
-    if (hasError) classNames.push('error-input');
+    const handleChange = (e: React.ChangeEvent<any>) => {
+        const {value} = e.target;
+        const text = numberOnly ? value.replace(/\D/g, '') : value;
+        setInputText(text)
+    }
+
+    if (contentError) classNames.push('error-input');
 
     return (
         <div className='input-text'>
@@ -45,14 +58,13 @@ const InputText: React.FC<IInputTextProps> = ({
                 id={name} 
                 name={name} 
                 placeholder={label} 
-                value={value}
-                onKeyDown={numberOnly ? handleNumberOnly : undefined}
-                onChange={onChange}
+                value={inputText}
+                onChange={handleChange}
                 required={required}
                 readOnly={readonly}
             />
             <label className='input-text-label' htmlFor={name}>{label}</label>
-            {contentError && hasError ? <span className='error-message'>{contentError}</span> : null}
+            {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     )
 };
