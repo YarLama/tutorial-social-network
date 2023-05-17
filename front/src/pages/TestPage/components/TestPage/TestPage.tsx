@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MediaViewer } from '../../../../components';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { Button, IconButton } from '../../../../UI';
-import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 
 const TestPage = () => {
@@ -11,8 +11,8 @@ const TestPage = () => {
     const [testModalActive1, setTestModalActive1] = useState<boolean>(false);
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
-    const [count, setCount] = useState<number>(0);
     const dispatch = useAppDispatch();
+    const { user } = useAppSelector(state => state.authReducer)
     const w = useWindowSize();
     const isMobile: boolean = w.width < 768;
     const ch1 = [
@@ -30,7 +30,7 @@ const TestPage = () => {
     return (
         //<LoginPage />
         <>
-        <span style={{'color': 'white'}}>{count}</span>
+        <span style={{'color': 'white', 'fontSize': '5em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</span>
         <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
         <Button content='Выйти' onClick={handleClick}/>
         <Button content='Открыть медиа' onClick={() => setTestModalActive(true)}/>

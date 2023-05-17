@@ -1,7 +1,7 @@
 import { authRegRequest } from "../../../app/api/authApi/types"
 
 
-export const prepareRegistrationData = (firstName: string, lastName: string, phone:string, email: string, password: string): string => {
+export const prepareRegistrationData = (firstName: string, lastName: string, phone:string, email: string, password: string): authRegRequest => {
 
     const phoneWithoutSymbols = phone.replace(/\D/g, '');
 
@@ -13,5 +13,5 @@ export const prepareRegistrationData = (firstName: string, lastName: string, pho
         password: password
     }
 
-    return JSON.stringify(body)
+    return body;
 }

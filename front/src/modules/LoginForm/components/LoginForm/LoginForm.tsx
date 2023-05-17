@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputText } from '../../../../UI';
+import { prepareLoginData } from '../../helpers/prepareSubmit';
 import { validateLoginValues } from '../../helpers/validateLoginValues';
 
 const LoginForm: React.FC = () => {
@@ -17,28 +18,24 @@ const LoginForm: React.FC = () => {
     const navigate = useNavigate();
     const [login] = authApi.useLoginMutation();
 
-    // const initialValues: ILoginValues = {
-    //     email: '',
-    //     password: ''
-    // }
-
     const initialValues: authLoginRequest = {
-        email: 'senya228@kek.ru',
-        password: 'qwerty1234'
+        email: '',
+        password: ''
     }
 
     const handleSubmit = async (values: authLoginRequest, actions: FormikHelpers<authLoginRequest>) => {
         try {
             setErrorForm('')
             actions.setSubmitting(true)
-            const kek = await login({email: values.email, password: values.password}).unwrap();
-            dispatch(authSlice.actions.login(kek.token))
-            navigate(RoutePaths.TEST_PAGE)
+            const body = prepareLoginData(values.email, values.password);
+            const user = await login(body).unwrap();
+            dispatch(authSlice.actions.login(user.token));
+            actions.resetForm();
+            navigate(RoutePaths.TEST_PAGE);
         } catch (e) {
             setErrorForm((e as AxiosError).status === 401 ? 'Неправильный логин или пароль' : 'Что-то пошло не так')
         }
         actions.setSubmitting(false);
-        actions.resetForm();
     }
 
     const formik = useFormik({

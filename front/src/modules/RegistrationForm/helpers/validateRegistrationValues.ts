@@ -41,7 +41,6 @@ const validatePhone = (phone: RegistrationFormValues['phone']): ValidateResult =
         let error = null
         let digitsOnly = phone.replace(/\D/g, '');
         let phoneRegExp: RegExp = /^[78]\d{10}$/;
-        //console.log([phone, digitsOnly, phoneRegExp.test(digitsOnly)])
 
         if (phone.length === 0) return error = 'Введите номер телефона' 
         if (!phoneRegExp.test(digitsOnly)) return error = 'Неверный формат телефона (+7 (XXX)-XXX-XX-XX)'
@@ -75,7 +74,7 @@ const validatePassword = (password: RegistrationFormValues['password']): Validat
 const validateConfirmPassword = (password: RegistrationFormValues['password'], confirm_password: RegistrationFormValues['confirm_password']): ValidateResult => {
     return validate(() => {
         let error = null
-        console.log(password, confirm_password)
+
         if (!(confirm_password === password)) error = 'Пароли не совпадают'
 
         return error;
@@ -83,7 +82,6 @@ const validateConfirmPassword = (password: RegistrationFormValues['password'], c
 }
 
 export const validateRegistrationValues = (values: RegistrationFormValues): RegistrationFormValuesErrors => {
-    console.log(values)
     const errors: RegistrationFormValuesErrors = {};
     const firstName = validateFirstName(values.first_name);
     const lastName = validateLastName(values.last_name);

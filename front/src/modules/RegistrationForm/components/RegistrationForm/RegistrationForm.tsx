@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { RoutePaths } from '../../../../app/routes/constants/routePaths';
+import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputPhone, InputText } from '../../../../UI';
 import { prepareRegistrationData } from '../../helpers/prepareSubmit';
 import { RegistrationFormValues } from '../../helpers/types';
@@ -16,41 +18,44 @@ const RegistrationForm: React.FC = () => {
     const navigate = useNavigate();
     const [registration] = authApi.useRegistrationMutation();
 
-    // const initialValues: RegistrationFormValues = {
-    //     first_name: '',
-    //     last_name: '',
-    //     phone: '79023342365',
-    //     email: '',
-    //     password: '',
-    //     confirm_password: ''
-    // }
-
     const initialValues: RegistrationFormValues = {
         first_name: '',
         last_name: '',
-        phone: '79023342365',
+        phone: '',
         email: '',
         password: '',
         confirm_password: ''
     }
+
+    // const initialValues: RegistrationFormValues = {
+    //     first_name: 'Test1',
+    //     last_name: 'Tester',
+    //     phone: '79043642561',
+    //     email: 'test1@test.ru',
+    //     password: 'test1',
+    //     confirm_password: 'test1'
+    // }
 
     const handleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
         
         try {
             setErrorForm('')
             actions.setSubmitting(true)
-            console.log('Отправка на регистрацию', values, prepareRegistrationData(
-                values.first_name, 
-                values.last_name, 
+            const body = prepareRegistrationData(
+                values.first_name,
+                values.last_name,
                 values.phone,
                 values.email,
                 values.password
-            ))
+            )
+            const user = await registration(body).unwrap();
+            dispatch(authSlice.actions.login(user.token));
+            actions.resetForm();
+            navigate(RoutePaths.TEST_PAGE);
         } catch (e) {
             setErrorForm((e as AxiosError).status === 400 ? 'Такой пользователь уже существует' : 'Что-то пошло не так')
         }
         actions.setSubmitting(false);
-        actions.resetForm();
     }
 
     const formik = useFormik({
