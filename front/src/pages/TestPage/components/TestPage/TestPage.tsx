@@ -4,6 +4,7 @@ import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { Button, IconButton } from '../../../../UI';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
+import { useGetAllUsersQuery, useGetUserByIdQuery, userApi } from '../../../../app/api/userApi';
 
 const TestPage = () => {
 
@@ -27,10 +28,17 @@ const TestPage = () => {
         dispatch(authSlice.actions.logout())
     }
 
+    const {data: users, error} = useGetAllUsersQuery({});
+    const {data, isLoading} = useGetUserByIdQuery(user.id);
+
     return (
         //<LoginPage />
         <>
-        <span style={{'color': 'white', 'fontSize': '5em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</span>
+        <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+        <p style={{'color': 'white', 'fontSize': '3em'}}>
+            {isLoading && 'ИДЕТ ЗАГРУЗКА'}
+            {data && `Здраствуйте, ${data?.first_name} ${data?.middle_name ? data?.middle_name: ''} ${data?.last_name}`}
+        </p>
         <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
         <Button content='Выйти' onClick={handleClick}/>
         <Button content='Открыть медиа' onClick={() => setTestModalActive(true)}/>

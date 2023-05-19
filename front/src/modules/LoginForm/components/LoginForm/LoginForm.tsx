@@ -23,9 +23,14 @@ const LoginForm: React.FC = () => {
     //     password: ''
     // }
 
+    // const initialValues: authLoginRequest = {
+    //     email: 'SichulyAdmin@kek.ru',
+    //     password: 'kekar1025'
+    // }
+
     const initialValues: authLoginRequest = {
-        email: 'SichulyAdmin@kek.ru',
-        password: 'kekar1025'
+        email: 'chuhin228@mail.ru',
+        password: 'chuhin228'
     }
 
     const handleSubmit = async (values: authLoginRequest, actions: FormikHelpers<authLoginRequest>) => {
