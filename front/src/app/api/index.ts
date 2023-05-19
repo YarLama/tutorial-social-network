@@ -1,16 +1,20 @@
-import { authApi } from "./authApi";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { apiInfo } from "../helpers/http";
+import { getLocalToken } from "../helpers/tokenHelpers";
 
+export const api = createApi({
+    reducerPath: 'api',
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${apiInfo.API_URL}`,
+        prepareHeaders: (headers) => {
+            const token = getLocalToken();
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers;
+        }
+    }),
+    endpoints: () => ({})
+});
 
-// const rootApi = createApi({
-//     reducerPath: 'rootApi',
-//     baseQuery: fetchBaseQuery({baseUrl: '/'}),
-//     endpoints: (builder) => ({
-//         ...authApi.endpoints(builder),
-//     })
-// })
-
-const rootApi = {
-    ...authApi
-}
-
-export default rootApi;
+export default api;
