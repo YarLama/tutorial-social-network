@@ -1,0 +1,41 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+$navbar_width: 70px;
+$navbar_height: 40px;
+
+.network-content {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .navbar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: $color_minor_background;
+        @include mobile {
+            width: 100vw;
+            height: $navbar_height;
+        }
+        @include desktop {
+            width: $navbar_width;
+            height: 100vh;
+        }
+        
+        
+    }
+
+    .page-block {
+        @include mobile {
+            overflow-x: hidden;
+            padding: calc(#{$navbar_height} + 5px) 20px 5px 20px;
+        }
+        @include desktop {
+            padding: 5px 20px 5px calc(#{$navbar_width} + 20px);
+        }
+        
+    }
+}

@@ -1,0 +1,94 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.navbar-items {
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+@include desktop {
+    .navbar-item {
+        margin: 10px 2px;
+        border: 1px solid $color_button_background;
+        border-radius: 5px;
+    }
+}
+@include mobile {
+    .burger-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 20px;
+        position: relative;
+        z-index: 2;
+
+        ::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 20px;
+            background-color: white;
+            height: 2px;
+        }
+        & span {
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            background-color: white;
+            height: 2px;
+        }
+        ::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            width: 20px;
+            background-color: white;
+            height: 2px;
+        }
+
+        // &:active ~.navbar-items {
+        //     display: block;
+        // }
+
+    }
+
+    .navbar-items {
+        position: absolute;
+        top: 0;
+        padding-top: 40px;
+        width: 50vw;
+        height: 100vh;
+        background-color: $color_minor_background;
+        align-items: flex-start;
+        touch-action: none;
+
+        .navbar-item {
+            width: 90%;
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            border-top: 1px solid $color_major_background;
+
+            &:last-child{
+                border-bottom: 1px solid $color_major_background;
+            }
+
+            .navbar-item-label {
+                color: $color_button_background;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    .navbar-blur {
+        width: 100%;
+        height: 100vh;
+        left: 50%;
+        touch-action: none;
+        backdrop-filter: blur(3px);
+        position: absolute;
+    }
+}
+

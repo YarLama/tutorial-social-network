@@ -78,18 +78,11 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
             ?
             <>
                 <div className='media-viewer'>
-                    <div 
-                        className='media-viewer-content' 
-                        onMouseOver={handleMouseOverMediaTouched} 
-                        onMouseOut={handleMouseOutMediaTouched}
-                    >
-                        <div className={`media-viewer-switcher media-viewer-switcher-left${mediaTouched ? ' active' : ''}`} onClick={handleToPreviousMedia} >
+                    <div className='media-viewer-content' onMouseOver={handleMouseOverMediaTouched} onMouseOut={handleMouseOutMediaTouched}>
+                        <div className={`media-viewer-switcher media-viewer-switcher-left${mediaTouched ? ' active' : ''}`} onClick={handleToPreviousMedia}>
                             <IconButton icon='left' size='m' />
                         </div>
-                        <div 
-                            className='media-viewer-current-media' 
-                            onClick={handleMediaViewerClose}
-                        >
+                        <div className='media-viewer-current-media' onClick={handleMediaViewerClose}>
                             {media[currentMediaIndex]}
                         </div>
                         <div className={`media-viewer-switcher media-viewer-switcher-right${mediaTouched ? ' active' : ''}`} onClick={handleToNextMedia}>

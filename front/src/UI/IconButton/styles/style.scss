@@ -8,8 +8,6 @@
     svg {
         background-color: $color_minor_background;
         border-radius: 15px;
-        display: flex;
-        align-items: center;
         path {
             fill: $color_button_background;
         }
@@ -18,8 +16,6 @@
     &:hover {
         cursor: pointer;
     }
-
-
 
     &.btn-icon-l {
 
