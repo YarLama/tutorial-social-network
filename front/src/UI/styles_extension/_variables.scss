@@ -1,15 +1,25 @@
 @import 'breakpoints.scss';
 
-@mixin mobile () {
+@mixin mobile() {
     @media screen and (max-width: $md) {
         @content;
     };  
 }
 
-@mixin desktop () {
+@mixin desktop() {
     @media screen and (min-width: $md) {
         @content;
     };  
+}
+
+@mixin animate($animation, $duration, $method, $times) {
+    animation: $animation $duration $method $times;
+}
+
+@mixin keyframes($name) {
+    @keyframes #{$name} {
+        @content;
+    }
 }
 
 
