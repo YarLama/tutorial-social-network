@@ -3,7 +3,8 @@ import { Formik, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
-import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { replaceWithId } from '../../../../app/helpers/http';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputPhone, InputText } from '../../../../UI';
@@ -48,10 +49,11 @@ const RegistrationForm: React.FC = () => {
                 values.email,
                 values.password
             )
-            const user = await registration(body).unwrap();
-            dispatch(authSlice.actions.login(user.token));
+            const responce = await registration(body).unwrap();
+            dispatch(authSlice.actions.login(responce.token));
             actions.resetForm();
-            navigate(RoutePaths.TEST_PAGE);
+            const { user } = useAppSelector(state => state.authReducer);
+            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id));
         } catch (e) {
             setErrorForm((e as AxiosError).status === 400 ? 'Такой пользователь уже существует' : 'Что-то пошло не так')
         }

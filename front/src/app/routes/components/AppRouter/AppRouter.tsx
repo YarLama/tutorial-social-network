@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { NavBar } from '../../../../components';
+import { replaceWithId } from '../../../helpers/http';
+import { useAppSelector } from '../../../hooks/redux/redux';
 import { RoutePaths } from '../../constants/routePaths';
 import { privateRoutes, publicRoutes } from '../../constants/routes';
 import './styles/style.scss'
@@ -11,7 +13,10 @@ interface IAppRouterProps {
 
 const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
 
-    const rootElement = isAuthorizate ? <Navigate to={RoutePaths.TEST_PAGE}/> : <Navigate to={RoutePaths.LOGIN_PAGE}/> ;
+
+    const { user } = useAppSelector(state => state.authReducer);
+    const userPage = replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id);
+    const rootElement = isAuthorizate ? <Navigate to={userPage}/> : <Navigate to={RoutePaths.LOGIN_PAGE}/> ;
 
     return (
         <div className='network-content'>

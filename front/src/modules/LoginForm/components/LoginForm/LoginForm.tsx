@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
 import { authLoginRequest } from '../../../../app/api/authApi/types';
-import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { replaceWithId } from '../../../../app/helpers/http';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { Button, FormError, InputText } from '../../../../UI';
@@ -38,10 +39,11 @@ const LoginForm: React.FC = () => {
             setErrorForm('')
             actions.setSubmitting(true)
             const body = prepareLoginData(values.email, values.password);
-            const user = await login(body).unwrap();
-            dispatch(authSlice.actions.login(user.token));
+            const responce = await login(body).unwrap();
+            dispatch(authSlice.actions.login(responce.token));
+            const { user } = useAppSelector(state => state.authReducer)
             actions.resetForm();
-            navigate(RoutePaths.TEST_PAGE);
+            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id));
         } catch (e) {
             setErrorForm((e as AxiosError).status === 401 ? 'Неправильный логин или пароль' : 'Что-то пошло не так')
         }
