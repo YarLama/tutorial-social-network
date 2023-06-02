@@ -7,6 +7,7 @@ import { AddUserRoleDto } from './dto/add_role_user.dto';
 import { CreateUserDto } from './dto/create_user.dto';
 import { User } from './users.model';
 import { UsersService } from './users.service';
+import { IUserEntity } from './users.entity';
 
 @Controller('/api/users')
 export class UsersController {
@@ -73,12 +74,9 @@ export class UsersController {
 
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
     @UseGuards(RolesAccessGuard)
-    @Get('/:person')
-    getUser(@Param('person') person: string): Promise<User> {
-        const isNumber: boolean = Number(person) ? true : false;
-        return isNumber ? 
-            this.userService.getUserById(Number(person)) : 
-            this.userService.getUserByEmail(person);
+    @Get('/:id')
+    getUser(@Param('id') id: number): Promise<IUserEntity> {
+        return this.userService.getUserById(id);
     }
 
 }

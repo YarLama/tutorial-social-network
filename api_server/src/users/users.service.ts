@@ -10,6 +10,7 @@ import { Contact } from 'src/contacts/contacts.model';
 import { AuthService } from 'src/auth/auth.service';
 import { Post } from 'src/posts/posts.model';
 import { Photo } from 'src/photos/photos.model';
+import { IUserEntity } from './users.entity';
 
 @Injectable()
 export class UsersService {
@@ -48,21 +49,22 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: {email},
-            include: {all: true}
-        });
-        
+        const user = await this.userRepository.findOne({where: {email}, include: {all: true}});
         return user;
     }
 
-    async getUserById(id: number): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: {id},
-            include: {all: true}
-        });
-
-        return user;
+    async getUserById(id: number): Promise<IUserEntity> {
+        const user = await this.userRepository.findOne({where: {id}});
+        const responce = {
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            middle_name: user.middle_name,
+            description: user.description,
+            phone: user.phone,
+            email: user.email
+        };
+        return responce;
     }
 
     async getUserComments(id: number): Promise<Comment[]> {
@@ -78,8 +80,8 @@ export class UsersService {
     }
 
     async getUserPosts(id: number): Promise<Post[]> {
-        const user = await this.userRepository.findByPk(id, {
-            include: [{
+        const user = await this.userRepository.findByPk(id, { 
+            include: [{ 
                 model: Post
             }]
         });
