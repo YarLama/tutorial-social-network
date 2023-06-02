@@ -33,7 +33,7 @@ export class UsersController {
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Get()
-    getAllUsers(): Promise<User[]> {
+    getAllUsers(): Promise<IUserEntity[]> {
         return this.userService.getAllUsers();
     }
 

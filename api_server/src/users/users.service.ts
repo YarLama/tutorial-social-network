@@ -43,9 +43,19 @@ export class UsersService {
         throw new HttpException('User or role not found', HttpStatus.NOT_FOUND);
     }
 
-    async getAllUsers(): Promise<User[]> {
+    async getAllUsers(): Promise<IUserEntity[]> {
         const users = await this.userRepository.findAll({include: {all: true}});
-        return users;
+        const responce = [];
+        users.forEach(user => responce.push({
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            middle_name: user.middle_name,
+            description: user.description,
+            phone: user.phone,
+            email: user.email
+        }))
+        return responce;
     }
 
     async getUserByEmail(email: string): Promise<User> {
