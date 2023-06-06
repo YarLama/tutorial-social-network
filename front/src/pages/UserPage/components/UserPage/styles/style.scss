@@ -1,0 +1,10 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.user-page {
+    width: 900px;
+    @include mobile {
+        width: auto;
+    }
+    //border: 1px solid red;
+}

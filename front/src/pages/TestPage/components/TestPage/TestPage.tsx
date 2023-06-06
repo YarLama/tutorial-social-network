@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './styles/style.scss'
-import { MediaViewer } from '../../../../components';
+import { MediaViewer, ModalWindow } from '../../../../components';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { Button, IconButton, LoaderBlock, LoaderRing } from '../../../../UI';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
 import { useGetAllUsersQuery, useGetUserByIdQuery, userApi } from '../../../../app/api/userApi';
+import { LoginForm } from '../../../../modules/LoginForm';
 
 const TestPage = () => {
 
@@ -46,16 +47,18 @@ const TestPage = () => {
         <LoaderBlock color='minor' extraClassName='name'/>
         <LoaderBlock color='minor' extraClassName='avatar'/>
         <LoaderRing />
+        <ModalWindow active={testModalActive3} setActive={setTestModalActive3} controls={false}>     
+            <LoginForm />
+        </ModalWindow>
+        <Button content='Open Modal3' size='s' onClick={() => setTestModalActive3(true)}/><br/>
         </>
 //         <div>
 //             <Button content='Open Modal' size='s' onClick={() => setTestModalActive(true)}/><br/>
 //             <Button content='Open Modal1' size='s' onClick={() => setTestModalActive1(true)}/><br/>
 //             <Button content='Open Modal2' size='s' onClick={() => setTestModalActive2(true)}/><br/>
-//             <Button content='Open Modal3' size='s' onClick={() => setTestModalActive3(true)}/><br/>
+//       
         // <TestForm />
-//             <ModalWindow active={testModalActive3} setActive={setTestModalActive3} controls={false}>     
-//                 <TestForm />
-//             </ModalWindow>
+//             
 //             <ModalWindow active={testModalActive} setActive={setTestModalActive}>
 //                 <Button content='1' size='m'/>
 //                 <Button content='2' size='m'/>

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks/redux/redux';
+import { useNavigate } from 'react-router-dom';
+import { replaceWithId } from '../../app/helpers/http';
+import { useAppDispatch, useAppSelector } from '../../app/hooks/redux/redux';
 import { useWindowSize } from '../../app/hooks/UI/useWindowSize';
+import { RoutePaths } from '../../app/routes/constants/routePaths';
 import { authSlice } from '../../app/store/reducers/AuthSlice';
 import { IconButton } from '../../UI';
 import './styles/style.scss'
@@ -11,6 +14,8 @@ const NavBar: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const { isMobile } = useWindowSize();
+    const { id } = useAppSelector(state => state.authReducer.user);
+    const navigate = useNavigate();
     const [active, setActive] = useState<boolean>(false);
 
     const handleBurgerClick = () => {
@@ -22,7 +27,7 @@ const NavBar: React.FC = () => {
     }
 
     const handleClicProfile = () => {
-        console.log('navigate to Profile')
+        navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
     }
 
     const handleClickMessages = () => {
