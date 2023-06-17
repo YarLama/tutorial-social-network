@@ -69,10 +69,8 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                 <div className='test-form-content'>
                     <InputText 
                         name='firstName' 
-                        value={formik.values.firstName} 
-                        onChange={formik.handleChange} 
+                        value={formik.values.firstName}
                         label='Имя'
-                        hasError={!!formik.errors.firstName}
                         contentError={formik.errors.firstName}
                         
                     />
