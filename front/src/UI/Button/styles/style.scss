@@ -27,13 +27,17 @@
         border: 2px solid $color_button_background;    
     }
 
-    &.btn-m {
-        min-width: 435px;
-        
+    &.btn-xs {
+        min-width: auto;
+        height: auto;
+        font-size: 12pt;
+        border-radius: 5px;
+        padding: 0 5px;
+        margin: 0 5px;
 
         @include mobile {
-            
-            min-width: 300px;
+            padding: 0 5px;
+            min-width: auto;
         }
     }
 
@@ -45,6 +49,16 @@
         @include mobile {
             padding: 0px 15px 0px 15px;
             min-width: 80px;
+        }
+    }
+
+    &.btn-m {
+        min-width: 435px;
+        
+
+        @include mobile {
+            
+            min-width: 300px;
         }
     }
 

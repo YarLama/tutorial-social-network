@@ -1,0 +1,21 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.user-page-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+
+    .user-page-info{
+        display: flex;
+        flex-direction: row;
+
+        @include mobile {
+            flex-direction: column;
+        }
+    }
+
+    .user-page-toolkit {
+        
+    }
+}

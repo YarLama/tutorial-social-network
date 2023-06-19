@@ -7,7 +7,7 @@
 }
 
 @mixin desktop() {
-    @media screen and (min-width: $md) {
+    @media screen and (min-width: calc(#{$md} + 1px)) {
         @content;
     };  
 }

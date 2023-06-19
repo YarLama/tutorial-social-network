@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar } from '../../../../components';
 import { Button } from '../../../../UI';
+import { UserPageDetail } from '../UserPageDetail/UserPageDetail';
+import './styles/style.scss'
 
 const UserPageContent: React.FC = () => {
 
@@ -10,12 +12,20 @@ const UserPageContent: React.FC = () => {
     const s1 = 'https://avatars.mds.yandex.net/i?id=a859c5b1c3415096eaf48b9661aaa2696cfde1ce-8209975-images-thumbs&n=13'
 
     return (
-        <div style={{'color': 'white'}}>
-            {'Дарова хуйня'}
-            <Avatar src={s1}/>
-            <Button content='Send Message' size='s'/><br></br>
-            <Button content='Add to Contact' size='s'/>
-            <Avatar src={s} small/>
+        <div className='user-page-content'>
+            <div className='user-page-info'>
+                <Avatar src={s1}/>
+                <UserPageDetail
+                    name='Григо́рий Константи́нович Орджоники́дзе'
+                    about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
+                />
+            </div>
+            <div className='user-page-toolkit'>
+                <Button content='Send Message' size='s'/>
+                <Button content='Add to Contact' size='s'/>
+            </div>
+            
+            {/* <Avatar src={s} small/> */}
         </div>
     );
 };

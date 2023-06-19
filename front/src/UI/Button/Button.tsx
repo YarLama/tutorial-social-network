@@ -3,7 +3,7 @@ import './styles/style.scss'
 
 interface IButtonProps {
     content: string;
-    size?: 's' | 'm' | 'l';
+    size?: 'xs' | 's' | 'm' | 'l';
     type?: 'button' | 'reset' | 'submit',
     hide?: boolean;
     disabled?: boolean;
