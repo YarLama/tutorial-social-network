@@ -3,12 +3,26 @@
 
 .user-detail-box {
     width: 100%;
-    height: 200px;
+    max-height: 200px;
     color: $color_button_background;
     background-color: $color_minor_background;
     border-radius: 15px;
     margin: 10px;
     padding: 0px 30px;
+
+    &.user-detail-mobile {
+        background-color: $color_major_background;
+
+        .user-detail-info-mobile {
+            .user-detail-about-icon {
+                margin: 0 5px;
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+    }
 
     .user-detail-name {
         width: 100%;
