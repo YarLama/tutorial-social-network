@@ -17,6 +17,28 @@
     }
 
     .user-page-toolkit {
-        
+        display: flex;
+
+        @include mobile {
+            align-items: center;
+            justify-content: center;
+        }
+        //justify-content: flex-end;
+
+        .toolkit-non-owner {
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .toolkit-owner {
+            width: 100%;
+            max-width: 680px;
+            justify-content: flex-end;
+        }
     }
 }

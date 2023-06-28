@@ -1,29 +1,46 @@
-import React from 'react';
+import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputTextareaProps {
     name: string;
     value: string;
     label?: string;
-    hasError?: boolean;
     contentError?: string;
     required?: boolean;
-    onChange: (e: React.ChangeEvent<any>) => void;
 }
 
 const InputTextarea: React.FC<IInputTextareaProps> = ({
     name,
     value,
     label,
-    hasError = false,
     contentError,
-    onChange,
     required,
 }) => {
 
+    const [inputText, setInputText] = useState<string>('');
+    const {setFieldValue} = useFormikContext();
     const classNames = ['input-textarea-field']
 
-    if (hasError) classNames.push('error-input');
+    // useEffect(() => {
+    //     prepareDisplayText();
+    // }, [])
+
+    useEffect(() => {
+        setFieldValue(name, inputText);
+    }, [inputText])
+
+    const prepareDisplayText = (text = value) => {
+        if (text.length) setInputText(text);
+        return;
+    }
+
+    const handleChange = (e: React.ChangeEvent<any>) => {
+        const {value} = e.target;
+        setInputText(value)
+    }
+
+    if (contentError) classNames.push('error-input');
 
     return (
         <div className='input-textarea'>
@@ -33,11 +50,11 @@ const InputTextarea: React.FC<IInputTextareaProps> = ({
                 name={name} 
                 placeholder={label} 
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
                 required={required}
             />
             <label className='input-textarea-label' htmlFor={name}>{label}</label>
-            {contentError && hasError ? <span className='error-message'>{contentError}</span> : null}
+            {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     );
 };

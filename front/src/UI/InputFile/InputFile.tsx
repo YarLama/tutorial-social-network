@@ -1,26 +1,34 @@
-import React from 'react';
+import { useFormikContext } from 'formik';
+import React, { useEffect, useState } from 'react';
 import { IconButton } from '../IconButton/IconButton';
 import './styles/style.scss';
 
 interface IInputFileProps {
     name: string;
-    hasError?: boolean;
     contentError?: string;
     required?: boolean;
-    onChange: (e: React.ChangeEvent<any>) => void;
 }
 
 const InputFile: React.FC<IInputFileProps> = ({
     name,
-    hasError = false,
     contentError,
-    onChange,
     required,
 }) => {
 
-    const classNames = ['input-file-field']
+    const [inputFile, setInputFile] = useState<File>();
+    const {setFieldValue} = useFormikContext();
+    const classNames = ['input-file-field'];
 
-    if (hasError) classNames.push('error-input');
+    useEffect(() => {
+        setFieldValue(name, inputFile)
+    }, [inputFile])
+
+    const handleChange = (e: React.ChangeEvent<any>) => {
+        const {files} = e.target;
+        setInputFile(files[0]);
+    }
+
+    if (contentError) classNames.push('error-input');
 
     return (
         <div className='input-file'>
@@ -30,7 +38,7 @@ const InputFile: React.FC<IInputFileProps> = ({
                 id={name} 
                 name={name} 
                 accept="image/png, image/jpeg"
-                onChange={onChange}
+                onChange={handleChange}
                 required={required}
                 multiple={false}
                 hidden
@@ -38,7 +46,7 @@ const InputFile: React.FC<IInputFileProps> = ({
             <label htmlFor={name} className={classNames.join(' ')} >
                 <IconButton icon='attach' />
             </label>
-            {contentError && hasError ? <span className='error-message'>{contentError}</span> : null}
+            {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     );
 };

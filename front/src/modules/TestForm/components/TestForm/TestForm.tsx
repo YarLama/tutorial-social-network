@@ -77,17 +77,13 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                     <InputTextarea 
                         name='optional' 
                         value={formik.values.optional} 
-                        onChange={formik.handleChange}
                         label='Сообщение'
-                        hasError={!!formik.errors.optional}
                         contentError={formik.errors.optional}
                     />
                     <InputFile 
-                        name='image_file' 
-                        onChange={handleFileUpload}
-                        hasError={!!formik.errors.image_file}
+                        name='image_file'
                     />
-                    <ImageUploadPreview image={formik.values.image_file} onCancelClick={handlePreviewCancel}/>
+                    <ImageUploadPreview image={formik.values.image_file} inputFileName='image_file'/>
                 </div>
                 <Button content='Submit' type='submit' size='s' disabled={formik.isSubmitting}/>
                 <Button content='Reset' type='reset' onClick={resetForm} size='s'/>
