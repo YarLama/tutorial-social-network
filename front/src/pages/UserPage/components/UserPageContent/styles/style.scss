@@ -16,29 +16,37 @@
         }
     }
 
-    .user-page-toolkit {
+    .user-page-content-box {
+
         display: flex;
+        justify-content: space-between;
 
-        @include mobile {
-            align-items: center;
-            justify-content: center;
-        }
-        //justify-content: flex-end;
-
-        .toolkit-non-owner {
-            min-width: 200px;
+        .user-page-toolkit {
             display: flex;
-            flex-direction: column;
-
-            button {
-                width: 100%;
+    
+            @include mobile {
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .toolkit-non-owner {
+                min-width: 200px;
+                display: flex;
+                flex-direction: column;
+    
+                button {
+                    width: 100%;
+                }
             }
         }
 
-        .toolkit-owner {
+        .user-page-posts {
+            display: flex;
+            flex-direction: column;
             width: 100%;
             max-width: 680px;
-            justify-content: flex-end;
         }
     }
+
+    
 }

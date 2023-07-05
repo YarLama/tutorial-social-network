@@ -24,24 +24,34 @@ const UserPageContent: React.FC = () => {
                     about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
                 />
             </div>
-            <div className='user-page-toolkit'>
-                {!isOwner
-                    ?
-                        <div className='toolkit-non-owner'>
-                            <Button content='Send Message' size={isMobile ? 'm' : 's'}/>
-                            <Button content='Add to Contact' size={isMobile ? 'm' : 's'}/>
-                        </div>
-                    : 
-                        <div className='toolkit-owner'>
-                            {isMobile 
-                                ? <Button content='Create Post' size={isMobile ? 'm' : 's'}/>
-                                : <PostForm />
-                            }
-                        </div>
-                }
-                
-                
+            <div className='user-page-content-box'>
+                <div className='user-page-toolkit'>
+                    {!isOwner
+                        ?
+                            <div className='toolkit-non-owner'>
+                                <Button content='Send Message' size={isMobile ? 'm' : 's'}/>
+                                <Button content='Add to Contact' size={isMobile ? 'm' : 's'}/>
+                            </div>
+                        : null
+                    }            
+                </div>
+                <div className='user-page-posts'>
+                    {isOwner && (isMobile 
+                                    ? <Button content='Create Post' size={isMobile ? 'm' : 's'}/>
+                                    : <PostForm />
+                                )}
+                    {/* POST COMPONENTS */}
+                    <UserPageDetail
+                        name='Григо́рий Константи́нович Орджоники́дзе'
+                        about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
+                    />
+                    <UserPageDetail
+                        name='Григо́рий Константи́нович Орджоники́дзе'
+                        about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
+                    />
+                </div>
             </div>
+            
             
             {/* <Avatar src={s} small/> */}
         </div>
