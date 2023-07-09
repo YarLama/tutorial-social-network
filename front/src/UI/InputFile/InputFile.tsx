@@ -6,6 +6,7 @@ import './styles/style.scss';
 interface IInputFileProps {
     name: string;
     contentError?: string;
+    content?: string;
     required?: boolean;
 }
 
@@ -13,6 +14,7 @@ const InputFile: React.FC<IInputFileProps> = ({
     name,
     contentError,
     required,
+    content
 }) => {
 
     const [inputFile, setInputFile] = useState<File>();
@@ -44,7 +46,7 @@ const InputFile: React.FC<IInputFileProps> = ({
                 hidden
             />
             <label htmlFor={name} className={classNames.join(' ')} >
-                <IconButton icon='attach' />
+                {content ? content : <IconButton icon='attach' />}
             </label>
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>

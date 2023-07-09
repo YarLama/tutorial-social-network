@@ -1,5 +1,6 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
+import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { ImageUploadPreview } from '../../../../components';
 import { Button, IconButton, InputFile, InputTextarea } from '../../../../UI';
 import './styles/style.scss'
@@ -7,6 +8,7 @@ import './styles/style.scss'
 const PostForm: React.FC = () => {
 
     const [errorForm, setErrorForm] = useState<string>('');
+    const { isMobile } = useWindowSize();
 
     const initialValues = {
         content: '',
@@ -30,11 +32,14 @@ const PostForm: React.FC = () => {
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='post-form-toolkit'>
-                        <InputFile name='image'/>
+                        <InputFile name='image' content={isMobile ? 'Attach Image' : ''}/>
                         <InputTextarea name='content' value={values.content}/>
-                        <button type='submit'>
-                            <IconButton icon='send'/>
-                        </button>
+                        {!isMobile ? 
+                            <button className='create-btn' type='submit'>
+                                <IconButton icon='send'/>
+                            </button>
+                            : <Button content='Create Post' type='submit'/>
+                        }
                     </div>
                     <div className='post-form-preview'>
                         {values.image ? <ImageUploadPreview image={values.image} inputFileName='image'/> : null}

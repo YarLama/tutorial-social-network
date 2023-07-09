@@ -1,9 +1,10 @@
 import React from 'react';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
-import { Avatar } from '../../../../components';
-import { PostForm } from '../../../../modules/PostForm';
+import { Avatar, Post } from '../../../../components';
 import { Button } from '../../../../UI';
 import { UserPageDetail } from '../UserPageDetail/UserPageDetail';
+import { UserPageToolkit } from '../UserPageToolkit/UserPageToolkit';
+import { UserPostCreate } from '../UserPostCreate/UserPostCreate';
 import './styles/style.scss'
 
 const UserPageContent: React.FC = () => {
@@ -26,34 +27,15 @@ const UserPageContent: React.FC = () => {
             </div>
             <div className='user-page-content-box'>
                 <div className='user-page-toolkit'>
-                    {!isOwner
-                        ?
-                            <div className='toolkit-non-owner'>
-                                <Button content='Send Message' size={isMobile ? 'm' : 's'}/>
-                                <Button content='Add to Contact' size={isMobile ? 'm' : 's'}/>
-                            </div>
-                        : null
-                    }            
+                    <UserPageToolkit show={!isOwner}/>          
                 </div>
                 <div className='user-page-posts'>
-                    {isOwner && (isMobile 
-                                    ? <Button content='Create Post' size={isMobile ? 'm' : 's'}/>
-                                    : <PostForm />
-                                )}
-                    {/* POST COMPONENTS */}
-                    <UserPageDetail
-                        name='Григо́рий Константи́нович Орджоники́дзе'
-                        about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
-                    />
-                    <UserPageDetail
-                        name='Григо́рий Константи́нович Орджоники́дзе'
-                        about='Описание моей жизни Описание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизниОписание моей жизни'
-                    />
+                    <UserPostCreate show={isOwner}/>
+                    <Post />
+                    <Post />
+                    <Post />
                 </div>
             </div>
-            
-            
-            {/* <Avatar src={s} small/> */}
         </div>
     );
 };

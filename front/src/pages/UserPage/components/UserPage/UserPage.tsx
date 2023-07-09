@@ -17,7 +17,6 @@ const UserPage = () => {
     const { data: usersData, isLoading: isUsersLoading } = useGetAllUsersQuery('');
     const isOwnUser = Number(paramId) === authId;
     const isLoading = isUserLoading && isUsersLoading;
-    //const isLoading = true;
     const { isMobile, windowSize } = useWindowSize();
     console.log([paramId, authId, isLoading, windowSize.width])
 

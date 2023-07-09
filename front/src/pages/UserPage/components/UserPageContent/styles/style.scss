@@ -21,23 +21,18 @@
         display: flex;
         justify-content: space-between;
 
+        @include mobile {
+            flex-direction: column;
+        }
+
         .user-page-toolkit {
             display: flex;
     
             @include mobile {
-                align-items: center;
                 justify-content: center;
             }
     
-            .toolkit-non-owner {
-                min-width: 200px;
-                display: flex;
-                flex-direction: column;
-    
-                button {
-                    width: 100%;
-                }
-            }
+            
         }
 
         .user-page-posts {
