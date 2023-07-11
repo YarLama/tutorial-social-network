@@ -14,8 +14,8 @@ const UserPageToolkit: React.FC<IUserPageToolkitProps> = ({show = true}) => {
     return (
         show ?
         <div className='toolkit-non-owner'>
-            <Button content='Send Message' size={isMobile ? 'm' : 's'}/>
-            <Button content='Add to Contact' size={isMobile ? 'm' : 's'}/>
+            <Button content='Send Message' size={isMobile ? 'm' : 's'} />
+            <Button content='Add to Contact' size={isMobile ? 'm' : 's'} />
         </div>
         : null
     );

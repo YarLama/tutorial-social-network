@@ -9,8 +9,6 @@ import './styles/style.scss'
 
 const UserPageContent: React.FC = () => {
 
-    const k = undefined;
-    const n = null;
     const s = 'https://cakeshop.com.ua/images/6eRbfrsEzMM/h:1000/bG9jYWw/6Ly8vY2FrZXNob3AuY29tLnVhL3B1YmxpY19odG1sL3N0b3JhZ2UvYXBwL3B1YmxpYy9pbWcvcHJvZHVjdC85NDc0XzEuanBn'
     const s1 = 'https://avatars.mds.yandex.net/i?id=a859c5b1c3415096eaf48b9661aaa2696cfde1ce-8209975-images-thumbs&n=13';
     const isOwner = true;
@@ -31,9 +29,9 @@ const UserPageContent: React.FC = () => {
                 </div>
                 <div className='user-page-posts'>
                     <UserPostCreate show={isOwner}/>
-                    <Post />
-                    <Post />
-                    <Post />
+                    <Post isOwnersPost={isOwner}/>
+                    <Post isOwnersPost={isOwner}/>
+                    <Post isOwnersPost={isOwner}/>
                 </div>
             </div>
         </div>

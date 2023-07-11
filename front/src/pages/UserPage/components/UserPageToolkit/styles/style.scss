@@ -2,8 +2,10 @@
     min-width: 200px;
     display: flex;
     flex-direction: column;
+    margin: 10px;
 
     button {
         width: 100%;
+        margin: 0 0 15px 0;
     }
 }
