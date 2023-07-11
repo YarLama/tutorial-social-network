@@ -15,6 +15,7 @@ $navbar_height: 40px;
         position: fixed;
         left: 0;
         top: 0;
+        z-index: 10;
         background-color: $color_minor_background;
         @include mobile {
             width: 100vw;
@@ -31,7 +32,7 @@ $navbar_height: 40px;
     .page-block {
         @include mobile {
             overflow-x: hidden;
-            padding: calc(#{$navbar_height} + 5px) 20px 5px 20px;
+            padding: calc(#{$navbar_height} + 5px) 0 20px 0;
         }
         @include desktop {
             padding: 5px 20px 5px calc(#{$navbar_width} + 20px);

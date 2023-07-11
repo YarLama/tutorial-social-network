@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { UserImage } from '../../app/helpers/types/common';
 import { IconButton } from '../../UI';
-import { ImageMedia } from './helpers/types';
 import './styles/style.scss';
 
 interface IMediaViewerProps {
     active: boolean;
     setActive: Dispatch<SetStateAction<boolean>>;
-    elements: ImageMedia[];
+    elements: UserImage[];
 }
 
 const MediaViewer: React.FC<IMediaViewerProps> = ({

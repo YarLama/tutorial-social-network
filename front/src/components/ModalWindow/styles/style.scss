@@ -15,6 +15,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(black, 0.7);
+    z-index: 100;
     
     @include desktop {
         ::-webkit-scrollbar {
@@ -37,6 +38,7 @@
 
         @include mobile {
             max-width: none;
+            z-index: 100;
             width: 100vw;
             height: 100vh;
             margin: 0;
@@ -56,7 +58,7 @@
 
             @include mobile {
                 position: fixed;
-                z-index: 2;
+                z-index: 100;
                 width: 100vw;
                 right: 7px;
                 border: none;
@@ -85,7 +87,7 @@
 
             @include mobile {
                 position: relative;
-                z-index: 1;
+                z-index: 100;
                 top: 48px;
                 border: none;
             }

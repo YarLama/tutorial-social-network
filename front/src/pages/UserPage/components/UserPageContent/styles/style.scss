@@ -40,6 +40,10 @@
             flex-direction: column;
             width: 100%;
             max-width: 680px;
+
+            @include mobile {
+                max-width: none;
+            }
         }
     }
 
