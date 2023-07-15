@@ -1,0 +1,45 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.post-form {
+    
+    background-color: $color_minor_background;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+
+    form {
+
+        .post-form-toolkit {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            @include mobile {
+                flex-direction: column;
+            }
+
+            .update-btn {
+                background-color: $color_minor_background;
+                border: none;
+            }
+
+            .input-textarea{
+                width: 100%;
+
+                textarea{
+                    width: 85%;
+
+                    @include mobile {
+                        width: auto;
+                        height: 20vh;
+                    }
+                }
+            }
+        }
+
+        .post-form-preview {
+        }
+        
+    }
+}

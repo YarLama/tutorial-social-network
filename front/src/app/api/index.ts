@@ -1,6 +1,6 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/dist/query/react";
-import { apiInfo } from "../helpers/http";
-import { getLocalToken } from "../helpers/tokenHelpers";
+import { apiInfo } from "../constants";
+import { getLocalToken } from "../helpers/common/auth/tokenHelpers";
 import { authSlice } from '../store/reducers/AuthSlice'
 
 const baseQuery = fetchBaseQuery({

@@ -22,9 +22,9 @@ const InputTextarea: React.FC<IInputTextareaProps> = ({
     const {setFieldValue} = useFormikContext();
     const classNames = ['input-textarea-field']
 
-    // useEffect(() => {
-    //     prepareDisplayText();
-    // }, [])
+    useEffect(() => {
+        prepareDisplayText();
+    }, [])
 
     useEffect(() => {
         setFieldValue(name, inputText);

@@ -1,0 +1,1 @@
+export { PostUpdateForm } from './components/PostUpdateForm/PostUpdateForm'

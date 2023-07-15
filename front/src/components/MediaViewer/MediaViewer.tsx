@@ -94,9 +94,9 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
                             {`${currentMediaIndex + 1}/${media.length}`}
                         </span>
                         <span className='media-viewer-preview-detail'>
-                            <div className='detail-drowup'>
-                                <span className='drowup-element' onClick={hanldeDeletePhoto}>Delete photo</span>
-                                <span className='drowup-element' onClick={handleAvatarSet}>Set as avatar</span>
+                            <div className='detail-dropup'>
+                                <span className='dropup-element' onClick={hanldeDeletePhoto}>Delete photo</span>
+                                <span className='dropup-element' onClick={handleAvatarSet}>Set as avatar</span>
                             </div>
                         </span>
                     </div>

@@ -1,25 +1,29 @@
 import React from 'react';
+import { getDate } from '../../app/helpers/common/time';
 import { PostImage } from '../../app/helpers/types/common';
+import { DropupItem } from '../../app/helpers/types/ui';
 import { IconButton } from '../../UI';
 import './styles/style.scss'
 
 interface IPostProps {
-    isOwnersPost?: boolean;
     contentText?: string;
     contentImage?: PostImage | null;
+    dropupItems?: DropupItem[];
+    createdAt: string;
+    countLikes: number | undefined;
+    countComments: number | undefined;
 }
 
-const Post: React.FC<IPostProps> = ({isOwnersPost = true , contentText, contentImage}) => {
+const Post: React.FC<IPostProps> = ({ contentText, contentImage, dropupItems, createdAt, countLikes = 0, countComments = 0}) => {
 
     return (
         <div className='post-box'>
             <div className='post-toolkit'>
                 <span className='post-toolkit-detail'>
-                    <div className='detail-drowup'>
-                        {isOwnersPost ?
+                    <div className='detail-dropup'>
+                        {dropupItems ?
                             <>
-                                <span className='drowup-element' >Edit</span>
-                                <span className='drowup-element' >Delete</span>
+                                {dropupItems.map((el, index) => <span className='dropup-element' key={index} onClick={el.onClick}>{el.label}</span>)}
                             </>
                             : null
                         }
@@ -41,14 +45,14 @@ const Post: React.FC<IPostProps> = ({isOwnersPost = true , contentText, contentI
                 }
             </div>
             <div className='post-info'>
-                <div className='post-info-date'>11.04.2023 22:53</div>
+                <div className='post-info-date'>{getDate(createdAt)}</div>
                 <div className='post-info-likes'>
                     <IconButton icon='like' size='s'/>
-                    234
+                    {countLikes}
                 </div>
                 <div className='post-info-comments'>
                     <IconButton icon='comment' size='s'/>
-                    3
+                    {countComments}
                 </div>
             </div>
         </div>

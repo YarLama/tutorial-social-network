@@ -25,11 +25,11 @@
                 text-align: center;
             }
 
-            &:active .detail-drowup {
+            &:active .detail-dropup {
                 display: block;
             }
 
-            .detail-drowup {
+            .detail-dropup {
                 position: absolute;
                 display: none;
                 top: -15px;
@@ -45,7 +45,7 @@
                     display: block;
                 }
                 
-                .drowup-element {
+                .dropup-element {
                     cursor: pointer;
                     padding: 10px;
                     display: block;

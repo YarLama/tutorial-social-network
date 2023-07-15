@@ -80,9 +80,9 @@ const TestForm: React.FC<IFormikFormProps> = () => {
                         label='Сообщение'
                         contentError={formik.errors.optional}
                     />
-                    <InputFile 
+                    {/* <InputFile 
                         name='image_file'
-                    />
+                    /> */}
                     <ImageUploadPreview image={formik.values.image_file} inputFileName='image_file'/>
                 </div>
                 <Button content='Submit' type='submit' size='s' disabled={formik.isSubmitting}/>
