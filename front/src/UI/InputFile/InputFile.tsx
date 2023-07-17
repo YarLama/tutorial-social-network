@@ -20,31 +20,29 @@ const InputFile: React.FC<IInputFileProps> = ({
     value
 }) => {
 
-    const [inputFile, setInputFile] = useState<File>();
-    const {setFieldValue} = useFormikContext();
+    const [inputFile, setInputFile] = useState<File>(value as File);
+    const {setFieldValue, getFieldProps} = useFormikContext();
     const classNames = ['input-file-field'];
 
     useEffect(() => {
-        console.log('FROM INPUT FILE USE EFFECT', inputFile)
+        console.log('FROM INPUT FILE USE EFFECT', inputFile, value)
         prepareDisplayImagePreview()
-        console.log('FROM INPUT FILE USE EFFECT', inputFile)
+        console.log('FROM INPUT FILE USE EFFECT', inputFile, value)
     }, [])
 
     useEffect(() => {
         setFieldValue(name, inputFile);
+        console.log('FILE CHANGED', getFieldProps(name))
     }, [inputFile])
 
     const prepareDisplayImagePreview = async (image = value) => {
-        console.log('FROM INPUT FILE', image)
         if (image) {
             image instanceof File ? setInputFile(image)
             : axios.get(image, {responseType: "blob"}).then(responce => {
                 let file = new File([responce.data], 'image.jpg', {type: 'image/jpeg'})
-                console.log([responce.data, file])
                 setInputFile(file)
             }).catch(err => console.log(err));
         }
-        
     }
 
     const handleChange = (e: React.ChangeEvent<any>) => {
@@ -63,6 +61,7 @@ const InputFile: React.FC<IInputFileProps> = ({
                 name={name} 
                 accept="image/png, image/jpeg"
                 onChange={handleChange}
+                //value={getFieldProps(name)}
                 required={required}
                 multiple={false}
                 hidden

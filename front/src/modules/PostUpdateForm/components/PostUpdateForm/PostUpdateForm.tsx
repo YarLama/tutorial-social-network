@@ -16,34 +16,12 @@ interface IPostUpdateFormProps {
 const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image, isCommentable}) => {
 
     const [errorForm, setErrorForm] = useState<string>('');
-    const [attachedImage, setAttachedImage] = useState<File>();
     const { isMobile } = useWindowSize();
-
-    useEffect(() => {
-        console.log(['FROM FORM START', image , attachedImage])
-        if (image) {
-            image instanceof File ? setAttachedImage(image)
-            : axios.get(image, {responseType: "blob"}).then(responce => {
-                let file = new File([responce.data], 'image.jpg', {type: 'image/jpeg'})
-                console.log(['FROM FORM ', responce.data, file])
-                setAttachedImage(file)
-            }).catch(err => console.log(err));
-        }
-        console.log(['FROM FORM END', image , attachedImage])
-    }, [])
-
-    // const getFileFromUrl = async (url: string): File => {
-    //     axios.get(url, {responseType: "blob"}).then(responce => {
-    //         let file = new File([responce.data], 'image.jpg', {type: 'image/jpeg'})
-    //         console.log(['FROM FORM ', responce.data, file])
-    //         return file
-    //     }).catch(err => console.log(err));
-    // }
 
     const initialValues = {
         title: '',
         content: content,
-        image: attachedImage,
+        updateImage: image,
         isCommentable: isCommentable
     }
 
@@ -60,11 +38,11 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
     const values = formik.values;
 
     return (
-        <div className='post-form'>
+        <div className='post-update-form'>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
-                    <div className='post-form-toolkit'>
-                        <InputFile name='image' value={values.image} content={isMobile ? 'Attach Image' : ''}/>
+                    <div className='post-update-form-toolkit'>
+                        <InputFile name='updateImage' value={values.updateImage} content={isMobile ? 'Attach Image' : ''}/>
                         <InputTextarea name='content' value={values.content}/>
                         {!isMobile ? 
                             <button className='update-btn' type='submit'>
@@ -73,8 +51,8 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
                             : <Button content='Update Post' type='submit'/>
                         }
                     </div>
-                    <div className='post-form-preview'>
-                        {values.image ? <ImageUploadPreview image={values.image} inputFileName='image'/> : null}
+                    <div className='post-update-form-preview'>
+                        {values.updateImage ? <ImageUploadPreview image={values.updateImage instanceof File ? values.updateImage : null} inputFileName='updateImage'/> : null}
                     </div>
                 </form>
             </FormikProvider>

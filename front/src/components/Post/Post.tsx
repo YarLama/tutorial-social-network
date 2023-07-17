@@ -6,6 +6,7 @@ import { IconButton } from '../../UI';
 import './styles/style.scss'
 
 interface IPostProps {
+    postId: number;
     contentText?: string;
     contentImage?: PostImage | null;
     dropupItems?: DropupItem[];
@@ -14,10 +15,10 @@ interface IPostProps {
     countComments: number | undefined;
 }
 
-const Post: React.FC<IPostProps> = ({ contentText, contentImage, dropupItems, createdAt, countLikes = 0, countComments = 0}) => {
+const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupItems, createdAt, countLikes = 0, countComments = 0}) => {
 
     return (
-        <div className='post-box'>
+        <div className='post-box' data-post-id={postId}>
             <div className='post-toolkit'>
                 <span className='post-toolkit-detail'>
                     <div className='detail-dropup'>

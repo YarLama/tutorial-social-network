@@ -1,13 +1,14 @@
 import axios from 'axios';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, MouseEvent, useState } from 'react';
 import { DropupItem } from '../../../../app/helpers/types/ui';
 import { ModalWindow, Post } from '../../../../components';
-import { PostForm } from '../../../../modules/PostForm';
 import { PostUpdateForm } from '../../../../modules/PostUpdateForm';
 
 interface IUserPostsProps {
     isOwner: boolean;
 }
+
+type TestLocalPost = { id: number, content: string, imageSrc : string | undefined}
 
 const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true}) => {
     
@@ -18,16 +19,11 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true}) => {
     const f = 'https://api.slingacademy.com/public/sample-photos/1.jpeg';
     const f1 = 'https://api.slingacademy.com/public/sample-photos/2.jpeg';
 
-    // axios.get(f, {responseType: "blob"}).then(responce => {
-    //     console.log(responce.data)
-    //     let file = new File([responce.data], 'test.jpg', {type: 'image/jpeg'})
-    //     console.log(file)
-    // }).catch(err => console.log(err));
-
     const [editModalActive, setEditModalActive] = useState<boolean>(false);
+    const [updatePostInfo, setUpdatePostInfo] = useState<TestLocalPost | null>();
 
     const ownerDropupItems : DropupItem[] = [
-        {label: 'Edit', onClick: () => setEditModalActive(true)},
+        {label: 'Edit', onClick: (e) => handleUpdatePostInfo(e)},
         {label: 'Delete', onClick: () => console.log('DELETE CLICK')}
     ]
 
@@ -37,30 +33,43 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true}) => {
 
     const testPosts = [
         { id: 1, content: 'Текст к посту', image: {src:f, alt:'kek'}, countLikes: 15, countComments: 1},
-        { id: 2, content: '', image: {src:f1, alt:'kek2'}},
+        { id: 2, content: '', image: {src:f, alt:'kek2'}},
         { id: 3, content: '', image: {src:f, alt:'kek2'}, countLikes: 3},
-        { id: 4, content: '', image: {src:f1, alt:'kek2'}, countLikes: 48, countComments: 4},
+        { id: 4, content: '', image: {src:f, alt:'kek2'}, countLikes: 48, countComments: 4},
         { id: 5, content: 'Пытаеюсь фыв фыв фывфыыыыыы фыв фывф ывфыыЛЛАЛАаааа афывфывфывфывфы фывфывфыыыыыывфы вфывфывфывфыв', countLikes: 1, countComments: 2},
     ];
+
+    const handleUpdatePostInfo = (e: MouseEvent) => {
+        const postRoot = (e.target as HTMLElement).closest('.post-box');
+        if (!postRoot) return;
+        const id = postRoot.getAttribute('data-post-id');
+        const post = testPosts.find(post => post.id === Number(id));
+        if (!post) return;
+        let testPostInfo: TestLocalPost = { id: post?.id, content: post?.content, imageSrc: post?.image?.src}
+        setUpdatePostInfo(testPostInfo)
+        setEditModalActive(true);
+    }
+    
 
     return (
         testPosts ? 
             <>
                 {testPosts.map((post) => 
-                    <Fragment key={post.id}>
-                        <Post 
-                            contentText={post.content} 
-                            contentImage={post.image} 
-                            dropupItems={isOwner ? ownerDropupItems : guestDropupItems}
-                            createdAt={"2023-07-15T02:47:36.316Z"}
-                            countLikes={post.countLikes}
-                            countComments={post.countComments}
-                        />
-                        <ModalWindow active={editModalActive} setActive={setEditModalActive}>
-                            <PostUpdateForm postId={post.id} content={post.content} image={post.image?.src} isCommentable={true}/>
-                        </ModalWindow>
-                    </Fragment>
+                    <Post 
+                        key={post.id}
+                        postId={post.id}
+                        contentText={post.content} 
+                        contentImage={post.image} 
+                        dropupItems={isOwner ? ownerDropupItems : guestDropupItems}
+                        createdAt={"2023-07-15T02:47:36.316Z"}
+                        countLikes={post.countLikes}
+                        countComments={post.countComments}
+                    />
                 )}
+                <ModalWindow active={editModalActive} setActive={setEditModalActive}>
+                    {updatePostInfo && <PostUpdateForm postId={updatePostInfo.id} content={updatePostInfo.content} image={updatePostInfo.imageSrc} isCommentable={true}/>}
+                    
+                </ModalWindow>
             </>
             : null
     );

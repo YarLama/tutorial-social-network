@@ -1,7 +1,7 @@
 @import '/src/UI/styles_extension/colors';
 @import '/src/UI/styles_extension/variables';
 
-.post-form {
+.post-update-form {
     
     background-color: $color_minor_background;
     border-radius: 15px;
@@ -10,7 +10,7 @@
 
     form {
 
-        .post-form-toolkit {
+        .post-update-form-toolkit {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -38,7 +38,7 @@
             }
         }
 
-        .post-form-preview {
+        .post-update-form-preview {
         }
         
     }
