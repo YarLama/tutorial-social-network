@@ -32,10 +32,10 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true}) => {
     ]
 
     const testPosts = [
-        { id: 1, content: 'Текст к посту', image: {src:f, alt:'kek'}, countLikes: 15, countComments: 1},
-        { id: 2, content: '', image: {src:f, alt:'kek2'}},
-        { id: 3, content: '', image: {src:f, alt:'kek2'}, countLikes: 3},
-        { id: 4, content: '', image: {src:f, alt:'kek2'}, countLikes: 48, countComments: 4},
+        { id: 1, content: 'Текст к посту', image: {src:f1, alt:'kek'}, countLikes: 15, countComments: 1},
+        { id: 2, content: '', image: {src:s1, alt:'kek2'}},
+        { id: 3, content: '', image: {src:s, alt:'kek2'}, countLikes: 3},
+        { id: 4, content: '', image: {src:s3, alt:'kek2'}, countLikes: 48, countComments: 4},
         { id: 5, content: 'Пытаеюсь фыв фыв фывфыыыыыы фыв фывф ывфыыЛЛАЛАаааа афывфывфывфывфы фывфывфыыыыыывфы вфывфывфывфыв', countLikes: 1, countComments: 2},
     ];
 
@@ -66,9 +66,8 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true}) => {
                         countComments={post.countComments}
                     />
                 )}
-                <ModalWindow active={editModalActive} setActive={setEditModalActive}>
-                    {updatePostInfo && <PostUpdateForm postId={updatePostInfo.id} content={updatePostInfo.content} image={updatePostInfo.imageSrc} isCommentable={true}/>}
-                    
+                <ModalWindow active={editModalActive} setActive={setEditModalActive} controls={false}>
+                    {updatePostInfo && <PostUpdateForm postId={updatePostInfo.id} content={updatePostInfo.content} image={updatePostInfo.imageSrc} isCommentable={false}/>}
                 </ModalWindow>
             </>
             : null

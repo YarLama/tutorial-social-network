@@ -8,6 +8,7 @@
     @include mobile {
         display: flex;
         flex-direction: row;
+        margin: 5px 15px;
     }
 
     .image-preview-content {

@@ -18,7 +18,6 @@ const UserPage = () => {
     const isOwnUser = Number(paramId) === authId;
     const isLoading = isUserLoading && isUsersLoading;
     const { isMobile, windowSize } = useWindowSize();
-    console.log([paramId, authId, isLoading, windowSize.width])
 
     return (
         <div className='user-page'>

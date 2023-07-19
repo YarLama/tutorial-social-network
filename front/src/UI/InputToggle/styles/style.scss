@@ -1,0 +1,60 @@
+@import '../../styles_extension/_colors.scss';
+@import '../../styles_extension/_variables.scss';
+
+
+.input-toggle {
+
+    display: flex;
+    flex-direction: row;
+
+    .toggler-wrapper {
+        display: block;
+        width: 45px;
+        height: 25px;
+        cursor: pointer;
+        position: relative;
+        margin: 5px;
+        
+    
+        input[type="checkbox"] {
+            display: none;
+        }
+    
+        input[type="checkbox"]:checked+.toggler-slider {
+            background-color: $color_comment_name_font;
+            .toggler-knob {
+                left: calc(100% - 19px - 3px);
+            }
+        }
+    
+        .toggler-slider {
+            border: 1px solid white;
+            background-color: $color_major_background;;
+            position: absolute;
+            border-radius: 100px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-transition: all 300ms ease;
+            transition: all 300ms ease;
+        }
+    
+        .toggler-knob {
+            position: absolute;
+            -webkit-transition: all 300ms ease;
+            transition: all 300ms ease;
+            width: calc(25px - 6px);
+            height: calc(25px - 6px);
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+            background-color: #fff;
+        }
+      }
+
+    .toggle-label {
+        font-size: 14pt;
+        margin: 5px;
+    }
+}

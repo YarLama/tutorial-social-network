@@ -28,6 +28,10 @@ $size-bezel: 20px;
         height: 80px;
         font-size: 14pt;    
         min-width: 240px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     &:placeholder-shown ~ .input-textarea-label{
@@ -64,6 +68,10 @@ $size-bezel: 20px;
 .input-textarea-field {
 
     resize: none;
+    
+    @include mobile {
+        padding-top: 5px;
+    }
 
     &::-webkit-scrollbar {
         width: 6px;

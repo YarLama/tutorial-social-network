@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { FormikProvider, useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { ImageUploadPreview } from '../../../../components';
-import { Button, IconButton, InputFile, InputTextarea } from '../../../../UI';
+import { Button, InputFile, InputTextarea, InputToggle } from '../../../../UI';
 import './styles/style.scss'
 
 interface IPostUpdateFormProps {
@@ -13,16 +12,16 @@ interface IPostUpdateFormProps {
     isCommentable: boolean;
 }
 
-const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image, isCommentable}) => {
+const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image, isCommentable = false}) => {
 
     const [errorForm, setErrorForm] = useState<string>('');
     const { isMobile } = useWindowSize();
 
     const initialValues = {
-        title: '',
+        title: 'post',
         content: content,
         updateImage: image,
-        isCommentable: isCommentable
+        commentable: isCommentable
     }
 
     const handleSubmit = async (values: any, actions: any) => {
@@ -42,17 +41,18 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='post-update-form-toolkit'>
-                        <InputFile name='updateImage' value={values.updateImage} content={isMobile ? 'Attach Image' : ''}/>
                         <InputTextarea name='content' value={values.content}/>
-                        {!isMobile ? 
-                            <button className='update-btn' type='submit'>
-                                <IconButton icon='send'/>
-                            </button>
-                            : <Button content='Update Post' type='submit'/>
-                        }
+                    </div>
+                    <div className='post-update-form-comment-toggle'>
+                        <InputToggle name='commentable' isChecked={values.commentable} label={'is post commentable?'}/>
                     </div>
                     <div className='post-update-form-preview'>
+                        <InputFile name='updateImage' value={values.updateImage} content={'Attach Image'}/>
                         {values.updateImage ? <ImageUploadPreview image={values.updateImage instanceof File ? values.updateImage : null} inputFileName='updateImage'/> : null}
+                    </div>
+                    <div className='post-update-submit-btn'>
+                        <Button content='Update Post' type='submit'/>
+                        <Button content='Delete Post' type='submit'/>
                     </div>
                 </form>
             </FormikProvider>
