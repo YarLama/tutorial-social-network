@@ -107,24 +107,61 @@ export class LikesService {
         return foundedLikes;
     }
 
+    async getPostLikesInfo(id: number, request: Request) {
+        const post = await this.postRepository.findByPk(id);
+        if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const user = await this.authService.getUserFromToken(request);
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const likes = await this.likePostRepository.findAll({where: {postId: post.id}})
+        const like = await this.likePostRepository.findAll({where: {postId: post.id, userId: user.id}});
+        const isOwner = !!like.length;
+        const responce = {
+            countLikes: likes.length,
+            isUserLikeOwner: isOwner
+        }; 
+        return responce;
+    }
+
+    async getCommentLikesInfo(id: number, request: Request) {
+        const comment = await this.commentRepository.findByPk(id);
+        if (!comment) throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        const user = await this.authService.getUserFromToken(request);
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const likes = await this.likeCommentRepository.findAll({where: {commentId: comment.id}})
+        const like = await this.likeCommentRepository.findAll({where: {commentId: comment.id, userId: user.id}});
+        const isOwner = !!like.length;
+        const responce = {
+            countLikes: likes.length,
+            isUserLikeOwner: isOwner
+        }; 
+        return responce;
+    }
+
     async removePostLikeHard(id: number, request: Request) {
-        const like = await this.likePostRepository.findByPk(id);
-        if (!like) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
-        const isOwner = await this.authService.isEqualUserId(request, like.userId);
-        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
-        const response = { like_id: like.id, message: "Remove success."}
-        const removedLike = await this.likePostRepository.destroy({where : {id}});
+        console.log(id)
+        const post = await this.postRepository.findByPk(id);
+        if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        const user = await this.authService.getUserFromToken(request);
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const like = await this.likePostRepository.findAll({where: {postId: post.id, userId: user.id}});
+        if (!like.length) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
+        console.log(!!like.length)
+        const response = { like_id: like[0].id, message: "Remove success."}
+        console.log('hui')
+        const removedLike = await this.likePostRepository.destroy({where : {id: like[0].id}});
         if (!removedLike) return {...response, message: "Remove error"}
         return response;
     }
 
     async removeCommentLikeHard(id: number, request: Request) {
-        const like = await this.likeCommentRepository.findByPk(id);
-        if (!like) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
-        const isOwner = await this.authService.isEqualUserId(request, like.userId);
-        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
-        const response = { like_id: like.id, message: "Remove success."}
-        const removedLike = await this.likeCommentRepository.destroy({where : {id}});
+        const comment = await this.commentRepository.findByPk(id);
+        if (!comment) throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        const user = await this.authService.getUserFromToken(request);
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const like = await this.likeCommentRepository.findAll({where: {commentId: comment.id, userId: user.id}});
+        if (!like.length) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
+        const response = { like_id: like[0].id, message: "Remove success."}
+        const removedLike = await this.likeCommentRepository.destroy({where : {id: like[0].id}});
         if (!removedLike) return {...response, message: "Remove error"}
         return response;
     }

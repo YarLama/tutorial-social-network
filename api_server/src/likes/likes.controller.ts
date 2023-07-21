@@ -53,6 +53,20 @@ export class LikesController {
 
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
+    @Get('/post/:id/info/')
+    getPostLikesInfo(@Param('id') id: number, @Req() request: Request) {
+        return this.likesService.getPostLikesInfo(id, request);
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/comment/:id/info/')
+    getCommentLikesInfo(@Param('id') id: number, @Req() request: Request) {
+        return this.likesService.getCommentLikesInfo(id, request);
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
     @Get('/post/:id')
     getPostLikes(@Param('id') id: number) {
         return this.likesService.getLikesByPostId(id);
