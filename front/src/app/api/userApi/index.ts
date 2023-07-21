@@ -1,4 +1,5 @@
 import api from "..";
+import { PostModelType } from "../../helpers/types/models";
 import { IUser } from "./types";
 
 export const userApi = api.injectEndpoints({
@@ -8,7 +9,10 @@ export const userApi = api.injectEndpoints({
         }),
         getUserById: builder.query<IUser, any>({
             query: (id) => `/users/${id}`
-        })
+        }),
+        getUserPosts: builder.query<PostModelType[], any>({
+            query: (id) => `/users/${id}/posts`
+        }),
     })
 })
 

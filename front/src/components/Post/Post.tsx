@@ -1,6 +1,8 @@
 import React from 'react';
+import { commentApi } from '../../app/api/commentApi';
+import { likeApi } from '../../app/api/likeApi';
 import { getDate } from '../../app/helpers/common/time';
-import { PostImage } from '../../app/helpers/types/common';
+import { getImageUrl } from '../../app/helpers/http';
 import { DropupItem } from '../../app/helpers/types/ui';
 import { IconButton } from '../../UI';
 import './styles/style.scss'
@@ -8,14 +10,15 @@ import './styles/style.scss'
 interface IPostProps {
     postId: number;
     contentText?: string;
-    contentImage?: PostImage | null;
+    contentImage?: string | null;
     dropupItems?: DropupItem[];
     createdAt: string;
-    countLikes: number | undefined;
-    countComments: number | undefined;
 }
 
-const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupItems, createdAt, countLikes = 0, countComments = 0}) => {
+const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupItems, createdAt }) => {
+
+    const {data: postLikesInfo} = likeApi.useGetPostLikesInfoQuery(postId);
+    const {data: postCommentsInfo} = commentApi.useGetPostCommentsInfoQuery(postId);
 
     return (
         <div className='post-box' data-post-id={postId}>
@@ -33,15 +36,11 @@ const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupI
             </div>
             <div className='post-content'>
                 {contentText ?
-                    <div className='post-content-text'>
-                        {contentText}
-                    </div>
+                    <div className='post-content-text'> {contentText} </div>
                     : null
                 }
                 {contentImage ?
-                    <div className='post-content-image'>
-                        <img src={contentImage.src} alt={contentImage.alt}/>
-                    </div>
+                    <div className='post-content-image'> <img src={contentImage} /> </div>
                     : null
                 }
             </div>
@@ -49,11 +48,11 @@ const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupI
                 <div className='post-info-date'>{getDate(createdAt)}</div>
                 <div className='post-info-likes'>
                     <IconButton icon='like' size='s'/>
-                    {countLikes}
+                    {postLikesInfo?.countLikes || 0}
                 </div>
                 <div className='post-info-comments'>
                     <IconButton icon='comment' size='s'/>
-                    {countComments}
+                    {postCommentsInfo?.countComments || 0}
                 </div>
             </div>
         </div>

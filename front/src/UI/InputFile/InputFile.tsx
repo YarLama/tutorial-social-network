@@ -7,7 +7,7 @@ import './styles/style.scss';
 interface IInputFileProps {
     name: string;
     contentError?: string;
-    value: File | string | undefined;
+    value: File | string | undefined | null;
     content?: string;
     required?: boolean;
 }
@@ -36,8 +36,7 @@ const InputFile: React.FC<IInputFileProps> = ({
         if (image) {
             image instanceof File ? setInputFile(image)
             : axios.get(image, {
-                responseType: "blob", 
-                params: {unique: new Date().valueOf()}
+                responseType: "blob"
             }).then(responce => {
                 let file = new File([responce.data], 'image.jpg', {type: 'image/jpeg'})
                 setInputFile(file)

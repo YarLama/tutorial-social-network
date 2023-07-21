@@ -11,17 +11,13 @@ import './styles/style.scss'
 const UserPage = () => {
 
     const { id: paramId } = useParams();
-    const { id: authId} = useAppSelector(state => state.authReducer.user)
     
-    const { data: userData, isLoading: isUserLoading} = useGetUserByIdQuery(paramId);
-    const { data: usersData, isLoading: isUsersLoading } = useGetAllUsersQuery('');
-    const isOwnUser = Number(paramId) === authId;
-    const isLoading = isUserLoading && isUsersLoading;
+    const { data: userData } = useGetUserByIdQuery(paramId);
     const { isMobile, windowSize } = useWindowSize();
 
     return (
         <div className='user-page'>
-            { isLoading ? <UserPageLoading /> : <UserPageContent />}
+            { !userData ? <UserPageLoading /> : <UserPageContent user={userData}/>}
         </div>   
     );
 };

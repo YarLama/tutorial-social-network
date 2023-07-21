@@ -6,7 +6,7 @@ import './styles/style.scss'
 
 interface IUserPageDetailProps {
     name: string;
-    about: string;
+    about: string | null;
 }
 
 const UserPageDetail: React.FC<IUserPageDetailProps> = ({name, about}) => {
@@ -14,6 +14,7 @@ const UserPageDetail: React.FC<IUserPageDetailProps> = ({name, about}) => {
     const [detailModalActive, setDetailModalActive] = useState<boolean>(false);
     const { isMobile } = useWindowSize();
     const isNameBig = name.length > 30;
+    about = about ?? 'Нет Описания';
     const isAboutBig = about.length > 150;
     const aboutText = isAboutBig ? about.slice(0, 147) : about;
 
@@ -35,7 +36,7 @@ const UserPageDetail: React.FC<IUserPageDetailProps> = ({name, about}) => {
                 <div className='user-detail-info'>
                     <p className='user-detail-property'>About:</p>
                     <div className='user-detail-about'>
-                        {`${aboutText} `}
+                        {`${aboutText}`}
                         {isAboutBig && <Button content='...' size='xs' onClick={handleOpenModalClick}/>}  
                     </div>
                 </div>

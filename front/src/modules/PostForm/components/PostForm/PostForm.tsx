@@ -1,5 +1,7 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
+import { userApi } from '../../../../app/api/userApi';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { ImageUploadPreview } from '../../../../components';
 import { Button, IconButton, InputFile, InputTextarea } from '../../../../UI';
@@ -9,10 +11,11 @@ const PostForm: React.FC = () => {
 
     const [errorForm, setErrorForm] = useState<string>('');
     const { isMobile } = useWindowSize();
+    
 
     const initialValues = {
         content: '',
-        image: null
+        image: undefined
     }
 
     const handleSubmit = async (values: any, actions: any) => {
@@ -32,7 +35,7 @@ const PostForm: React.FC = () => {
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='post-form-toolkit'>
-                        <InputFile name='image' content={isMobile ? 'Attach Image' : ''}/>
+                        <InputFile name='image' content={isMobile ? 'Attach Image' : ''} value={values.image}/>
                         <InputTextarea name='content' value={values.content}/>
                         {!isMobile ? 
                             <button className='create-btn' type='submit'>

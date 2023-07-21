@@ -8,7 +8,7 @@ import './styles/style.scss'
 interface IPostUpdateFormProps {
     postId: number;
     content: string;
-    image: File | string | undefined;
+    image: File | string | undefined | null;
     isCommentable: boolean;
 }
 
