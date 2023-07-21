@@ -145,9 +145,7 @@ export class LikesService {
         if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         const like = await this.likePostRepository.findAll({where: {postId: post.id, userId: user.id}});
         if (!like.length) throw new HttpException('Like not found', HttpStatus.NOT_FOUND);
-        console.log(!!like.length)
         const response = { like_id: like[0].id, message: "Remove success."}
-        console.log('hui')
         const removedLike = await this.likePostRepository.destroy({where : {id: like[0].id}});
         if (!removedLike) return {...response, message: "Remove error"}
         return response;
