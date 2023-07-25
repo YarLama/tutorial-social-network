@@ -13,7 +13,6 @@ const UserPage = () => {
     const { id: paramId } = useParams();
     
     const { data: userData } = useGetUserByIdQuery(paramId);
-    const { isMobile, windowSize } = useWindowSize();
 
     return (
         <div className='user-page'>

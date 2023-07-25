@@ -1,4 +1,4 @@
-import { authRegRequest, authRegRequestErrors } from "../../../app/api/authApi/types"
+import { AuthRegRequest, AuthRegRequestErrors } from "../../../app/api/authApi/types"
 
-export type RegistrationFormValues = authRegRequest & {confirm_password: string}
-export type RegistrationFormValuesErrors = authRegRequestErrors & {confirm_password?: string | null}
+export type RegistrationFormValues = AuthRegRequest & {confirm_password: string}
+export type RegistrationFormValuesErrors = AuthRegRequestErrors & {confirm_password?: string | null}

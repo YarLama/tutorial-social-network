@@ -1,9 +1,9 @@
-import { authLoginRequest } from "../../../app/api/authApi/types"
+import { AuthLoginRequest } from "../../../app/api/authApi/types"
 
 
-export const prepareLoginData = (email: string, password: string): authLoginRequest => {
+export const prepareLoginData = (email: string, password: string): AuthLoginRequest => {
 
-    const body: authLoginRequest = {
+    const body: AuthLoginRequest = {
         email: email,
         password: password
     }

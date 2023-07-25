@@ -1,16 +1,16 @@
 import api from '..';
-import { authLoginRequest, authRegRequest, authResponce } from './types';
+import { AuthLoginRequest, AuthRegRequest, AuthResponce } from './types';
 
 export const authApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<authResponce, authLoginRequest>({
+        login: builder.mutation<AuthResponce, AuthLoginRequest>({
             query: (data) => ({
                 url: '/auth/login',
                 method: 'POST',
                 body: data,
             }),
         }),
-        registration: builder.mutation<authResponce, authRegRequest>({
+        registration: builder.mutation<AuthResponce, AuthRegRequest>({
             query: (data) => ({
                 url: '/auth/registration',
                 method: 'POST',

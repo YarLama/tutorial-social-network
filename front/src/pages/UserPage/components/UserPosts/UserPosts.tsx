@@ -11,8 +11,6 @@ interface IUserPostsProps {
     isOwner: boolean;
 }
 
-type TestLocalPost = { id: number, content: string, imageSrc : string | undefined}
-
 const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
 
     const [editModalActive, setEditModalActive] = useState<boolean>(false);
@@ -38,8 +36,6 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
         setEditModalActive(true);
     }
 
-    console.log(posts)
-
     return (
         posts ? 
             <>
@@ -52,7 +48,7 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
                         dropupItems={isOwner ? ownerDropupItems : guestDropupItems}
                         createdAt={post.createdAt}
                     />
-                )}
+                ).reverse()}
                 <ModalWindow active={editModalActive} setActive={setEditModalActive} controls={false}>
                     {updatePostInfo && <PostUpdateForm postId={updatePostInfo.id} content={updatePostInfo.content} image={getImageUrl(updatePostInfo.image)} isCommentable={false}/>}
                 </ModalWindow>

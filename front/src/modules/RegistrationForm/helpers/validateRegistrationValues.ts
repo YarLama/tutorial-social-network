@@ -1,18 +1,6 @@
+import { validate } from "../../../app/helpers/common/form";
 import { ValidateResult } from "../../../app/helpers/types/form";
 import { RegistrationFormValues, RegistrationFormValuesErrors } from "./types";
-
-const validate = (foo: () => ValidateResult['errorMessage']): ValidateResult => {
-    let result: ValidateResult = {
-        isValid: false,
-        errorMessage: null
-    }
-
-    result.isValid = !foo();
-    result.errorMessage = foo();
-
-    return result;
-}
-
 
 const validateFirstName = (firstName: RegistrationFormValues['first_name']): ValidateResult => {
     return validate(() => {

@@ -38,7 +38,6 @@ const RegistrationForm: React.FC = () => {
     // }
 
     const handleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
-        
         try {
             setErrorForm('')
             actions.setSubmitting(true)
@@ -48,7 +47,7 @@ const RegistrationForm: React.FC = () => {
                 values.phone,
                 values.email,
                 values.password
-            )
+            );
             const responce = await registration(body).unwrap();
             dispatch(authSlice.actions.login(responce.token));
             actions.resetForm();

@@ -1,18 +1,18 @@
-export type authResponce = {
+export type AuthResponce = {
     token: string;
 }
 
-export type authLoginRequest = {
+export type AuthLoginRequest = {
     email: string;
     password: string;
 }
 
-export type authLoginRequestErrors = {
+export type AuthLoginRequestErrors = {
     email?: string | null;
     password?: string | null;
 }
 
-export type authRegRequest = {
+export type AuthRegRequest = {
     first_name: string,
     last_name: string,
     phone: string,
@@ -20,7 +20,7 @@ export type authRegRequest = {
     password: string
 }
 
-export type authRegRequestErrors = {
+export type AuthRegRequestErrors = {
     first_name?: string | null,
     last_name?: string | null,
     phone?: string | null,

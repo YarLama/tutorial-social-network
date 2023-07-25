@@ -3,7 +3,7 @@ import { FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
-import { authLoginRequest } from '../../../../app/api/authApi/types';
+import { AuthLoginRequest } from '../../../../app/api/authApi/types';
 import { replaceWithId } from '../../../../app/helpers/http';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
@@ -19,22 +19,22 @@ const LoginForm: React.FC = () => {
     const navigate = useNavigate();
     const [login] = authApi.useLoginMutation();
 
-    // const initialValues: authLoginRequest = {
+    // const initialValues: AuthLoginRequest = {
     //     email: '',
     //     password: ''
     // }
 
-    // const initialValues: authLoginRequest = {
+    // const initialValues: AuthLoginRequest = {
     //     email: 'SichulyAdmin@kek.ru',
     //     password: 'kekar1025'
     // }
 
-    const initialValues: authLoginRequest = {
+    const initialValues: AuthLoginRequest = {
         email: 'chuhin228@mail.ru',
         password: 'chuhin228'
     }
 
-    const handleSubmit = async (values: authLoginRequest, actions: FormikHelpers<authLoginRequest>) => {
+    const handleSubmit = async (values: AuthLoginRequest, actions: FormikHelpers<AuthLoginRequest>) => {
         try {
             setErrorForm('')
             actions.setSubmitting(true)
