@@ -1,8 +1,11 @@
-import React, { Fragment, MouseEvent, useState } from 'react';
+import React, { Fragment, MouseEvent, useEffect, useState } from 'react';
+import { postApi } from '../../../../app/api/postApi';
 import { userApi } from '../../../../app/api/userApi';
 import { getImageUrl } from '../../../../app/helpers/http';
 import { PostModelType } from '../../../../app/helpers/types/models';
 import { DropupItem } from '../../../../app/helpers/types/ui';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
+import { postSlice } from '../../../../app/store/reducers/PostSlice';
 import { ModalWindow, Post } from '../../../../components';
 import { PostUpdateForm } from '../../../../modules/PostUpdateForm';
 
@@ -15,11 +18,19 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
 
     const [editModalActive, setEditModalActive] = useState<boolean>(false);
     const [updatePostInfo, setUpdatePostInfo] = useState<PostModelType | null>();
-    const { data: posts, isLoading: isPostsLoading} = userApi.useGetUserPostsQuery(id);
+    const { data, isLoading: isPostsLoading} = userApi.useGetUserPostsQuery(id);
+    const {posts} = useAppSelector(state => state.postReducer);
+    
+    const dispatch = useAppDispatch();
+    const [ deletePost ] = postApi.useDeletePostMutation();
+
+    useEffect(() => {
+        if (!!data?.length) dispatch(postSlice.actions.setPosts(data))
+    }, [data]);
     
     const ownerDropupItems : DropupItem[] = [
         {label: 'Edit', onClick: (e) => handleUpdatePostInfo(e)},
-        {label: 'Delete', onClick: () => console.log('DELETE CLICK')}
+        {label: 'Delete', onClick: (e) => handleDeletePost(e)}
     ]
 
     const guestDropupItems : DropupItem[] = [
@@ -34,6 +45,20 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
         if (!post) return;
         setUpdatePostInfo(post)
         setEditModalActive(true);
+    }
+
+
+
+    const handleDeletePost = async (e: MouseEvent) => {
+        const postRoot = (e.target as HTMLElement).closest('.post-box');
+        if (!postRoot) return;
+        const id = postRoot.getAttribute('data-post-id');
+        try {
+            const responce = await deletePost(id).unwrap();
+            dispatch(postSlice.actions.deletePost(Number(id)))
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (

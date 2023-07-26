@@ -2,7 +2,6 @@ import React from 'react';
 import { commentApi } from '../../app/api/commentApi';
 import { likeApi } from '../../app/api/likeApi';
 import { getDate } from '../../app/helpers/common/time';
-import { getImageUrl } from '../../app/helpers/http';
 import { DropupItem } from '../../app/helpers/types/ui';
 import { IconButton } from '../../UI';
 import './styles/style.scss'

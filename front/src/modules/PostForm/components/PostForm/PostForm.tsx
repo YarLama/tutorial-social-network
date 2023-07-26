@@ -6,6 +6,7 @@ import { PostCreateRequest } from '../../../../app/api/postApi/types';
 import { userApi } from '../../../../app/api/userApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
+import { postSlice } from '../../../../app/store/reducers/PostSlice';
 import { ImageUploadPreview } from '../../../../components';
 import { Button, IconButton, InputFile, InputTextarea } from '../../../../UI';
 import { preparePostCreateData } from '../../helpers/prepareSubmit';
@@ -18,6 +19,7 @@ const PostForm: React.FC = () => {
     const { isMobile } = useWindowSize();
     const { user } = useAppSelector(state => state.authReducer);
     const [createPost] = postApi.useCreatePostMutation();
+    const dispatch = useAppDispatch();
     
 
     const initialValues: PostCreateRequest = {
@@ -37,9 +39,9 @@ const PostForm: React.FC = () => {
                 values.image,
                 (values.userId).toString()
             );
-            console.log(body)
             const responce = await createPost(body).unwrap();
-            console.log(responce)
+            dispatch(postSlice.actions.addPost(responce))
+            actions.resetForm();
         } catch (e) {
             console.log(e);
         }

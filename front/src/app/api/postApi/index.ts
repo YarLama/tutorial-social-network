@@ -1,5 +1,4 @@
 import api from "..";
-import { PostCreateRequest } from "./types";
 
 export const postApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -10,7 +9,13 @@ export const postApi = api.injectEndpoints({
                 body: data
             })
         }),
+        deletePost: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `/posts/${id}`,
+                method: 'DELETE'
+            })
+        }),
     })
 })
 
-export const { useCreatePostMutation } = postApi;
+export const { useCreatePostMutation, useDeletePostMutation } = postApi;
