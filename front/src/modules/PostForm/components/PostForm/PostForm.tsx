@@ -1,9 +1,7 @@
-import { AxiosError } from 'axios';
 import { FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { postApi } from '../../../../app/api/postApi';
 import { PostCreateRequest } from '../../../../app/api/postApi/types';
-import { userApi } from '../../../../app/api/userApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { postSlice } from '../../../../app/store/reducers/PostSlice';
@@ -15,7 +13,6 @@ import './styles/style.scss'
 
 const PostForm: React.FC = () => {
 
-    const [errorForm, setErrorForm] = useState<string>('');
     const { isMobile } = useWindowSize();
     const { user } = useAppSelector(state => state.authReducer);
     const [createPost] = postApi.useCreatePostMutation();
@@ -31,10 +28,8 @@ const PostForm: React.FC = () => {
 
     const handleSubmit = async (values: PostCreateRequest, actions: FormikHelpers<PostCreateRequest>) => {
         try {
-            setErrorForm('');
             actions.setSubmitting(true);
             const body = preparePostCreateData(
-                values.title,
                 values.content,
                 values.image,
                 (values.userId).toString()

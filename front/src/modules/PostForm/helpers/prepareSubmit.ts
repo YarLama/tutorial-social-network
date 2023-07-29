@@ -1,13 +1,6 @@
-import { PostCreateRequest } from "../../../app/api/postApi/types";
 
 
-export const preparePostCreateData = (title: string, content: string | undefined,  image: File | undefined, userId: string): FormData => {
-    // const body: PostCreateRequest = {
-    //     title: '',
-    //     content: content ?? '',
-    //     image: image,
-    //     userId: userId
-    // }
+export const preparePostCreateData = (content: string | undefined,  image: File | undefined, userId: string): FormData => {
 
     const body = new FormData();
     body.append('title', '');

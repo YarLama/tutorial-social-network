@@ -15,7 +15,8 @@ export const postSlice = createSlice({
     initialState,
     reducers: {
         setPosts(state, action: PayloadAction<PostModelType[]>) {
-            state.posts = action.payload;
+            const posts = [...action.payload].sort((a, b) => a.id - b.id);
+            state.posts = posts;
         },
         addPost(state, action: PayloadAction<PostModelType>) {
             state.posts.push(action.payload);
@@ -24,7 +25,13 @@ export const postSlice = createSlice({
             const postId = action.payload;
             state.posts = state.posts.filter(post => post.id !== postId)
         },
-        updatePost() {},
+        updatePost(state, action: PayloadAction<PostModelType>) {
+            const postId = action.payload.id;
+            const changeValueById = (posts: PostModelType[], id: number, updatedPost: PostModelType): PostModelType[] => {
+                return posts.map(post => post.id === id ? updatedPost : post)
+            }
+            state.posts = changeValueById(state.posts, postId, action.payload);
+        },
     }
 })
 

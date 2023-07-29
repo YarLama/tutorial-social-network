@@ -1,8 +1,13 @@
 import { FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react';
-import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { postApi } from '../../../../app/api/postApi';
+import { PostUpdateRequest } from '../../../../app/api/postApi/types';
+import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { postSlice } from '../../../../app/store/reducers/PostSlice';
 import { ImageUploadPreview } from '../../../../components';
 import { Button, InputFile, InputTextarea, InputToggle } from '../../../../UI';
+import { preparePostUpdateData } from '../../helpers/prepareSubmit';
+import { validatePostUpdateValues } from '../../helpers/validatePostUpdateValues';
 import './styles/style.scss'
 
 interface IPostUpdateFormProps {
@@ -10,53 +15,81 @@ interface IPostUpdateFormProps {
     content: string;
     image: File | string | undefined | null;
     isCommentable: boolean;
+    setShowModal?: Dispatch<SetStateAction<boolean>>;
 }
 
-const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image, isCommentable = false}) => {
+const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image, isCommentable = false, setShowModal}) => {
 
-    const [errorForm, setErrorForm] = useState<string>('');
-    const { isMobile } = useWindowSize();
+    const [isPostUpdated, setIsPostUpdated] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
+    const [updatePost] = postApi.useUpdatePostMutation();
 
-    const initialValues = {
-        title: 'post',
+    const initialValues: PostUpdateRequest = {
+        title: '',
         content: content,
-        updateImage: image,
-        commentable: isCommentable
+        updatedImage: image ?? undefined,
+        isCommentable: isCommentable
     }
 
-    const handleSubmit = async (values: any, actions: any) => {
-        console.log(values)
+    const handleSubmit = async (values: PostUpdateRequest, actions: any) => {
+        try {
+            actions.setSubmitting(true);
+            const body = preparePostUpdateData(
+                values.content,
+                values.updatedImage,
+                values.isCommentable
+            );
+            const responce = await updatePost({data: body, id: postId}).unwrap();
+            dispatch(postSlice.actions.updatePost(responce))
+            actions.setSubmitting(false);
+            if (setShowModal) setShowModal(false);
+        } catch (e) {
+            actions.setSubmitting(false);
+            console.log(e);
+        }
+    }
+
+    const handleUpdateField = () => {
+        const updatedContent = values.content === initialValues.content;
+        const updatedImage = !!values.updatedImage === !!initialValues.updatedImage;
+        const updatedCommentable = values.isCommentable === initialValues.isCommentable;
+
+        updatedContent && updatedImage && updatedCommentable ? setIsPostUpdated(false) : setIsPostUpdated(true)
     }
 
     const formik = useFormik({
         initialValues: initialValues,
+        validate: validatePostUpdateValues,
+        validateOnChange: false,
         onSubmit: handleSubmit
     })
 
     const errors = formik.errors;
     const values = formik.values;
 
+    useEffect(() => {
+        handleUpdateField();
+    }, [values])
+
     return (
         <div className='post-update-form'>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='post-update-form-toolkit'>
-                        <InputTextarea name='content' value={values.content}/>
+                        <InputTextarea name='content' value={values.content ?? ''} contentError={errors.content}/>
                     </div>
                     <div className='post-update-form-comment-toggle'>
-                        <InputToggle name='commentable' isChecked={values.commentable} label={'is post commentable?'}/>
+                        <InputToggle name='isCommentable' isChecked={values.isCommentable} label={'is post commentable?'}/>
                     </div>
                     <div className='post-update-form-preview'>
-                        <InputFile name='updateImage' value={values.updateImage} content={'Attach Image'}/>
-                        {values.updateImage ? <ImageUploadPreview image={values.updateImage instanceof File ? values.updateImage : null} inputFileName='updateImage'/> : null}
+                        <InputFile name='updatedImage' value={values.updatedImage} content={'Attach Image'}/>
+                        {values.updatedImage ? <ImageUploadPreview image={values.updatedImage instanceof File ? values.updatedImage : null} inputFileName='updatedImage'/> : null}
                     </div>
                     <div className='post-update-submit-btn'>
-                        <Button content='Update Post' type='submit'/>
-                        <Button content='Delete Post' type='submit'/>
+                        <Button content='Update Post' type='submit' disabled={!isPostUpdated || formik.isSubmitting}/>
                     </div>
                 </form>
             </FormikProvider>
-            
         </div>
     );
 };

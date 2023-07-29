@@ -47,8 +47,6 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
         setEditModalActive(true);
     }
 
-
-
     const handleDeletePost = async (e: MouseEvent) => {
         const postRoot = (e.target as HTMLElement).closest('.post-box');
         if (!postRoot) return;
@@ -75,7 +73,13 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
                     />
                 ).reverse()}
                 <ModalWindow active={editModalActive} setActive={setEditModalActive} controls={false}>
-                    {updatePostInfo && <PostUpdateForm postId={updatePostInfo.id} content={updatePostInfo.content} image={getImageUrl(updatePostInfo.image)} isCommentable={false}/>}
+                    {updatePostInfo && <PostUpdateForm 
+                        postId={updatePostInfo.id} 
+                        content={updatePostInfo.content} 
+                        image={getImageUrl(updatePostInfo.image)} 
+                        isCommentable={updatePostInfo.is_commentable}
+                        setShowModal={setEditModalActive}
+                    />}
                 </ModalWindow>
             </>
             : <div>Здесь постов еще нет</div>
