@@ -14,7 +14,7 @@ const NavBar: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const { isMobile } = useWindowSize();
-    const { id } = useAppSelector(state => state.authReducer.user);
+    const { id } = useAppSelector(state => state.authReducer.authUserInfo);
     const navigate = useNavigate();
     const [active, setActive] = useState<boolean>(false);
 
@@ -38,6 +38,10 @@ const NavBar: React.FC = () => {
         console.log('navigate to Contacts')
     }
 
+    const handleClickSettings = () => {
+        navigate(RoutePaths.SETTING_PAGE);
+    }
+
 
     return (
         <>
@@ -47,6 +51,7 @@ const NavBar: React.FC = () => {
                     <div className='navbar-item' onClick={handleClicProfile}><IconButton icon='profile' /></div>
                     <div className='navbar-item' onClick={handleClickMessages}><IconButton icon='chat' /></div>
                     <div className='navbar-item' onClick={handleClickContacts}><IconButton icon='contact' /></div>
+                    <div className='navbar-item' onClick={handleClickSettings}><IconButton icon='edit' /></div>
                     <div className='navbar-item' onClick={handleClickLogout}><IconButton icon='logout'/></div>
                 </div>
                 :
@@ -69,6 +74,10 @@ const NavBar: React.FC = () => {
                                 <div className='navbar-item' onClick={handleClickContacts}>
                                     <IconButton size='s' icon='contact' />
                                     <span className='navbar-item-label'>Contacts</span>
+                                </div>
+                                <div className='navbar-item' onClick={handleClickSettings}>
+                                    <IconButton size='s' icon='edit' />
+                                    <span className='navbar-item-label'>Settings</span>
                                 </div>
                                 <div className='navbar-item' onClick={handleClickLogout}>
                                     <IconButton size='s' icon='logout'/>

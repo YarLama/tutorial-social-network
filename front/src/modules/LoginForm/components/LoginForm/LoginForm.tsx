@@ -41,9 +41,9 @@ const LoginForm: React.FC = () => {
             const body = prepareLoginData(values.email, values.password);
             const responce = await login(body).unwrap();
             dispatch(authSlice.actions.login(responce.token));
-            const { user } = useAppSelector(state => state.authReducer)
+            const { id } = useAppSelector(state => state.authReducer.authUserInfo)
             actions.resetForm();
-            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id));
+            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
         } catch (e) {
             setErrorForm((e as AxiosError).status === 401 ? 'Неправильный логин или пароль' : 'Что-то пошло не так')
         }

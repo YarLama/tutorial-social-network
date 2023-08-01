@@ -1,5 +1,5 @@
 import { FormikHelpers, FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { postApi } from '../../../../app/api/postApi';
 import { PostCreateRequest } from '../../../../app/api/postApi/types';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
@@ -14,7 +14,7 @@ import './styles/style.scss'
 const PostForm: React.FC = () => {
 
     const { isMobile } = useWindowSize();
-    const { user } = useAppSelector(state => state.authReducer);
+    const { authUserInfo: user } = useAppSelector(state => state.authReducer);
     const [createPost] = postApi.useCreatePostMutation();
     const dispatch = useAppDispatch();
     

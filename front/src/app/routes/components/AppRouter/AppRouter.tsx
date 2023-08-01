@@ -14,8 +14,8 @@ interface IAppRouterProps {
 const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
 
 
-    const { user } = useAppSelector(state => state.authReducer);
-    const userPage = replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id);
+    const { id } = useAppSelector(state => state.authReducer.authUserInfo);
+    const userPage = replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id);
     const rootElement = isAuthorizate ? <Navigate to={userPage}/> : <Navigate to={RoutePaths.LOGIN_PAGE}/> ;
 
     return (

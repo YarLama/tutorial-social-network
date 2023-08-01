@@ -1,4 +1,4 @@
-import { AuthUserInfo, IUser } from "../../types/common";
+import { AuthUserInfo } from "../../types/common";
 
 export function parseJwt (token: string) {
     let base64Url = token.split('.')[1];
@@ -43,8 +43,6 @@ export function getUserInfoFromLocalToken(): AuthUserInfo {
     const token = getLocalToken();
     const info: AuthUserInfo = {id: null, email: null}
     if (!token || !isLocalTokenActual()) return info
-    const user: IUser = parseJwt(token);
-    info.id = user.id;
-    info.email = user.email;
-    return info
+    const user: AuthUserInfo = parseJwt(token);
+    return user
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { IUser } from '../../../../app/api/userApi/types';
+import { User } from '../../../../app/api/userApi/types';
 import { convetToFullName } from '../../../../app/helpers/common/text';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
@@ -12,7 +12,7 @@ import { UserPosts } from '../UserPosts/UserPosts';
 import './styles/style.scss'
 
 interface IUserPageContentProps {
-    user: IUser
+    user: User
 }
 
 const UserPageContent: React.FC<IUserPageContentProps> = ({user}) => {
@@ -23,7 +23,7 @@ const UserPageContent: React.FC<IUserPageContentProps> = ({user}) => {
     const s3 = 'https://w.forfun.com/fetch/85/85752d41628c834b3c0501156b38c877.jpeg?w=1470&r=0.5625';
     
     const { id: paramId } = useParams();
-    const { id: authId} = useAppSelector(state => state.authReducer.user)
+    const { id: authId} = useAppSelector(state => state.authReducer.authUserInfo)
     const isOwner = Number(paramId) === authId;
     const { isMobile } = useWindowSize();
     const fullName = convetToFullName(user.first_name, user.last_name, user.middle_name);

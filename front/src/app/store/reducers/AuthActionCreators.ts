@@ -1,4 +1,4 @@
-import { getLocalToken, isLocalTokenActual } from "../../helpers/common/auth/tokenHelpers";
+import { isLocalTokenActual } from "../../helpers/common/auth/tokenHelpers";
 import { AppDispatch } from "../store";
 import { authSlice } from "./AuthSlice";
 

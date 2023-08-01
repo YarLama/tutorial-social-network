@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { postApi } from '../../../../app/api/postApi';
 import { userApi } from '../../../../app/api/userApi';
 import { getImageUrl } from '../../../../app/helpers/http';

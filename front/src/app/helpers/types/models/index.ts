@@ -1,3 +1,6 @@
+import { Photo } from "../../../api/photoApi/types";
+import { User } from "../../../api/userApi/types";
+
 export type PostModelType = {
     id: number;
     userId: number;
@@ -8,3 +11,5 @@ export type PostModelType = {
     createdAt: string;
     updatedAt: string;
 }
+
+export type UserModelType = User & {avatar: Photo | null};

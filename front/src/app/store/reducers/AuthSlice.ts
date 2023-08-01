@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUserInfoFromLocalToken, parseJwt, removeLocalToken, setLocalToken } from "../../helpers/common/auth/tokenHelpers";
-import { AuthUserInfo, IUser } from "../../helpers/types/common";
+import { AuthUserInfo } from "../../helpers/types/common";
 
 interface AuthState {
-    user: AuthUserInfo;
+    authUserInfo: AuthUserInfo;
     isAuthenticated: boolean;
 }
 
 const userInfo = getUserInfoFromLocalToken();
 
 const initialState: AuthState = {
-    user: userInfo,
+    authUserInfo: userInfo,
     isAuthenticated: !!userInfo.id
 }
 
@@ -20,15 +20,15 @@ export const authSlice = createSlice({
     reducers: {
         login(state, action: PayloadAction<string>) {
             setLocalToken(action.payload);
-            const user: IUser = parseJwt(action.payload)
-            state.user.id = user.id;
-            state.user.email = user.email;
+            const user: AuthUserInfo = parseJwt(action.payload)
+            state.authUserInfo.id = user.id;
+            state.authUserInfo.email = user.email;
             state.isAuthenticated = true;
         },
         logout(state) {
             removeLocalToken();
-            state.user.id = null;
-            state.user.email = null;
+            state.authUserInfo.id = null;
+            state.authUserInfo.email = null;
             state.isAuthenticated = false;
         },
     }

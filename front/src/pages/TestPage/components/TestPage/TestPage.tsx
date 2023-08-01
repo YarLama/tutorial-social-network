@@ -15,7 +15,7 @@ const TestPage = () => {
     const [testModalActive2, setTestModalActive2] = useState<boolean>(false);
     const [testModalActive3, setTestModalActive3] = useState<boolean>(false);
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector(state => state.authReducer)
+    const { authUserInfo: user } = useAppSelector(state => state.authReducer)
     const { isMobile } = useWindowSize();
     const ch1 = [
         {id:1, src: 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U'},

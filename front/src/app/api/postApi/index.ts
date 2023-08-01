@@ -3,7 +3,7 @@ import { PostModelType } from "../../helpers/types/models";
 
 export const postApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        createPost: builder.mutation<PostModelType[], FormData>({
+        createPost: builder.mutation<PostModelType, FormData>({
             query: (data) => ({
                 url: `/posts`,
                 method: 'POST',
