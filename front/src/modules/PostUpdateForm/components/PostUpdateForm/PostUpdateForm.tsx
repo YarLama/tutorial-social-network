@@ -50,8 +50,9 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
     }
 
     const handleUpdateField = () => {
+        const initialFileName = (initialValues.updatedImage as string).split('/').slice(-1)[0];
         const updatedContent = values.content === initialValues.content;
-        const updatedImage = !!values.updatedImage === !!initialValues.updatedImage;
+        const updatedImage = (!!values.updatedImage === !!initialValues.updatedImage) && ((values.updatedImage as File).name === initialFileName);
         const updatedCommentable = values.isCommentable === initialValues.isCommentable;
 
         updatedContent && updatedImage && updatedCommentable ? setIsPostUpdated(false) : setIsPostUpdated(true)

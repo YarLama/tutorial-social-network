@@ -1,0 +1,1 @@
+export { SettingForm } from './components/SettingForm/SettingForm'

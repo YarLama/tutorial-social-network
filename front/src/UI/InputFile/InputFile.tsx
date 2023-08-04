@@ -38,7 +38,8 @@ const InputFile: React.FC<IInputFileProps> = ({
             : axios.get(image, {
                 responseType: "blob"
             }).then(responce => {
-                let file = new File([responce.data], 'image.jpg', {type: 'image/jpeg'})
+                let name = image.split('/').slice(-1)
+                let file = new File([responce.data], `${name}`, {type: 'image/jpeg'})
                 setInputFile(file)
             }).catch(err => console.log(err));
         }

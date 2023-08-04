@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetUserByIdQuery } from '../../../../app/api/userApi';
-import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { useGetUserAvatarQuery, useGetUserByIdQuery } from '../../../../app/api/userApi';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { userSlice } from '../../../../app/store/reducers/UserSlice';
 import { UserPageContent } from '../UserPageContent/UserPageContent';
 import UserPageLoading from '../UserPageLoading/UserPageLoading';
@@ -11,15 +11,18 @@ const UserPage = () => {
 
     const { id: paramId } = useParams();
     const { data: userData } = useGetUserByIdQuery(paramId);
+    const { data: userAvatar } = useGetUserAvatarQuery(paramId);
     const dispatch = useAppDispatch();
-    
+    const { user, avatar} = useAppSelector(state => state.userReducer);
+
     useEffect(() => {
-        userData ? dispatch(userSlice.actions.setUser(userData)) : null;
-    }, [userData])
+        userData && dispatch(userSlice.actions.setUser(userData));
+        userAvatar && dispatch(userSlice.actions.setAvatar(userAvatar));
+    },[userData, userAvatar])
 
     return (
         <div className='user-page'>
-            { !userData ? <UserPageLoading /> : <UserPageContent user={userData}/>}
+            { !user ? <UserPageLoading /> : <UserPageContent user={user} avatar={avatar}/>}
         </div>   
     );
 };
