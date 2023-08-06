@@ -3,18 +3,20 @@ import './styles/style.scss'
 
 interface IAvatarProps {
     src: string | undefined;
-    small?: boolean;
+    size: 's' | 'm' | 'l';
 }
 
 const Avatar: React.FC<IAvatarProps> = ({
     src,
-    small = false
+    size = 'l'
 }) => {
 
-    const default_user = require('./assets/default_user.png')
+    const default_user = require('./assets/default_user.png');
+    const className = ['avatar-box', `${size}-size-box`];
+    
 
     return (
-        <div className={`avatar-box ${small ? 'small-avatar': ''}`}>
+        <div className={className.join(' ')}>
             { src 
                 ? <img src={src} alt={`avatar`} className={'user-avatar'}/>
                 : <img src={default_user} alt={`avatar`} className={'default-avatar'}/>

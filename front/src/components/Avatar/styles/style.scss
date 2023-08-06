@@ -2,13 +2,9 @@
 @import '/src/UI/styles_extension/variables';
 
 .avatar-box {
-    min-width: 200px;
-    width: 200px;
-    height: 200px;
-    border: 2px solid $color_button_background;
     margin: 10px;
 
-    &.small-avatar {
+    &.s-size-box {
         width: 65px;
         height: 65px;
         border: none;
@@ -23,6 +19,29 @@
             object-fit: cover; 
         }
     }
+
+    &.m-size-box {
+        width: 100px;
+        height: 100px;
+        border: none;
+
+        @include mobile {
+            width: 50px;
+            height: 50px;
+        }
+        
+        img {
+            border-radius: 50%;
+            object-fit: cover; 
+        }
+    }
+
+    &.l-size-box {    
+        min-width: 200px;
+        height: 200px;
+        border: 2px solid $color_button_background;
+    }
+
 
     img {
         width: 100%;

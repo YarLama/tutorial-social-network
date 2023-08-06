@@ -1,8 +1,10 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { getLocalImageUrl } from '../../../../app/helpers/http';
 import { UserModelType } from '../../../../app/helpers/types/models';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
-import { Button, InputText, InputTextarea } from '../../../../UI';
+import { Avatar } from '../../../../components';
+import { Button, InputFile, InputText, InputTextarea } from '../../../../UI';
 
 interface ISettingForm {
     userInfo: UserModelType;
@@ -53,7 +55,10 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         <div className='setting-form'>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
-                    <div style={{width: '200px', height: '200px', backgroundColor: 'gray'}}>Avatar</div>
+                    <div className='setting-form-user-avatar'>
+                        <Avatar src={getLocalImageUrl(values.avatar)} size='m'/>
+                        <InputFile name='avatar' content='update avatar photo' value={values.avatar} />
+                    </div>
                     <div className='setting-form-user-info'>
                         <InputText 
                             name='firstName'
