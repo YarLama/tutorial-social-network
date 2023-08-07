@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards, UsePipes } from '@nestjs/common';
 import { RoleNames } from "src/utils/constants";
 import { RolesForAccess } from 'src/auth/decorators/roles-auth.decorator';
 import { RolesAccessGuard } from 'src/auth/guards/roles-access.guard';
@@ -28,6 +28,13 @@ export class UsersController {
     @Post('/role')
     addUserRole(@Body() dto: AddUserRoleDto) {
         return this.userService.addUserRole(dto);
+    }
+
+    @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Put('/:id')
+    updateUser(@Body() dto: CreateUserDto, @Param('id') id: number, @Req() request: Request): Promise<IUserEntity> {
+        return this.userService.updateUser(dto, id, request);
     }
 
     @RolesForAccess(RoleNames.ADMIN, RoleNames.USER)

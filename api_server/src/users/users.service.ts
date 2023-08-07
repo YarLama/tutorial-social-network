@@ -133,4 +133,17 @@ export class UsersService {
         return contacts;
     }
 
+    async updateUser(dto: CreateUserDto, id: number, request: Request): Promise<User> {
+        const user = await this.userRepository.findByPk(id);
+        if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        const isOwner = await this.authService.isEqualUserId(request, user.id);
+        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const updateUser = await this.userRepository.update(
+            {...dto},
+            {where: {id}} 
+        );
+        const updatedUser = await this.userRepository.findByPk(id);
+        return updatedUser;
+    }
+
 }
