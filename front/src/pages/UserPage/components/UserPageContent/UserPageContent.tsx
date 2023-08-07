@@ -29,7 +29,7 @@ const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
     return (
         <div className='user-page-content'>
             <div className='user-page-info'>
-                <Avatar src={avatar?.image}/>
+                <Avatar src={avatar?.image} size='l'/>
                 <UserPageDetail
                     name={fullName}
                     about={user.description}

@@ -4,4 +4,6 @@ export type User = {
     last_name: string,
     middle_name: string | null,
     description: string | null,
+    phone: string;
+    email: string;
 }

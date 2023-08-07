@@ -4,7 +4,7 @@ import { getLocalImageUrl } from '../../../../app/helpers/http';
 import { UserModelType } from '../../../../app/helpers/types/models';
 import { useAppDispatch } from '../../../../app/hooks/redux/redux';
 import { Avatar } from '../../../../components';
-import { Button, InputFile, InputText, InputTextarea } from '../../../../UI';
+import { Button, InputFile, InputPhone, InputText, InputTextarea } from '../../../../UI';
 
 interface ISettingForm {
     userInfo: UserModelType;
@@ -15,6 +15,8 @@ type testType = {
     middleName: string | null;
     lastName: string;
     description: string | null;
+    phone: string;
+    email: string;
     avatar?: File | string | null;
 }
 
@@ -27,6 +29,8 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         firstName: userInfo.first_name,
         middleName: userInfo.middle_name,
         lastName: userInfo.last_name,
+        phone: userInfo.phone,
+        email: userInfo.email,
         description: userInfo.description,
         avatar: userInfo.avatar?.image
     }
@@ -74,6 +78,16 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
                             name='lastName'
                             label='Last Name'
                             value={values.lastName}
+                        />
+                        <InputText 
+                            name='email'
+                            label='E-mail'
+                            value={values.email}
+                        />
+                        <InputPhone 
+                            name='phone'
+                            label='Phone number'
+                            value={values.phone}
                         />
                         <InputTextarea 
                             name='description'
