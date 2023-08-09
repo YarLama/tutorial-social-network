@@ -1,0 +1,58 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.setting-form {
+
+    form {
+
+        .setting-form-user-avatar {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0px;
+
+            @include mobile {
+                margin: 5px 0px;
+            }
+
+            .input-file {
+                display: flex;
+
+                @include mobile {
+                    margin-left: 0;
+                }
+
+                label {  
+                    display: flex;
+                    align-items: center;
+                    color: $color_minor_background;
+                    background-color: white;
+                    border: 2px solid $color_button_background;
+                    border-radius: 15px;
+                    padding: 14px 30px;
+                    cursor: pointer;
+                    font-size: 16pt;
+                    font-weight: 500;
+
+                    @include mobile {
+                        height: 40px;
+                        font-size: 14pt;
+                        padding: 0 30px;
+                    }
+                }
+            }
+        }
+
+        .setting-form-user-info {
+
+            div {
+                margin-top: 15px;
+
+                @include mobile {
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+}

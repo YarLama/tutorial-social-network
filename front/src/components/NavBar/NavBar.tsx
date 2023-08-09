@@ -26,8 +26,13 @@ const NavBar: React.FC = () => {
         dispatch(authSlice.actions.logout());
     }
 
+    const navigateTo = (route: string) => {
+        navigate(route);
+        setActive(!active);
+    }
+
     const handleClicProfile = () => {
-        navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
+        navigateTo(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
     }
 
     const handleClickMessages = () => {
@@ -39,7 +44,7 @@ const NavBar: React.FC = () => {
     }
 
     const handleClickSettings = () => {
-        navigate(RoutePaths.SETTING_PAGE);
+        navigateTo(RoutePaths.SETTING_PAGE);
     }
 
 
@@ -48,10 +53,10 @@ const NavBar: React.FC = () => {
             { !isMobile 
                 ?   
                 <div className='navbar-items'>
-                    <div className='navbar-item' onClick={handleClicProfile}><IconButton icon='profile' /></div>
-                    <div className='navbar-item' onClick={handleClickMessages}><IconButton icon='chat' /></div>
-                    <div className='navbar-item' onClick={handleClickContacts}><IconButton icon='contact' /></div>
-                    <div className='navbar-item' onClick={handleClickSettings}><IconButton icon='edit' /></div>
+                    <div className='navbar-item' onClick={handleClicProfile}><IconButton icon='profile'/></div>
+                    <div className='navbar-item' onClick={handleClickMessages}><IconButton icon='chat'/></div>
+                    <div className='navbar-item' onClick={handleClickContacts}><IconButton icon='contact'/></div>
+                    <div className='navbar-item' onClick={handleClickSettings}><IconButton icon='edit'/></div>
                     <div className='navbar-item' onClick={handleClickLogout}><IconButton icon='logout'/></div>
                 </div>
                 :
