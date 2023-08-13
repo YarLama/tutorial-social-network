@@ -21,6 +21,10 @@ export const userSlice = createSlice({
         },
         setAvatar(state, action: PayloadAction<Photo>) {
             state.avatar = action.payload;
+        },
+        setUserAndAvatar(state, action: PayloadAction<UserState>) {
+            state.user = action.payload.user;
+            state.avatar = action.payload.avatar;
         }
     }
 })

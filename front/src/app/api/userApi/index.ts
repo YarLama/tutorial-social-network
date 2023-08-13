@@ -17,7 +17,14 @@ export const userApi = api.injectEndpoints({
         getUserAvatar: builder.query<Photo, any>({
             query: (id) => `/users/${id}/avatar`
         }),
+        updateUser: builder.mutation<any, any>({
+            query: ({id, data}) => ({
+                url: `/users/${id}`,
+                method: 'PUT',
+                body: data
+            })
+        })
     })
 })
 
-export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetUserAvatarQuery, useGetUserPostsQuery } = userApi;
+export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetUserAvatarQuery, useGetUserPostsQuery, useUpdateUserMutation } = userApi;

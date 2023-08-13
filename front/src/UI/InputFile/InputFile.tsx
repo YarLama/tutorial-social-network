@@ -47,7 +47,7 @@ const InputFile: React.FC<IInputFileProps> = ({
 
     const handleChange = (e: React.ChangeEvent<any>) => {
         const {files} = e.target;
-        setInputFile(files[0]);
+        if (files.length > 0) setInputFile(files[0]);
     }
 
     if (contentError) classNames.push('error-input');

@@ -1,4 +1,5 @@
 import { validate } from "../../../app/helpers/common/form";
+import { getPhoneWithoutSymbols } from "../../../app/helpers/common/text";
 import { ValidateResult } from "../../../app/helpers/types/form";
 import { RegistrationFormValues, RegistrationFormValuesErrors } from "./types";
 
@@ -27,7 +28,7 @@ const validateLastName = (lastName: RegistrationFormValues['last_name']): Valida
 const validatePhone = (phone: RegistrationFormValues['phone']): ValidateResult => {
     return validate(() => {
         let error = null
-        let digitsOnly = phone.replace(/\D/g, '');
+        let digitsOnly = getPhoneWithoutSymbols(phone);
         let phoneRegExp: RegExp = /^[78]\d{10}$/;
 
         if (phone.length === 0) return error = 'Введите номер телефона' 

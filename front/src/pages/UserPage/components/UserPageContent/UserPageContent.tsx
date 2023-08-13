@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Photo } from '../../../../app/api/photoApi/types';
 import { User } from '../../../../app/api/userApi/types';
 import { convetToFullName } from '../../../../app/helpers/common/text';
+import { getImageUrl } from '../../../../app/helpers/http';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
 import { Avatar } from '../../../../components';
 import { UserPageDetail } from '../UserPageDetail/UserPageDetail';
@@ -24,12 +25,12 @@ const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
     const { id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const isOwner = Number(paramId) === authId;
     const fullName = convetToFullName(user.first_name, user.last_name, user.middle_name);
-    console.log([user, avatar])
+    const avatarUrl = avatar ? getImageUrl(avatar.image) : undefined;
 
     return (
         <div className='user-page-content'>
             <div className='user-page-info'>
-                <Avatar src={avatar?.image} size='l'/>
+                <Avatar src={avatarUrl} size='l'/>
                 <UserPageDetail
                     name={fullName}
                     about={user.description}

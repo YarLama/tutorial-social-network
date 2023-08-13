@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { Formik, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
@@ -28,15 +28,6 @@ const RegistrationForm: React.FC = () => {
         confirm_password: ''
     }
 
-    // const initialValues: RegistrationFormValues = {
-    //     first_name: 'Test1',
-    //     last_name: 'Tester',
-    //     phone: '79043642561',
-    //     email: 'test1@test.ru',
-    //     password: 'test1',
-    //     confirm_password: 'test1'
-    // }
-
     const handleSubmit = async (values: RegistrationFormValues, actions: FormikHelpers<RegistrationFormValues>) => {
         try {
             setErrorForm('')
@@ -51,8 +42,8 @@ const RegistrationForm: React.FC = () => {
             const responce = await registration(body).unwrap();
             dispatch(authSlice.actions.login(responce.token));
             actions.resetForm();
-            const { user } = useAppSelector(state => state.authReducer);
-            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, user.id));
+            const { id } = useAppSelector(state => state.authReducer.authUserInfo);
+            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
         } catch (e) {
             setErrorForm((e as AxiosError).status === 400 ? 'Такой пользователь уже существует' : 'Что-то пошло не так')
         }

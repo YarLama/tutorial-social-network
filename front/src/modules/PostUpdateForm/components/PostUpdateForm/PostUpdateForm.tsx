@@ -50,12 +50,13 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
     }
 
     const handleUpdateField = () => {
-        const initialFileName = (initialValues.updatedImage as string).split('/').slice(-1)[0];
+        const initialFileName = initialValues.updatedImage ? (initialValues.updatedImage as string).split('/').slice(-1)[0] : "";
+        const valuesFileName = values.updatedImage ? (values.updatedImage as File).name : "";
         const updatedContent = values.content === initialValues.content;
-        const updatedImage = (!!values.updatedImage === !!initialValues.updatedImage) && ((values.updatedImage as File).name === initialFileName);
+        const updatedImage = (!!values.updatedImage === !!initialValues.updatedImage) && (valuesFileName === initialFileName);
         const updatedCommentable = values.isCommentable === initialValues.isCommentable;
 
-        updatedContent && updatedImage && updatedCommentable ? setIsPostUpdated(false) : setIsPostUpdated(true)
+        updatedContent && updatedImage && updatedCommentable ? setIsPostUpdated(false) : setIsPostUpdated(true);
     }
 
     const formik = useFormik({

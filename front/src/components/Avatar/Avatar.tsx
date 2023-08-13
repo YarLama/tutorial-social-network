@@ -1,8 +1,9 @@
 import React from 'react';
+import { getImageUrl } from '../../app/helpers/http';
 import './styles/style.scss'
 
 interface IAvatarProps {
-    src: string | undefined;
+    src?: string;
     size: 's' | 'm' | 'l';
 }
 
@@ -13,7 +14,6 @@ const Avatar: React.FC<IAvatarProps> = ({
 
     const default_user = require('./assets/default_user.png');
     const className = ['avatar-box', `${size}-size-box`];
-    
 
     return (
         <div className={className.join(' ')}>
