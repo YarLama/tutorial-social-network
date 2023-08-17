@@ -6,7 +6,7 @@ import { getUserInfoFromLocalToken } from '../../../../app/helpers/common/auth/t
 import { getPhoneWithoutSymbols } from '../../../../app/helpers/common/text';
 import { getImageUrl, getLocalImageUrl } from '../../../../app/helpers/http';
 import { UserModelType } from '../../../../app/helpers/types/models';
-import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { userSlice } from '../../../../app/store/reducers/UserSlice';
 import { Avatar } from '../../../../components';
 import { Button, InputFile, InputPhone, InputText, InputTextarea } from '../../../../UI';
@@ -65,6 +65,14 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         const initialAvatar = initialValues.avatar ? (initialValues.avatar as string).split('/').slice(-1)[0] : null;
         const valuesAvatar = values.avatar ? (values.avatar as File).name : null;
         const isAvatarChanged = (!!values.avatar === !!initialValues.avatar) && (valuesAvatar === initialAvatar); 
+        // console.log([
+        //     ['INITIAL', initialValues.avatar, initialAvatar], 
+        //     ['VALUES', values.avatar, valuesAvatar],
+        //     ['getImageUrl', getImageUrl(initialValues.avatar)],
+        //     ['getLocalImageUrl', getLocalImageUrl(values.avatar)],
+        //     ['CHANGE?', initialAvatar, valuesAvatar], 
+        //     ['OUTPUT', !isAvatarChanged]
+        // ]);
         return !isAvatarChanged;
     }
 
@@ -78,7 +86,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         const updateCondition = updatedFirstName 
         && updatedMiddleName 
         && updatedLastName 
-        && !isAvatarChanged() 
+        && isAvatarChanged() 
         && updatedPhone 
         && updatedEmail 
         && updatedDescription;
@@ -104,7 +112,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='setting-form-user-avatar'>
-                        <Avatar src={isAvatarChanged() ? getImageUrl(initialValues.avatar) : getLocalImageUrl(values.avatar)} size='m'/>
+                        <Avatar src={isAvatarChanged() ? getLocalImageUrl(values.avatar) : getImageUrl(initialValues.avatar)} size='m'/>
                         <InputFile 
                             name='avatar' 
                             content='Update avatar photo' 

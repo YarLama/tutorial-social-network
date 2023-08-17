@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputPhoneProps {
@@ -11,7 +11,7 @@ interface IInputPhoneProps {
     readonly?: boolean;
 }
 
-const InputPhone: React.FC<IInputPhoneProps> = ({
+const InputPhone: React.FC<IInputPhoneProps> = memo(({
     name,
     value,
     label,
@@ -81,6 +81,6 @@ const InputPhone: React.FC<IInputPhoneProps> = ({
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     )
-};
+});
 
 export { InputPhone };

@@ -9,8 +9,9 @@ import { SettingPageContent } from '../SettingPageContent/SettingPageContent';
 const SettingPage = () => {
 
     const { id: userId } = getUserInfoFromLocalToken();
-    const { data: userData } = useGetUserByIdQuery(userId);
-    const { data: avatarData } = useGetUserAvatarQuery(userId);
+    const { data: userData, isLoading: userLoading } = useGetUserByIdQuery(userId);
+    const { data: avatarData, isLoading: avatarLoading } = useGetUserAvatarQuery(userId);
+    const isLoading = userLoading && avatarLoading
     const dispatch = useAppDispatch();
     const { user, avatar} = useAppSelector(state => state.userReducer);
 
@@ -20,9 +21,11 @@ const SettingPage = () => {
     },[userData, avatarData])
 
     return (
+        !isLoading ?
         <div className='setting-page'>
             {user ? <SettingPageContent user={user} avatar={avatar}/> : <LoaderRing />}
         </div>
+        : <LoaderRing />
     );
 };
 

@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputTextProps {
@@ -13,7 +13,7 @@ interface IInputTextProps {
     numberOnly?: boolean;
 }
 
-const InputText: React.FC<IInputTextProps> = ({
+const InputText: React.FC<IInputTextProps> = memo(({
     name,
     value,
     label,
@@ -67,6 +67,6 @@ const InputText: React.FC<IInputTextProps> = ({
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     )
-};
+});
 
 export { InputText };

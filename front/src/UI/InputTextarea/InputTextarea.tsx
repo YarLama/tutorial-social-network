@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputTextareaProps {
@@ -10,7 +10,7 @@ interface IInputTextareaProps {
     required?: boolean;
 }
 
-const InputTextarea: React.FC<IInputTextareaProps> = ({
+const InputTextarea: React.FC<IInputTextareaProps> = memo(({
     name,
     value,
     label,
@@ -57,6 +57,6 @@ const InputTextarea: React.FC<IInputTextareaProps> = ({
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     );
-};
+});
 
 export {InputTextarea};

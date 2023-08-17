@@ -12,6 +12,7 @@ interface ISettingPageContentProps {
 const SettingPageContent: React.FC<ISettingPageContentProps> = ({user, avatar}) => {
 
     const userInfo: UserModelType = {...user, avatar: avatar};
+    console.log(userInfo);
 
     return (
         <div className='setting-page-content'>

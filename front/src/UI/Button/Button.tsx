@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { memo, MouseEventHandler } from 'react';
 import './styles/style.scss'
 
 interface IButtonProps {
@@ -11,7 +11,7 @@ interface IButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<IButtonProps> = ({content, extraClassName, size = 'm', hide = false, disabled = false, onClick, ...props}) => {
+const Button: React.FC<IButtonProps> = memo(({content, extraClassName, size = 'm', hide = false, disabled = false, onClick, ...props}) => {
 
     const classNames = ['btn', `btn-${size}`];
 
@@ -24,6 +24,6 @@ const Button: React.FC<IButtonProps> = ({content, extraClassName, size = 'm', hi
             </button>
         </>
     );
-};
+});
 
 export { Button, IButtonProps};

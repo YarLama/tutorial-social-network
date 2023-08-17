@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import { getImageUrl } from '../../app/helpers/http';
 import { IconButton } from '../IconButton/IconButton';
 import './styles/style.scss';
 
@@ -12,7 +13,7 @@ interface IInputFileProps {
     required?: boolean;
 }
 
-const InputFile: React.FC<IInputFileProps> = ({
+const InputFile: React.FC<IInputFileProps> = memo(({
     name,
     contentError,
     required,
@@ -32,16 +33,24 @@ const InputFile: React.FC<IInputFileProps> = ({
         setFieldValue(name, inputFile);
     }, [inputFile])
 
+    const getImageFileFromUrl = async (url: string) => {
+        axios.get(url, {
+            responseType: "blob"
+        }).then(responce => {
+            let name = url.split('/').slice(-1)
+            let file = new File([responce.data], `${name}`, {type: 'image/jpeg'})
+            setInputFile(file)
+        }).catch(err => console.log(err))
+    }
+
     const prepareDisplayImagePreview = async (image = value) => {
+        console.log(image, value)
         if (image) {
-            image instanceof File ? setInputFile(image)
-            : axios.get(image, {
-                responseType: "blob"
-            }).then(responce => {
-                let name = image.split('/').slice(-1)
-                let file = new File([responce.data], `${name}`, {type: 'image/jpeg'})
-                setInputFile(file)
-            }).catch(err => console.log(err));
+            if (image instanceof File) {
+                console.log('THIS IS FILE')
+                setInputFile(image);
+                return;
+            } else image?.toString().split('/').length > 1 ? getImageFileFromUrl(image) : getImageFileFromUrl(getImageUrl(image) ?? '');
         }
     }
 
@@ -71,6 +80,6 @@ const InputFile: React.FC<IInputFileProps> = ({
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>
     );
-};
+});
 
 export { InputFile };

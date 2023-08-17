@@ -19,8 +19,6 @@ interface IUserPageContentProps {
 
 const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
 
-    const s1 = 'https://avatars.mds.yandex.net/i?id=a859c5b1c3415096eaf48b9661aaa2696cfde1ce-8209975-images-thumbs&n=13';
-    
     const { id: paramId } = useParams();
     const { id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const isOwner = Number(paramId) === authId;

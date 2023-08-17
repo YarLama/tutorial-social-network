@@ -1,5 +1,4 @@
-import React from 'react';
-import { getImageUrl } from '../../app/helpers/http';
+import React, { memo } from 'react';
 import './styles/style.scss'
 
 interface IAvatarProps {
@@ -7,7 +6,7 @@ interface IAvatarProps {
     size: 's' | 'm' | 'l';
 }
 
-const Avatar: React.FC<IAvatarProps> = ({
+const Avatar: React.FC<IAvatarProps> = memo(({
     src,
     size = 'l'
 }) => {
@@ -23,6 +22,6 @@ const Avatar: React.FC<IAvatarProps> = ({
             }
         </div>
     );
-};
+});
 
 export {Avatar};

@@ -6,7 +6,6 @@ export const replaceWithId = (url: string, id: any): string => {
 }
 
 export const getImageUrl = (image: string | File | null | undefined): string | undefined => {
-    console.log(image)
     return image? 
         typeof image === 'string'?
         `${apiInfo.IMAGE_STORAGE_URL}/${image}`

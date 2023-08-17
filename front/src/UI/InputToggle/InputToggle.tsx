@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputToggleProps {
@@ -8,7 +8,7 @@ interface IInputToggleProps {
     isChecked?: boolean;
 }
 
-const InputToggle: React.FC<IInputToggleProps> = ({
+const InputToggle: React.FC<IInputToggleProps> = memo(({
     name,
     label,
     isChecked = false
@@ -37,6 +37,6 @@ const InputToggle: React.FC<IInputToggleProps> = ({
             {label && <span className='toggle-label'>{label}</span>}
         </div>
     )
-};
+});
 
 export { InputToggle };
