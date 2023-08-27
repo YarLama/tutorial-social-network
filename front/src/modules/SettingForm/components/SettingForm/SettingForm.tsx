@@ -1,5 +1,5 @@
 import { FormikProvider, useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { photoApi } from '../../../../app/api/photoApi';
 import { userApi } from '../../../../app/api/userApi';
 import { getUserInfoFromLocalToken } from '../../../../app/helpers/common/auth/tokenHelpers';
@@ -27,6 +27,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
     const [ createPhoto ] = photoApi.useCreatePhotoMutation();
     const [ setAvatarState ] = photoApi.useSetAvatarStateMutation();
     const dispatch = useAppDispatch();
+    const { avatar: ava} = useAppSelector(state => state.userReducer)
 
     const initialValues: SettingFormValues = {
         firstName: userInfo.first_name,
@@ -35,7 +36,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         phone: userInfo.phone,
         email: userInfo.email,
         description: userInfo.description,
-        avatar: userInfo.avatar?.image
+        avatar: userInfo.avatar?.image ?? null
     }
 
     const handleSubmit = async (values: SettingFormValues, actions: any) => {
@@ -51,9 +52,10 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
             );
             const avatarBody = values.avatar ? prepareSettingAvatarData(String(userId), values.avatar) : null;
             const userResponce = await updateUser({id: String(userId), data: userBody}).unwrap();
-            const avatarResponce = (isAvatarChanged() && avatarBody) ? await createPhoto(avatarBody).unwrap() : null;
-            const setAvatarStateResponce = avatarResponce ? setAvatarState(String(avatarResponce.id)) : null;
-            dispatch(userSlice.actions.setUserAndAvatar({user: userResponce, avatar: avatarResponce}))
+            const avatarResponce = (!isAvatarChanged() && avatarBody) ? await createPhoto(avatarBody).unwrap() : null;
+            const setAvatarStateResponce =  avatarResponce ? await setAvatarState(String(avatarResponce.id)).unwrap() : null;
+            console.log(avatarResponce, setAvatarStateResponce)
+            dispatch(userSlice.actions.setUserAndAvatar({user:userResponce, avatar: setAvatarStateResponce}));
             actions.setSubmitting(false);
         } catch (e) {
             actions.setSubmitting(false);
@@ -64,16 +66,8 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
     const isAvatarChanged = (): boolean => {
         const initialAvatar = initialValues.avatar ? (initialValues.avatar as string).split('/').slice(-1)[0] : null;
         const valuesAvatar = values.avatar ? (values.avatar as File).name : null;
-        const isAvatarChanged = (!!values.avatar === !!initialValues.avatar) && (valuesAvatar === initialAvatar); 
-        // console.log([
-        //     ['INITIAL', initialValues.avatar, initialAvatar], 
-        //     ['VALUES', values.avatar, valuesAvatar],
-        //     ['getImageUrl', getImageUrl(initialValues.avatar)],
-        //     ['getLocalImageUrl', getLocalImageUrl(values.avatar)],
-        //     ['CHANGE?', initialAvatar, valuesAvatar], 
-        //     ['OUTPUT', !isAvatarChanged]
-        // ]);
-        return !isAvatarChanged;
+        const isAvatarChanged = (!!values.avatar === !!initialValues.avatar) && (valuesAvatar === initialAvatar);
+        return isAvatarChanged;
     }
 
     const handleUpdateField = () => {
@@ -90,8 +84,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
         && updatedPhone 
         && updatedEmail 
         && updatedDescription;
-
-        updateCondition ? setIsSettingUpdated(false) : setIsSettingUpdated(true);
+        setIsSettingUpdated(!updateCondition);
     }
 
     const formik = useFormik({
@@ -112,7 +105,7 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='setting-form-user-avatar'>
-                        <Avatar src={isAvatarChanged() ? getLocalImageUrl(values.avatar) : getImageUrl(initialValues.avatar)} size='m'/>
+                        <Avatar src={isAvatarChanged() ? getImageUrl(initialValues.avatar) : getLocalImageUrl(values.avatar)} size='m'/>
                         <InputFile 
                             name='avatar' 
                             content='Update avatar photo' 

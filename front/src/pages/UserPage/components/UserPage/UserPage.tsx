@@ -10,15 +10,19 @@ import './styles/style.scss'
 const UserPage = () => {
 
     const { id: paramId } = useParams();
-    const { data: userData } = useGetUserByIdQuery(paramId);
-    const { data: userAvatar } = useGetUserAvatarQuery(paramId);
+    const { data: userData, isLoading: userDataLoading } = useGetUserByIdQuery(paramId);
+    const { data: userAvatar, isLoading: userAvatarLoading } = useGetUserAvatarQuery(paramId);
+    const isLoading = userDataLoading && userAvatarLoading;
     const dispatch = useAppDispatch();
     const { user, avatar} = useAppSelector(state => state.userReducer);
 
     useEffect(() => {
-        userData && dispatch(userSlice.actions.setUser(userData));
-        userAvatar && dispatch(userSlice.actions.setAvatar(userAvatar));
-    },[userData, userAvatar])
+        if (!userDataLoading) userData ? dispatch(userSlice.actions.setUser(userData)) : null;
+    },[userData])
+
+    useEffect(() => {
+        if (!userAvatarLoading) dispatch(userSlice.actions.setAvatar(userAvatar ?? null));
+    }, [userAvatar])
 
     return (
         <div className='user-page'>

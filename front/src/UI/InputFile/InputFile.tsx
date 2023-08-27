@@ -44,10 +44,8 @@ const InputFile: React.FC<IInputFileProps> = memo(({
     }
 
     const prepareDisplayImagePreview = async (image = value) => {
-        console.log(image, value)
         if (image) {
             if (image instanceof File) {
-                console.log('THIS IS FILE')
                 setInputFile(image);
                 return;
             } else image?.toString().split('/').length > 1 ? getImageFileFromUrl(image) : getImageFileFromUrl(getImageUrl(image) ?? '');
