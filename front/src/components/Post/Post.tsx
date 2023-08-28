@@ -17,7 +17,7 @@ interface IPostProps {
 const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupItems, createdAt }) => {
 
     const {data: postLikesInfo} = likeApi.useGetPostLikesInfoQuery(postId);
-    const {data: postCommentsInfo} = commentApi.useGetPostCommentsInfoQuery(postId);
+    const {data: postCommentsInfo, error} = commentApi.useGetPostCommentsInfoQuery(postId);
 
     return (
         <div className='post-box' data-post-id={postId}>

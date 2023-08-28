@@ -23,11 +23,10 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
 
     const [isSettingUpdated, setIsSettingUpdated] = useState<boolean>(false);
     const { id: userId } = getUserInfoFromLocalToken();
-    const [ updateUser ] = userApi.useUpdateUserMutation();
+    const [ updateUser ]  = userApi.useUpdateUserMutation();
     const [ createPhoto ] = photoApi.useCreatePhotoMutation();
     const [ setAvatarState ] = photoApi.useSetAvatarStateMutation();
     const dispatch = useAppDispatch();
-    const { avatar: ava} = useAppSelector(state => state.userReducer)
 
     const initialValues: SettingFormValues = {
         firstName: userInfo.first_name,
@@ -54,8 +53,8 @@ const SettingForm: React.FC<ISettingForm> = ({userInfo}) => {
             const userResponce = await updateUser({id: String(userId), data: userBody}).unwrap();
             const avatarResponce = (!isAvatarChanged() && avatarBody) ? await createPhoto(avatarBody).unwrap() : null;
             const setAvatarStateResponce =  avatarResponce ? await setAvatarState(String(avatarResponce.id)).unwrap() : null;
-            console.log(avatarResponce, setAvatarStateResponce)
             dispatch(userSlice.actions.setUserAndAvatar({user:userResponce, avatar: setAvatarStateResponce}));
+            setIsSettingUpdated(false);
             actions.setSubmitting(false);
         } catch (e) {
             actions.setSubmitting(false);

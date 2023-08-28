@@ -9,8 +9,8 @@ import { SettingPageContent } from '../SettingPageContent/SettingPageContent';
 const SettingPage = () => {
 
     const { id: userId } = getUserInfoFromLocalToken();
-    const { data: avatarData, isLoading: avatarLoading } = useGetUserAvatarQuery(userId);
-    const { data: userData, isLoading: userLoading } = useGetUserByIdQuery(userId);
+    const { data: avatarData, isLoading: avatarLoading, refetch: avatarRefetch } = useGetUserAvatarQuery(userId);
+    const { data: userData, isLoading: userLoading, refetch: userRefetch } = useGetUserByIdQuery(userId);
     const isLoading = userLoading && avatarLoading
     const dispatch = useAppDispatch();
     const { user, avatar } = useAppSelector(state => state.userReducer)
@@ -21,7 +21,6 @@ const SettingPage = () => {
     },[userData])
 
     useEffect(() => {
-        console.log(avatarData)
         if (!avatarLoading) {
             dispatch(userSlice.actions.setAvatar(avatarData ?? null));
             setIsAvatarDispatch(true);   
@@ -30,7 +29,13 @@ const SettingPage = () => {
         }
     }, [avatarData])
 
-    console.log([`SettingPAGE_STATE`, user,avatar])
+    useEffect(() => {
+        avatarRefetch();
+    }, [avatar])
+
+    useEffect(() => {
+        userRefetch();
+    }, [user])
 
     return (
         !isLoading ?
