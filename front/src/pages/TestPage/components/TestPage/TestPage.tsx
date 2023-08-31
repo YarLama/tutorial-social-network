@@ -43,13 +43,53 @@ const TestPage = () => {
         <IconButton icon='left' size='l' onClick={() => setTestModalActive(true)}/>
         <Button content='Выйти' onClick={handleClick}/>
         <Button content='Открыть медиа' onClick={() => setTestModalActive(true)}/>
-        <MediaViewer active={testModalActive} setActive={setTestModalActive} elements={ch1}/>
+        {/* <MediaViewer active={testModalActive} setActive={setTestModalActive} elements={ch1}/> */}
         <LoaderBlock color='minor' extraClassName='name'/>
         <LoaderBlock color='minor' extraClassName='avatar'/>
         <LoaderRing />
         <ModalWindow active={testModalActive3} setActive={setTestModalActive3} controls={false}>     
             <LoginForm />
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
         </ModalWindow>
+        <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
+            <p style={{'color': 'white', 'fontSize': '3em'}}>{`Ты зашел за ${user.email} и твой id: ${user.id}`}</p>
         <Button content='Open Modal3' size='s' onClick={() => setTestModalActive3(true)}/><br/>
         </>
 //         <div>

@@ -34,7 +34,11 @@ const UserPage = () => {
 
     return (
         <div className='user-page'>
-            { !user ? <UserPageLoading /> : <UserPageContent user={user} avatar={avatar}/>}
+            {!isLoading ? 
+                !user ? 
+                    <UserPageLoading /> 
+                : <UserPageContent user={user} avatar={avatar}/> 
+            : <UserPageLoading />}
         </div>   
     );
 };

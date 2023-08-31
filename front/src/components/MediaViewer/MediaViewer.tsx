@@ -1,18 +1,24 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { UserImage } from '../../app/helpers/types/common';
+import { Photo } from '../../app/api/photoApi/types';
+import { getImageUrl } from '../../app/helpers/http';
+import { DropupItem } from '../../app/helpers/types/ui';
 import { IconButton } from '../../UI';
 import './styles/style.scss';
 
 interface IMediaViewerProps {
     active: boolean;
     setActive: Dispatch<SetStateAction<boolean>>;
-    elements: UserImage[];
+    elements: Photo[] | null;
+    dropupItems?: DropupItem[];
+    getCurrentMedia?: Dispatch<SetStateAction<Photo | undefined>>;
 }
 
 const MediaViewer: React.FC<IMediaViewerProps> = ({
     active = false,
     setActive,
-    elements
+    elements,
+    dropupItems,
+    getCurrentMedia
 }) => {
 
     const [media, setMedia] = useState<JSX.Element[]>([]);
@@ -20,10 +26,23 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
     const [mediaTouched, setMediaTouched] = useState<boolean>(false);
 
     useEffect(() => {
-        setMedia(elements.map(element => {
-            return <img key={element.id} src={element.src} alt={element.alt}/>
-        }))
-    },[])
+        if (elements) {
+            setMedia(elements.map(element => {
+                return <img key={element.id} src={getImageUrl(element.image)} alt={element.image}/>
+            }));
+        }
+    },[elements])
+
+    useEffect(() => {
+        setCurrentMediaIndex(0);
+    }, [active])
+
+    useEffect(() => {
+        if (elements && !!getCurrentMedia) {
+            const media = elements[currentMediaIndex]
+            getCurrentMedia(media);
+        }
+    }, [currentMediaIndex])
 
     const handleMediaViewerClose = () => {
         setActive(false)
@@ -37,32 +56,6 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
     const handleToPreviousMedia = () => {
         if (currentMediaIndex === 0) return
         setCurrentMediaIndex(currentMediaIndex - 1)
-    }
-
-    const hanldeDeletePhoto = () => {
-        const test = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve('Типа сообщение удалении фото');
-            }, 2000);
-        })
-
-        test.then((value) => {
-            console.log(value);
-            handleMediaViewerClose();
-        })
-    }
-
-    const handleAvatarSet = () => {
-        const test = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve('Типа делаю фото аватаркой');
-            }, 2000);
-        })
-
-        test.then((value) => {
-            console.log(value);
-            handleMediaViewerClose();
-        })
     }
 
     const handleMouseOverMediaTouched = () => {
@@ -95,8 +88,11 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
                         </span>
                         <span className='media-viewer-preview-detail'>
                             <div className='detail-dropup'>
-                                <span className='dropup-element' onClick={hanldeDeletePhoto}>Delete photo</span>
-                                <span className='dropup-element' onClick={handleAvatarSet}>Set as avatar</span>
+                                {dropupItems ?
+                                    <>
+                                        {dropupItems.map((el, index) => <span className='dropup-element' key={index} onClick={el.onClick}>{el.label}</span>)}
+                                    </>
+                                : null}
                             </div>
                         </span>
                     </div>
@@ -106,4 +102,4 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
     );
 };
 
-export {MediaViewer};
+export {MediaViewer, type IMediaViewerProps};

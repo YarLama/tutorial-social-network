@@ -1,4 +1,6 @@
 @import './fonts.scss';
+@import '/src/UI/styles_extension/_colors.scss';
+@import '/src/UI/styles_extension/_variables.scss';
 
 * {
     font: {
@@ -9,8 +11,23 @@
     font-feature-settings: "lnum";
     margin: 0;
     padding: 0;
+
+    @include desktop() {
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: $color_minor_background;
+            border-radius: 15px;
+        }
+        ::-webkit-scrollbar-thumb{
+            width: 6px;
+            background-color: $color_major_background;
+            border-radius: 15px;
+        }
+    }
+    
 }
 
 body {
     background-color: #212121;
+    
 }

@@ -17,6 +17,9 @@ export const userApi = api.injectEndpoints({
         getUserAvatar: builder.query<Photo, any>({
             query: (id) => `/users/${id}/avatar`
         }),
+        getUserPhotos: builder.query<Photo[], any>({
+            query: (id) => `/users/${id}/photos`
+        }),
         updateUser: builder.mutation<any, any>({
             query: ({id, data}) => ({
                 url: `/users/${id}`,
@@ -27,4 +30,10 @@ export const userApi = api.injectEndpoints({
     })
 })
 
-export const { useGetAllUsersQuery, useGetUserByIdQuery, useGetUserAvatarQuery, useGetUserPostsQuery, useUpdateUserMutation } = userApi;
+export const { 
+    useGetAllUsersQuery, 
+    useGetUserByIdQuery, 
+    useGetUserAvatarQuery, 
+    useGetUserPostsQuery, 
+    useUpdateUserMutation,
+    useGetUserPhotosQuery } = userApi;

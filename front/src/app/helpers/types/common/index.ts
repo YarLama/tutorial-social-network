@@ -4,12 +4,6 @@ export type AuthUserInfo = {
     email: string | null;
 }
 
-export type UserImage = {
-    id: number;
-    src: string;
-    isAvatar?: boolean;
-    alt?: string;
-}
 export type PostImage = {
     src: string;
     alt?: string;
