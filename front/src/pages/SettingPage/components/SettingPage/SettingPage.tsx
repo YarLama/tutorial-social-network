@@ -9,40 +9,38 @@ import { SettingPageContent } from '../SettingPageContent/SettingPageContent';
 const SettingPage = () => {
 
     const { id: userId } = getUserInfoFromLocalToken();
-    const { data: avatarData, isLoading: avatarLoading, refetch: avatarRefetch } = useGetUserAvatarQuery(userId);
-    const { data: userData, isLoading: userLoading, refetch: userRefetch } = useGetUserByIdQuery(userId);
-    const isLoading = userLoading && avatarLoading
+    const { refetch: avatarRefetch } = useGetUserAvatarQuery(userId);
+    const { refetch: userRefetch } = useGetUserByIdQuery(userId);
     const dispatch = useAppDispatch();
     const { user, avatar } = useAppSelector(state => state.userReducer)
     const [isAvatarDispatch, setIsAvatarDispatch] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!userLoading) userData ? dispatch(userSlice.actions.setUser(userData)) : null;
-    },[userData])
-
-    useEffect(() => {
-        if (!avatarLoading) {
-            dispatch(userSlice.actions.setAvatar(avatarData ?? null));
-            setIsAvatarDispatch(true);   
-        } else {
-            setIsAvatarDispatch(false);
+        if (user === null) {
+            userRefetch().then((responce) => {
+                responce.data ? dispatch(userSlice.actions.setUser(responce.data)) : null;
+            })
         }
-    }, [avatarData])
+        if (avatar === null) {
+            avatarRefetch().then((responce => {
+                dispatch(userSlice.actions.setAvatar(responce.data ?? null));
+                setIsAvatarDispatch(true);
+            }))
+        }
+    }, [])
 
     useEffect(() => {
-        avatarRefetch();
+        avatarRefetch().then((responce => {
+            setIsAvatarDispatch(false);
+            dispatch(userSlice.actions.setAvatar(responce.data ?? null));
+            setIsAvatarDispatch(true);
+        }))
     }, [avatar])
 
-    useEffect(() => {
-        userRefetch();
-    }, [user])
-
     return (
-        !isLoading ?
         <div className='setting-page'>
             {user && isAvatarDispatch ? <SettingPageContent user={user} avatar={avatar}/> : <LoaderRing />}
         </div>
-        : <LoaderRing />
     );
 };
 

@@ -15,8 +15,14 @@ export const photoApi = api.injectEndpoints({
                 url: `/photos/${id}`,
                 method: 'PUT',
             })
-        })
+        }),
+        deletePhoto: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `/photos/${id}`,
+                method: 'DELETE'
+            })
+        }),
     })
 })
 
-export const { useCreatePhotoMutation, useSetAvatarStateMutation } = photoApi;
+export const { useCreatePhotoMutation, useSetAvatarStateMutation, useDeletePhotoMutation } = photoApi;

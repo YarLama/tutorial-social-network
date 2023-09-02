@@ -30,18 +30,17 @@ const MediaViewer: React.FC<IMediaViewerProps> = ({
             setMedia(elements.map(element => {
                 return <img key={element.id} src={getImageUrl(element.image)} alt={element.image}/>
             }));
+            if (!!getCurrentMedia) getCurrentMedia(elements[currentMediaIndex]);
         }
-    },[elements])
+    }, [elements])
 
     useEffect(() => {
+        if (!active) return;
         setCurrentMediaIndex(0);
     }, [active])
 
     useEffect(() => {
-        if (elements && !!getCurrentMedia) {
-            const media = elements[currentMediaIndex]
-            getCurrentMedia(media);
-        }
+        if (elements && !!getCurrentMedia) getCurrentMedia(elements[currentMediaIndex]);
     }, [currentMediaIndex])
 
     const handleMediaViewerClose = () => {

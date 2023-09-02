@@ -22,23 +22,14 @@ interface IUserPageContentProps {
 const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
 
     const [photoModalActive, setPhotoModalActive] = useState<boolean>(false);
-    const [photos, setPhotos] = useState<Photo[]>()
     const { id: paramId } = useParams();
     const { id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const isOwner = Number(paramId) === authId;
     const fullName = convetToFullName(user.first_name, user.last_name, user.middle_name);
     const avatarUrl = avatar ? getImageUrl(avatar.image) : undefined;
-    const { refetch: photosRefetch } = useGetUserPhotosQuery(paramId);
 
-    const handleAvatarClick = async () => {
-        try {
-            const photos = await photosRefetch().unwrap();
-            setPhotos(photos);
-            setPhotoModalActive(true);
-        } catch (e) {
-            console.log(e);
-        }
-        
+    const handleAvatarClick = () => {
+        setPhotoModalActive(true);
     }
 
     return (
@@ -61,7 +52,7 @@ const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
                     <UserPosts id={user.id} isOwner={isOwner}/>
                 </div>
             </div>
-            {photos ? <UserPhotosMediaViewer isOnwer={isOwner} active={photoModalActive} setActive={setPhotoModalActive} elements={photos}/> : null}
+            <UserPhotosMediaViewer isOnwer={isOwner} active={photoModalActive} setActive={setPhotoModalActive}/>
         </div>
     );
 };

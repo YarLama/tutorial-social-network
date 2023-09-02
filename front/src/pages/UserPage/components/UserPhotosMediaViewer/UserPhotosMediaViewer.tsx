@@ -1,26 +1,51 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDeletePhotoMutation, useSetAvatarStateMutation } from '../../../../app/api/photoApi';
 import { Photo } from '../../../../app/api/photoApi/types';
+import { useGetUserPhotosQuery } from '../../../../app/api/userApi';
 import { DropupItem } from '../../../../app/helpers/types/ui';
+import { useAppDispatch } from '../../../../app/hooks/redux/redux';
+import { userSlice } from '../../../../app/store/reducers/UserSlice';
 import { MediaViewer } from '../../../../components';
 
 interface IUserPhotosMediaViewer {
     active: boolean;
     setActive: Dispatch<SetStateAction<boolean>>;
-    elements: Photo[];
     isOnwer: boolean;
 }
 
-const UserPhotosMediaViewer: React.FC<IUserPhotosMediaViewer> = ({isOnwer, active, setActive, elements}) => {
+const UserPhotosMediaViewer: React.FC<IUserPhotosMediaViewer> = ({isOnwer, active, setActive}) => {
 
+    const [photos, setPhotos] = useState<Photo[]>([]);
     const [currentPhoto, setCurrentPhoto] = useState<Photo>();
+    const { id: paramId } = useParams();
+    const dispatch = useAppDispatch();
+    const { refetch: photosRefetch } = useGetUserPhotosQuery(paramId);
+    const [ deletePhoto ] = useDeletePhotoMutation();
+    const [ setAvatarState ] = useSetAvatarStateMutation();
 
     const handleSetAvatarClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        console.log(`set photo as avatar with ${currentPhoto?.id} id` );
-        console.log(currentPhoto)
+        try {
+            if (currentPhoto?.is_avatar) {
+                setActive(false);
+                return;
+            }
+            await setAvatarState(currentPhoto?.id).unwrap();
+            dispatch(userSlice.actions.setAvatar(currentPhoto ?? null)); 
+            setActive(false);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const handleDeletePhotoClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        console.log(`delete photo with ${currentPhoto?.id} id` )
+        try {
+            await deletePhoto(currentPhoto?.id).unwrap();
+            if (currentPhoto?.is_avatar) dispatch(userSlice.actions.setAvatar(null)); 
+            setActive(false);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const ownerDropupItems : DropupItem[] = [
@@ -43,16 +68,24 @@ const UserPhotosMediaViewer: React.FC<IUserPhotosMediaViewer> = ({isOnwer, activ
         return sortedArrayById;
     }
 
+    useEffect(() => {
+        if (!active) return;
+        photosRefetch().then((responce) => {
+            responce.data ? setPhotos(responce.data) : null;
+        })
+    }, [active])
+
     return (
+        photos.length > 0 ?
         <>
             <MediaViewer 
-                elements={avatarSort(elements)} 
+                elements={avatarSort(photos)} 
                 active={active} 
                 setActive={setActive} 
                 dropupItems={isOnwer ? ownerDropupItems : guestDropupItems}
                 getCurrentMedia={setCurrentPhoto}
             />
-        </>
+        </> : null
     );
 };
 
