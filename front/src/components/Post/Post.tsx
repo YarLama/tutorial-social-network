@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { commentApi } from '../../app/api/commentApi';
 import { likeApi } from '../../app/api/likeApi';
 import { getDate } from '../../app/helpers/common/time';
+import { replaceWithId } from '../../app/helpers/http';
 import { DropupItem } from '../../app/helpers/types/ui';
 import { IconButton } from '../../UI';
 import './styles/style.scss'
@@ -10,14 +12,16 @@ interface IPostProps {
     postId: number;
     contentText?: string;
     contentImage?: string | null;
+    navigateTo?: string;
     dropupItems?: DropupItem[];
     createdAt: string;
 }
 
-const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupItems, createdAt }) => {
+const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, navigateTo, dropupItems, createdAt }) => {
 
     const {data: postLikesInfo} = likeApi.useGetPostLikesInfoQuery(postId);
     const {data: postCommentsInfo, error} = commentApi.useGetPostCommentsInfoQuery(postId);
+    const navigate = useNavigate();
 
     return (
         <div className='post-box' data-post-id={postId}>
@@ -33,7 +37,7 @@ const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, dropupI
                     </div>
                 </span>
             </div>
-            <div className='post-content'>
+            <div className='post-content' onClick={navigateTo ? () => navigate(replaceWithId(navigateTo, postId)) : undefined}>
                 {contentText ?
                     <div className='post-content-text'> {contentText} </div>
                     : null

@@ -3,6 +3,9 @@ import { PostModelType } from "../../helpers/types/models";
 
 export const postApi = api.injectEndpoints({
     endpoints: (builder) => ({
+        getPost: builder.query<PostModelType, any>({
+            query: (id) => `/posts/${id}`
+        }),
         createPost: builder.mutation<PostModelType, FormData>({
             query: (data) => ({
                 url: `/posts`,
@@ -26,4 +29,4 @@ export const postApi = api.injectEndpoints({
     })
 })
 
-export const { useCreatePostMutation, useDeletePostMutation, useUpdatePostMutation } = postApi;
+export const { useGetPostQuery, useCreatePostMutation, useDeletePostMutation, useUpdatePostMutation } = postApi;

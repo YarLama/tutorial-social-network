@@ -5,6 +5,7 @@ import { getImageUrl } from '../../../../app/helpers/http';
 import { PostModelType } from '../../../../app/helpers/types/models';
 import { DropupItem } from '../../../../app/helpers/types/ui';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
+import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { postSlice } from '../../../../app/store/reducers/PostSlice';
 import { ModalWindow, Post } from '../../../../components';
 import { PostUpdateForm } from '../../../../modules/PostUpdateForm';
@@ -68,6 +69,7 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
                         postId={post.id}
                         contentText={post.content} 
                         contentImage={getImageUrl(post.image)} 
+                        navigateTo={RoutePaths.POST_PAGE_WITH_ID}
                         dropupItems={isOwner ? ownerDropupItems : guestDropupItems}
                         createdAt={post.createdAt}
                     />
