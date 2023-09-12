@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Photo } from '../../../../app/api/photoApi/types';
-import { useGetUserPhotosQuery } from '../../../../app/api/userApi';
 import { User } from '../../../../app/api/userApi/types';
 import { convetToFullName } from '../../../../app/helpers/common/text';
 import { getImageUrl } from '../../../../app/helpers/http';

@@ -10,7 +10,7 @@ import './styles/style.scss'
 const UserPage = () => {
 
     const { id: paramId } = useParams();
-    const { data: userData, isLoading: userDataLoading, refetch: userRefetch  } = useGetUserByIdQuery(paramId);
+    const { data: userData, isLoading: userDataLoading, refetch: userRefetch, error: userError } = useGetUserByIdQuery(paramId);
     const { data: userAvatar, isLoading: userAvatarLoading, refetch: avatarRefetch  } = useGetUserAvatarQuery(paramId);
     const isLoading = userDataLoading && userAvatarLoading;
     const dispatch = useAppDispatch();
@@ -32,13 +32,11 @@ const UserPage = () => {
         userRefetch();
     }, [user])
 
+    if (userError) return <div style={{'color': 'white', 'fontSize': '16pt'}}> User doesn't exist </div>
+
     return (
         <div className='user-page'>
-            {!isLoading ? 
-                !user ? 
-                    <UserPageLoading /> 
-                : <UserPageContent user={user} avatar={avatar}/> 
-            : <UserPageLoading />}
+            {!user ? <UserPageLoading /> : <UserPageContent user={user} avatar={avatar}/>}
         </div>   
     );
 };

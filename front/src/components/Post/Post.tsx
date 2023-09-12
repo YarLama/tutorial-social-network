@@ -10,14 +10,15 @@ import './styles/style.scss'
 
 interface IPostProps {
     postId: number;
+    createdAt: string;
     contentText?: string;
     contentImage?: string | null;
     navigateTo?: string;
     dropupItems?: DropupItem[];
-    createdAt: string;
+    handleImageClick?: () => void;
 }
 
-const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, navigateTo, dropupItems, createdAt }) => {
+const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, navigateTo, dropupItems, createdAt, handleImageClick = () => null }) => {
 
     const {data: postLikesInfo} = likeApi.useGetPostLikesInfoQuery(postId);
     const {data: postCommentsInfo, error} = commentApi.useGetPostCommentsInfoQuery(postId);
@@ -43,7 +44,7 @@ const Post: React.FC<IPostProps> = ({ postId, contentText, contentImage, navigat
                     : null
                 }
                 {contentImage ?
-                    <div className='post-content-image'> <img src={contentImage} /> </div>
+                    <div className='post-content-image' onClick={handleImageClick}> <img src={contentImage} /> </div>
                     : null
                 }
             </div>

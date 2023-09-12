@@ -19,7 +19,7 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
 
     const [editModalActive, setEditModalActive] = useState<boolean>(false);
     const [updatePostInfo, setUpdatePostInfo] = useState<PostModelType | null>();
-    const { data, isLoading: isPostsLoading} = userApi.useGetUserPostsQuery(id);
+    const { data, isLoading: isPostsLoading, refetch: postsRefetch} = userApi.useGetUserPostsQuery(id);
     const {posts} = useAppSelector(state => state.postReducer);
     
     const dispatch = useAppDispatch();
@@ -28,6 +28,10 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
     useEffect(() => {
         if (!!data?.length) dispatch(postSlice.actions.setPosts(data))
     }, [data]);
+
+    useEffect(() => {
+        postsRefetch();
+    }, [posts])
     
     const ownerDropupItems : DropupItem[] = [
         {label: 'Edit', onClick: (e) => handleUpdatePostInfo(e)},
@@ -61,7 +65,7 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
     }
 
     return (
-        posts ? 
+        data ? 
             <>
                 {posts.map((post) => 
                     <Post 
@@ -84,7 +88,9 @@ const UserPosts: React.FC<IUserPostsProps> = ({isOwner = true, id}) => {
                     />}
                 </ModalWindow>
             </>
-            : <div>Здесь постов еще нет</div>
+        : <div style={{'color': 'white', 'fontSize': '16pt'}}>
+            Posts doesn't exist
+        </div>
     );
 };
 

@@ -1,0 +1,14 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.post-page-info {
+    display: flex;
+
+    .post-page-info-content {
+        width: 670px;
+
+        @include mobile {
+            width: 340px;
+        }
+    }
+}
