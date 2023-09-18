@@ -12,4 +12,12 @@ export type PostModelType = {
     updatedAt: string;
 }
 
+export type CommentModelType = {
+    id: number,
+    content: string,
+    postId: number,
+    userId: number,
+    createdAt: string
+}
+
 export type UserModelType = User & {avatar: Photo | null};

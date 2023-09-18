@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Photo } from '../../../../app/api/photoApi/types';
 import { User } from '../../../../app/api/userApi/types';
-import { convetToFullName } from '../../../../app/helpers/common/text';
+import { convertToFullName } from '../../../../app/helpers/common/text';
 import { getImageUrl } from '../../../../app/helpers/http';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
 import { Avatar } from '../../../../components';
@@ -24,7 +24,7 @@ const UserPageContent: React.FC<IUserPageContentProps> = ({user, avatar}) => {
     const { id: paramId } = useParams();
     const { id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const isOwner = Number(paramId) === authId;
-    const fullName = convetToFullName(user.first_name, user.last_name, user.middle_name);
+    const fullName = convertToFullName(user.first_name, user.last_name, user.middle_name);
     const avatarUrl = avatar ? getImageUrl(avatar.image) : undefined;
 
     const handleAvatarClick = () => {

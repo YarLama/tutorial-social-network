@@ -24,7 +24,7 @@ const PostPage = () => {
                 data ? 
                     <>
                         <PostInfo post={data}/>
-                        <PostComments />
+                        <PostComments id={data.id}/>
                     </>
                 :  <PostMissing />
             : <LoaderRing />}
