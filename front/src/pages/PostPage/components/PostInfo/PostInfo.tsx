@@ -34,7 +34,8 @@ const PostInfo: React.FC<IPostInfoProps> = ({post}) => {
     const dropupItems = isOwner ? ownerDropupItems : guestDropupItems;
     const { data } = useGetUserAvatarQuery(post.userId);
     const [ deletePost ] = postApi.useDeletePostMutation();
-    const { isMobile } = useWindowSize();
+    const { isMobile, windowSize } = useWindowSize();
+    const windowAvatarCondition = windowSize.width < 901; 
 
     const handleUpdatePostInfo = () => {
         setEditModalActive(true);
@@ -58,7 +59,7 @@ const PostInfo: React.FC<IPostInfoProps> = ({post}) => {
         <div className='post-page-info'>
             {!isMobile ? 
                 <div className='post-page-info-avatar' onClick={() => navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, post.userId))}>
-                    <Avatar size='m' src={data ? getImageUrl(data.image) : undefined}/>
+                    <Avatar size={windowAvatarCondition ? 's' : 'm'} src={data ? getImageUrl(data.image) : undefined}/>
                 </div>
             : null}
             <div className='post-page-info-content'>

@@ -5,10 +5,12 @@
     display: flex;
 
     .post-page-info-content {
-        width: 670px;
+        width: auto;
+        min-width: 570px;
 
         @include mobile {
             width: 340px;
+            min-width: auto;
         }
     }
 }
