@@ -1,0 +1,66 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.post-comment {
+    display: flex;
+    margin-bottom: 20px;
+
+    .avatar-box {}
+
+    .comment-box {
+        color: $color_post_date_font;
+        margin: 10px;
+        width: 100%;
+
+        @include mobile {
+            margin: 0px;
+        }
+
+        .comment-user-info {
+            background-color: $color_minor_background;
+            font-size: 14pt;
+            padding: 10px 20px;
+            border-radius: 15px 15px 0 0;
+            border-bottom: 1px solid rgba($color: #000000, $alpha: 0.2);
+
+            @include mobile {
+                font-size: 12pt;
+            }
+        }
+
+        .comment-content {
+            padding: 10px 40px;
+            background-color: $color_minor_background;
+            color: $color_button_background;
+            font-size: 18pt;
+            margin: 0 0 5px 0;
+            border-radius: 0 0 15px 15px;
+
+            @include mobile {
+                padding: 10px 20px;
+                font-size: 14pt;
+                margin: 0;
+            }
+        }
+
+        .comment-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .comment-info-date {
+                @include mobile {
+                    font-size: 12pt;
+                }
+            }
+
+            .comment-info-likes {
+                display: flex;
+                align-items: center;
+                margin-left: auto;
+            }
+        }
+
+    }
+
+}
