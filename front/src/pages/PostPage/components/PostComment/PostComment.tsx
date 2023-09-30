@@ -10,15 +10,17 @@ import './styles/style.scss'
 import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
+import { DropupItem } from '../../../../app/helpers/types/ui';
 
 interface IPostCommentProps {
     id: number;
     ownerId: number;
     content: string;
     createdAt: string;
+    dropupItems?: DropupItem[];
 }
 
-const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, createdAt}) => {
+const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, createdAt, dropupItems}) => {
 
     const { data: likesData, isLoading: likesLoading} = useGetCommentLikesInfoQuery(id);
     const { data: avatarData, isLoading: avatarLoading } = useGetUserAvatarQuery(ownerId);
@@ -40,7 +42,19 @@ const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, created
                     </div>    
                 : null}
                 <div className='comment-box'>
-                    <div className='comment-user-info' onClick={handleClickProfile}>{userData ? convertToFullName(userData?.first_name, userData?.last_name, userData?.middle_name) : null}</div>
+                    <div className='comment-detail'>
+                        <div className='comment-username-detail' onClick={handleClickProfile} >{userData ? convertToFullName(userData?.first_name, userData?.last_name, userData?.middle_name) : null}</div>
+                        <div className='comment-toolkit'>
+                            <span className='comment-toolkit-detail'>
+                                {dropupItems ?
+                                    <div className='detail-dropup'>
+                                        {dropupItems.map((el, index) => <span className='dropup-element' key={index} onClick={el.onClick}>{el.label}</span>)}
+                                    </div>
+                                    : null
+                                }
+                            </span>
+                        </div>
+                    </div>
                     <div className='comment-content'>{content}</div>
                     <div className='comment-info'>
                         <div className='comment-info-date'>{getDate(createdAt)}</div>

@@ -1,0 +1,18 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.post-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .post-page-form {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        @include mobile {
+            justify-content: center;
+        }
+    }
+}
