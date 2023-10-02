@@ -68,6 +68,15 @@ export class CommentsService {
         return response;
     }
 
+    async getPostComments(id: number): Promise<Comment[]> {
+        const comments = await this.commentRepository.findAll({
+            where: {
+                postId: id
+            }
+        })
+        return comments.length > 0 ? comments : [];
+    }
+
     async getPostCommentInfo(id: number, request: Request) {
         const post = await this.postRepository.findByPk(id);
         if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);

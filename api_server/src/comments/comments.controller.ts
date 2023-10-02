@@ -39,6 +39,13 @@ export class CommentsController {
     @RolesForAccess(RoleNames.USER)
     @UseGuards(RolesAccessGuard)
     @Get('/post/:id')
+    getPostComments(@Param('id') id: number) {
+        return this.commentService.getPostComments(id);
+    }
+
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/post/:id/info')
     getPostCommentInfo(@Param('id') id: number, @Req() request: Request) {
         return this.commentService.getPostCommentInfo(id, request);
     }
