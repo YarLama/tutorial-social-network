@@ -1,7 +1,7 @@
 import api from "..";
 import { CommentInfo } from "../../helpers/types/common";
 import { CommentModelType } from "../../helpers/types/models";
-import { CreateCommentRequest, UpdateCommentRequest } from "./types";
+import { CommentCreateRequest, CommentUpdateRequest } from "./types";
 
 export const commentApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -11,23 +11,23 @@ export const commentApi = api.injectEndpoints({
         getPostCommentsInfo: builder.query<CommentInfo, any>({
             query: (id) => `/comments/post/${id}/info`,
         }),
-        createComment: builder.mutation<any, CreateCommentRequest>({
+        createComment: builder.mutation<any, CommentCreateRequest>({
             query: (data) => ({
                 url: `/comments`,
                 method: 'POST',
                 body: data
             })
         }),
-        updateComment: builder.mutation<any, {id: number, data: UpdateCommentRequest}>({
-            query: ({id, data}) => ({
-                url: `/comments/${id}`,
+        updateComment: builder.mutation<any, {id: number, data: CommentUpdateRequest}>({
+            query: (request) => ({
+                url: `/comments/${request.id}`,
                 method: 'PUT',
-                body: data
+                body: request.data
             })
         }),
         deleteComment: builder.mutation<any, {id: number}>({
-            query: (id) => ({
-                url: `/comment/${id}`,
+            query: (request) => ({
+                url: `/comments/${request.id}`,
                 method: 'DELETE'
             })
         })

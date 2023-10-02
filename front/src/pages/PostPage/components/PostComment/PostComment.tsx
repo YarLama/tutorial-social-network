@@ -41,7 +41,7 @@ const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, created
                         <Avatar size='s' src={avatarData ? getImageUrl(avatarData.image) : undefined}/>
                     </div>    
                 : null}
-                <div className='comment-box'>
+                <div className='comment-box' data-comment-id={id}>
                     <div className='comment-detail'>
                         <div className='comment-username-detail' onClick={handleClickProfile} >{userData ? convertToFullName(userData?.first_name, userData?.last_name, userData?.middle_name) : null}</div>
                         <div className='comment-toolkit'>

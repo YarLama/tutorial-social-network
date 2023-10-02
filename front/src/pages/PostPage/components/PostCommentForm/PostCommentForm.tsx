@@ -5,7 +5,11 @@ import { CommentForm } from '../../../../modules/CommentForm';
 import { Button } from '../../../../UI';
 import './styles/style.scss'
 
-const PostCommentForm: React.FC = () => {
+interface IPostCommentFromProps {
+    postId: number;
+}
+
+const PostCommentForm: React.FC<IPostCommentFromProps> = ({postId}) => {
     
     const [sendCommentModalActive, setSendCommentModalActive] = useState<boolean>(false);
     const { isMobile } = useWindowSize();
@@ -15,10 +19,10 @@ const PostCommentForm: React.FC = () => {
             <>
                 <Button content='Send Comment' size='m' onClick={() => setSendCommentModalActive(true)} extraClassName={'send-comment-modal-btn'}/>
                 <ModalWindow active={sendCommentModalActive} setActive={setSendCommentModalActive} controls={false}>
-                    <CommentForm />    
+                    <CommentForm postId={postId}/>    
                 </ModalWindow>     
             </>
-        : <CommentForm />
+        : <CommentForm postId={postId}/>
     );
 };
 

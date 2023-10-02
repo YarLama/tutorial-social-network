@@ -5,5 +5,5 @@ const addZeroPrefixToDate = (date: number): string => {
 export const getDate = (timestamp: string): string => {
     const date = new Date(timestamp);
 
-    return `${date.getDate()}.${addZeroPrefixToDate(date.getMonth() + 1)}.${date.getFullYear()} ${addZeroPrefixToDate(date.getHours())}:${addZeroPrefixToDate(date.getMinutes())}`;
+    return `${addZeroPrefixToDate(date.getDate())}.${addZeroPrefixToDate(date.getMonth() + 1)}.${date.getFullYear()} ${addZeroPrefixToDate(date.getHours())}:${addZeroPrefixToDate(date.getMinutes())}`;
 }

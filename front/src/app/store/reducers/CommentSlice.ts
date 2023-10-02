@@ -17,7 +17,7 @@ export const commentSlice = createSlice({
             const comments = [...action.payload].sort((a, b) => a.id - b.id);
             state.comments = comments;
         },
-        addComments(state, action: PayloadAction<CommentModelType>) {
+        addComment(state, action: PayloadAction<CommentModelType>) {
             state.comments.push(action.payload);
         },
         deleteComment(state, action: PayloadAction<number>) {

@@ -26,7 +26,7 @@ const PostPage = () => {
                 data ? 
                     <>
                         <PostInfo post={data}/>
-                        <div className='post-page-form'><PostCommentForm /></div>
+                        <div className='post-page-form'><PostCommentForm postId={data.id}/></div>
                         <PostComments id={data.id} />
                     </>
                 :  <PostMissing />
