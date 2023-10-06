@@ -9,5 +9,6 @@ export type CommentCreateRequestErrors = {
 }
 
 export type CommentUpdateRequest = {
+    userId: number;
     content: string;
 }

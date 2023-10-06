@@ -1,0 +1,1 @@
+export { CommentUpdateForm } from './components/CommentUpdateForm/CommentUpdateForm'
