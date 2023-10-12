@@ -17,6 +17,17 @@
         cursor: pointer;
     }
 
+    &.active-btn-icon {
+        svg {
+            background-color: $color_button_background;
+            border-radius: 15px;
+
+            path {
+                fill: $color_minor_background;
+            }
+        }
+    }
+
     &.btn-icon-l {
 
         svg {

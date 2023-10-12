@@ -11,7 +11,7 @@ export type PostImage = {
 
 export type LikesInfo = {
     countLikes: number,
-    isUserLikeOnwer: boolean
+    isUserLikeOwner: boolean
 }
 
 export type CommentInfo = {

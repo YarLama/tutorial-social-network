@@ -1,5 +1,5 @@
-import React from 'react';
-import { useGetCommentLikesInfoQuery } from '../../../../app/api/likeApi';
+import React, { useEffect, useState } from 'react';
+import { likeApi, useGetCommentLikesInfoQuery } from '../../../../app/api/likeApi';
 import { useGetUserAvatarQuery, useGetUserByIdQuery } from '../../../../app/api/userApi';
 import { getImageUrl, replaceWithId } from '../../../../app/helpers/http';
 import { convertToFullName } from '../../../../app/helpers/common/text'
@@ -11,6 +11,7 @@ import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { DropupItem } from '../../../../app/helpers/types/ui';
+import { useAppSelector } from '../../../../app/hooks/redux/redux';
 
 interface IPostCommentProps {
     id: number;
@@ -22,15 +23,43 @@ interface IPostCommentProps {
 
 const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, createdAt, dropupItems}) => {
 
-    const { data: likesData, isLoading: likesLoading} = useGetCommentLikesInfoQuery(id);
+    const [likesCount, setLikesCount] = useState<number>(0);
+    const [isLiked, setIsLiked] = useState<boolean>(false);
+    const { data: likesData, isLoading: likesLoading, refetch: likesRefetch} = useGetCommentLikesInfoQuery(id);
     const { data: avatarData, isLoading: avatarLoading } = useGetUserAvatarQuery(ownerId);
     const { data: userData, isLoading: userLoading} = useGetUserByIdQuery(ownerId);
+    const [createLike] = likeApi.useCreateLikeCommentMutation();
+    const [deleteLike] = likeApi.useDeleteLikeCommentMutation();
+    const { id: userId } = useAppSelector(state => state.authReducer.authUserInfo)
     const isDataLoaded = !likesLoading && !avatarLoading && !userLoading;
     const { isMobile } = useWindowSize();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (likesData) {
+            setLikesCount(likesData.countLikes);
+            setIsLiked(likesData.isUserLikeOwner);
+        }
+    }, [likesData]);
+
+    useEffect(() => {
+        likesRefetch()
+    }, [likesCount])
+
     const handleClickProfile = () => {
         navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, ownerId))
+    }
+
+    const handleLikeClick = async () => {
+        try {
+            isLiked ? 
+                await deleteLike({id: id}).unwrap()
+            : await createLike({userId: userId as number, commentId: id}).unwrap()
+            setLikesCount(isLiked ? likesCount - 1 : likesCount + 1)
+            setIsLiked(!isLiked)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -59,8 +88,7 @@ const PostComment: React.FC<IPostCommentProps> = ({id, ownerId, content, created
                     <div className='comment-info'>
                         <div className='comment-info-date'>{getDate(createdAt)}</div>
                         <div className='comment-info-likes'>
-                            <IconButton icon='like' size='s'/>
-                            {likesData?.countLikes || 0}
+                            <IconButton icon='like' size='s' text={String(likesCount)} isActive={isLiked} onClick={handleLikeClick}/>
                         </div>
                     </div>
                 </div>
