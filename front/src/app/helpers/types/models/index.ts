@@ -20,4 +20,15 @@ export type CommentModelType = {
     createdAt: string
 }
 
+export type MessageModelType = {
+    id: number,
+    from_userId: number,
+    to_userId: number,
+    content: string,
+    image: string | null,
+    is_visible: boolean,
+    createdAt: string,
+    updatedAt: string
+}
+
 export type UserModelType = User & {avatar: Photo | null};
