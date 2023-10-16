@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
     }
 
     const handleClickMessages = () => {
-        console.log('navigate to Messages')
+        navigateTo(RoutePaths.MESSAGE_PAGE);
     }
 
     const handleClickContacts = () => {
