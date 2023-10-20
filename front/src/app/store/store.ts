@@ -4,12 +4,14 @@ import authReducer from '../store/reducers/AuthSlice';
 import postReducer from '../store/reducers/PostSlice';
 import userReducer from '../store/reducers/UserSlice';
 import commentReducer from '../store/reducers/CommentSlice';
+import messageReducer from '../store/reducers/MessageSlice';
 
 const rootReducer = combineReducers({
     authReducer,
     postReducer,
     userReducer,
     commentReducer,
+    messageReducer,
     [api.reducerPath]: api.reducer
 });
 
