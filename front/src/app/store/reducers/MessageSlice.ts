@@ -29,10 +29,10 @@ export const messageSlice = createSlice({
             let messages = action.payload;
             const combinedUserIdValue = messages.flatMap(message => [message.from_userId, message.to_userId]);
             const uniqueUserIdValues = [...new Set(combinedUserIdValue)].filter(id => id != authUser.id);
-            const penPalUsers: PenPalUser[] = [...state.penPalUsers].map(penPalUser => {
+            const penPalUsers: PenPalUser[] = [messagesToMyself].map(penPalUser => {
                 if (penPalUser.id === authUser.id) {
                     const myselfMessages = messages.filter(message => message.from_userId === message.to_userId);
-                    return {...penPalUser, messages: myselfMessages}
+                    return {...messagesToMyself, messages: myselfMessages}
                 }
                 return penPalUser;
             });
