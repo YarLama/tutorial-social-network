@@ -3,5 +3,6 @@ api_server/node_modules/
 api_server/dist/
 server/node_modules/
 front/node_modules/
+front/.vscode/
 server/dist/
 front/dist/
