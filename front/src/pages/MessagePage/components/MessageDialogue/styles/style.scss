@@ -1,0 +1,29 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.message-dialogue-empty {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    margin: 15px 5px;
+    min-width: 450px;
+    background-color: $color_minor_background;
+}
+
+.message-dialogue {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    background-color: $color_minor_background;
+    
+
+    @include desktop() {
+        border-radius: 15px;
+        margin: 15px 5px;
+        min-width: 450px;
+        width: auto;
+    }
+    
+}

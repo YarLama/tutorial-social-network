@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useGetUserMessagesQuery } from '../../../../app/api/messageApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
+import MessageDialogue from '../MessageDialogue/MessageDialogue';
 import MessageUserList from '../MessageUsersList/MessageUserList';
 import './styles/style.scss'
 
@@ -31,6 +32,7 @@ const MessagePage = () => {
     return (
         <div className='message-page'>
             <MessageUserList onPenPalUserClick={handleCurrentPenPalUser} currentUserId={currentPenPalUser}/>
+            <MessageDialogue penPalUserId={currentPenPalUser}/>
         </div>
     );
 };
