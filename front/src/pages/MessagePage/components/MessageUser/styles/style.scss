@@ -1,6 +1,37 @@
-
-
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
 
 .message-user-box {
     color: white;
+    display: flex;
+    background-color: $color_minor_background;
+    border-radius: 15px;
+    margin: 15px 5px;
+
+    &:hover {
+        background-color: $color_tooltip_elements;
+        cursor: pointer;
+    }
+
+    &.selected {
+        background-color: $color_tooltip_elements;
+    }
+
+    .message-user-info-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 10px;
+
+        .message-user-name {
+            font-size: 14pt;
+            color: $color_button_background;
+        }
+
+        .message-user-short-last-message {
+            font-size: 10pt;
+            color: $color_comment_name_font;
+        }
+    }
+
 }

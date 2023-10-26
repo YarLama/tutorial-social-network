@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { commentApi, useGetPostCommentsQuery } from '../../../../app/api/commentApi';
 import { CommentModelType } from '../../../../app/helpers/types/models';
 import { DropupItem } from '../../../../app/helpers/types/ui';

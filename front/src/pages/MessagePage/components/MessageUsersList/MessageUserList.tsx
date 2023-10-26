@@ -2,13 +2,18 @@ import React from 'react';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
 import MessageUser from '../MessageUser/MessageUser';
 
-const MessageUserList: React.FC = () => {
+interface IMessageUsersListProps {
+    onPenPalUserClick: (args: any) => void;
+    currentUserId: number;
+}
+
+const MessageUserList: React.FC<IMessageUsersListProps> = ({onPenPalUserClick, currentUserId}) => {
 
     const { penPalUsers } = useAppSelector(state => state.messageReducer)
     const { id: authIdUser } = useAppSelector(state => state.authReducer.authUserInfo);
 
     return (
-        <div>
+        <div className="message-user-list">
             {penPalUsers.map(penPalUser => {
                 const lastMessageToMe = [...penPalUser.messages].reverse().find(message => message.to_userId === authIdUser)
                 const lastMessage = lastMessageToMe?.content && lastMessageToMe?.content.length > 0 ? 
@@ -16,8 +21,13 @@ const MessageUserList: React.FC = () => {
                 : lastMessageToMe?.image ? 
                     'Photo'
                     : null;
-                console.log(lastMessageToMe, lastMessageToMe?.content, lastMessageToMe?.image)
-                return <MessageUser key={penPalUser.id} userId={penPalUser.id} lastMessage={lastMessage}/>
+                return <MessageUser 
+                    key={penPalUser.id} 
+                    userId={penPalUser.id} 
+                    lastMessage={lastMessage} 
+                    onClick={() => onPenPalUserClick(penPalUser.id)}
+                    isSelected={currentUserId === penPalUser.id}
+                />
             })}
         </div>
     );

@@ -18,7 +18,8 @@ const privateRoutes: IRoute[] = [
     {path: RoutePaths.USER_PAGE_WITH_ID, element: UserPage},
     {path: RoutePaths.POST_PAGE_WITH_ID, element: PostPage},
     {path: RoutePaths.SETTING_PAGE, element: SettingPage},
-    {path: RoutePaths.MESSAGE_PAGE, element: MessagePage}
+    {path: RoutePaths.MESSAGE_PAGE, element: MessagePage},
+    {path: RoutePaths.MESSAGE_PAGE_WITH_ID, element: MessagePage}
 ];
 
 export {publicRoutes, privateRoutes}

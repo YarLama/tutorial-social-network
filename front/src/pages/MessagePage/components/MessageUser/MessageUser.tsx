@@ -8,16 +8,22 @@ import './styles/style.scss'
 interface IMessageUserProps {
     userId: number;
     lastMessage: string | null;
+    isSelected?: boolean;
+    onClick?: () => void;
 }
 
-const MessageUser: React.FC<IMessageUserProps> = ({userId, lastMessage}) => {
+const MessageUser: React.FC<IMessageUserProps> = ({userId, lastMessage, onClick, isSelected}) => {
 
     const { data: avatarData } = userApi.useGetUserAvatarQuery(userId);
     const { data: userData } = userApi.useGetUserByIdQuery(userId);
     const { id: authUserId } = useAppSelector(state => state.authReducer.authUserInfo)
+    const messageClassName = ['message-user-box'];
+
+    if (isSelected) messageClassName.push('selected')
+    if (lastMessage) lastMessage = lastMessage?.length > 20 ? lastMessage?.slice(0, 20).concat('...') : lastMessage;
 
     return (
-        <div className='message-user-box'>
+        <div className={messageClassName.join(' ')} onClick={onClick}>
             <div className='message-user-avatar'>
                 <Avatar size='s' src={avatarData ? getImageUrl(avatarData.image) : undefined}/>
             </div>
