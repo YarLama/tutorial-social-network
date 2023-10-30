@@ -5,6 +5,10 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks/redux/redux';
 import { useWindowSize } from '../../app/hooks/UI/useWindowSize';
 import { RoutePaths } from '../../app/routes/constants/routePaths';
 import { authSlice } from '../../app/store/reducers/AuthSlice';
+import { commentSlice } from '../../app/store/reducers/CommentSlice';
+import { messageSlice } from '../../app/store/reducers/MessageSlice';
+import { postSlice } from '../../app/store/reducers/PostSlice';
+import { userSlice } from '../../app/store/reducers/UserSlice';
 import { IconButton } from '../../UI';
 import './styles/style.scss'
 
@@ -23,6 +27,10 @@ const NavBar: React.FC = () => {
     }
 
     const handleClickLogout = () => {
+        dispatch(messageSlice.actions.resetMessages());
+        dispatch(userSlice.actions.resetUser());
+        dispatch(postSlice.actions.resetPosts());
+        dispatch(commentSlice.actions.resetComments())
         dispatch(authSlice.actions.logout());
     }
 

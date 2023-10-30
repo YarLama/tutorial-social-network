@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetUserAvatarQuery, useGetUserByIdQuery } from '../../../../app/api/userApi';
@@ -10,33 +11,29 @@ import './styles/style.scss'
 const UserPage = () => {
 
     const { id: paramId } = useParams();
-    const { data: userData, isLoading: userDataLoading, refetch: userRefetch, error: userError } = useGetUserByIdQuery(paramId);
-    const { data: userAvatar, isLoading: userAvatarLoading, refetch: avatarRefetch  } = useGetUserAvatarQuery(paramId);
-    const isLoading = userDataLoading && userAvatarLoading;
+    const { data: userData, refetch: userRefetch, error: userError } = useGetUserByIdQuery(paramId);
+    const { data: userAvatar, isLoading: avatarLoading,refetch: avatarRefetch, error  } = useGetUserAvatarQuery(paramId);
     const dispatch = useAppDispatch();
     const { user, avatar} = useAppSelector(state => state.userReducer);
 
     useEffect(() => {
-        if (!userDataLoading) userData ? dispatch(userSlice.actions.setUser(userData)) : null;
+        if (userData) dispatch(userSlice.actions.setUser(userData));
     }, [userData])
 
     useEffect(() => {
-        if (!userAvatarLoading) dispatch(userSlice.actions.setAvatar(userAvatar ?? null));
-    }, [userAvatar])
-
-    useEffect(() => {
-        avatarRefetch();
-    }, [avatar])
+        if (!avatarLoading) dispatch(userSlice.actions.setAvatar(userAvatar ?? null));
+    }, [userAvatar, avatarLoading])
 
     useEffect(() => {
         userRefetch();
-    }, [user])
+        avatarRefetch();
+    }, [paramId]);
 
     if (userError) return <div style={{'color': 'white', 'fontSize': '16pt'}}> User doesn't exist </div>
 
     return (
         <div className='user-page'>
-            {!user ? <UserPageLoading /> : <UserPageContent user={user} avatar={avatar}/>}
+            {!user || avatarLoading? <UserPageLoading /> : <UserPageContent user={user} avatar={avatar}/>}
         </div>   
     );
 };

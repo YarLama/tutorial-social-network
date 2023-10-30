@@ -30,7 +30,8 @@ export const commentSlice = createSlice({
                 return comments.map(comment => comment.id === id ? updatedComment : comment)
             }
             state.comments = changeValueById(state.comments, commentId, action.payload);
-        }
+        },
+        resetComments: () => initialState 
     }
 }) 
 

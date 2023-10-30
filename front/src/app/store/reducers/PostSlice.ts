@@ -32,6 +32,7 @@ export const postSlice = createSlice({
             }
             state.posts = changeValueById(state.posts, postId, action.payload);
         },
+        resetPosts: () => initialState
     }
 })
 

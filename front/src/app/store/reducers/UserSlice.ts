@@ -25,7 +25,8 @@ export const userSlice = createSlice({
         setUserAndAvatar(state, action: PayloadAction<UserState>) {
             state.user = action.payload.user;
             state.avatar = action.payload.avatar;
-        }
+        },
+        resetUser: () => initialState
     }
 })
 

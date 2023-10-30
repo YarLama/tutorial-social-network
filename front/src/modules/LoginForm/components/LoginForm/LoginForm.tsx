@@ -8,6 +8,7 @@ import { replaceWithId } from '../../../../app/helpers/http';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
+import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import { Button, FormError, InputText } from '../../../../UI';
 import { prepareLoginData } from '../../helpers/prepareSubmit';
 import { validateLoginValues } from '../../helpers/validateLoginValues';
@@ -41,9 +42,7 @@ const LoginForm: React.FC = () => {
             const body = prepareLoginData(values.email, values.password);
             const responce = await login(body).unwrap();
             dispatch(authSlice.actions.login(responce.token));
-            const { id } = useAppSelector(state => state.authReducer.authUserInfo)
             actions.resetForm();
-            navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, id));
         } catch (e) {
             setErrorForm((e as AxiosError).status === 401 ? 'Неправильный логин или пароль' : 'Что-то пошло не так')
         }

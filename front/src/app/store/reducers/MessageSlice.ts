@@ -11,9 +11,8 @@ interface MessageState {
     penPalUsers: PenPalUser[]
 }
 
-const authUser = getUserInfoFromLocalToken();
 const messagesToMyself: PenPalUser = {
-    id: authUser.id as number,
+    id: getUserInfoFromLocalToken().id as number ?? 0,
     messages: []
 }
 
@@ -26,13 +25,14 @@ export const messageSlice = createSlice({
     initialState,
     reducers: {
         setMessages(state, action: PayloadAction<MessageModelType[]>) {
+            const authUser = getUserInfoFromLocalToken();
             let messages = action.payload;
             const combinedUserIdValue = messages.flatMap(message => [message.from_userId, message.to_userId]);
             const uniqueUserIdValues = [...new Set(combinedUserIdValue)].filter(id => id != authUser.id);
             const penPalUsers: PenPalUser[] = [messagesToMyself].map(penPalUser => {
-                if (penPalUser.id === authUser.id) {
+                if ((penPalUser.id === authUser.id) || (penPalUser.id === 0)) {
                     const myselfMessages = messages.filter(message => message.from_userId === message.to_userId);
-                    return {...messagesToMyself, messages: myselfMessages}
+                    return {id: authUser.id as number, messages: myselfMessages}
                 }
                 return penPalUser;
             });
@@ -83,7 +83,8 @@ export const messageSlice = createSlice({
                 return penPalUser;
             })
             state.penPalUsers = penPalUsersWithoutDeletedMessage;
-        }
+        },
+        resetMessages: () => initialState
     }
 })
 

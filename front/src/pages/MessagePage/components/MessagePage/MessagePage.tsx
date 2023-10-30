@@ -19,15 +19,17 @@ const MessagePage = () => {
         setCurrentPenPalUser(id);
     }
 
-    console.log(currentPenPalUser)
-
     useEffect(() => {
-        dispatch(messageSlice.actions.setMessages(data ?? []))
+        if (data) dispatch(messageSlice.actions.setMessages(data))
     }, [data])
 
     useEffect(() => {
         refetch();
     }, [penPalUsers]);
+
+    useEffect(() => {
+        if (data) dispatch(messageSlice.actions.setMessages(data))
+    },[])
 
     return (
         <div className='message-page'>
