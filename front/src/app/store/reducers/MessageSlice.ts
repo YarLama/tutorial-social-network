@@ -7,8 +7,14 @@ type PenPalUser = {
     messages: MessageModelType[]
 }
 
+type PenPalUserInfo = {
+    id: number,
+    name: string | null
+}
+
 interface MessageState {
-    penPalUsers: PenPalUser[]
+    penPalUsers: PenPalUser[],
+    currentPenPalUserInfo: PenPalUserInfo
 }
 
 const messagesToMyself: PenPalUser = {
@@ -17,7 +23,11 @@ const messagesToMyself: PenPalUser = {
 }
 
 const initialState: MessageState = {
-    penPalUsers: [messagesToMyself]
+    penPalUsers: [messagesToMyself],
+    currentPenPalUserInfo: {
+        id: 0,
+        name: null
+    }
 }
 
 export const messageSlice = createSlice({
@@ -83,6 +93,9 @@ export const messageSlice = createSlice({
                 return penPalUser;
             })
             state.penPalUsers = penPalUsersWithoutDeletedMessage;
+        },
+        setCurrentPenPalUserInfo(state, action: PayloadAction<PenPalUserInfo>) {
+            state.currentPenPalUserInfo = action.payload;
         },
         resetMessages: () => initialState
     }

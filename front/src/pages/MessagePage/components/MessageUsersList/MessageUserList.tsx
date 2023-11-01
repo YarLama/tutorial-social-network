@@ -3,11 +3,10 @@ import { useAppSelector } from '../../../../app/hooks/redux/redux';
 import MessageUser from '../MessageUser/MessageUser';
 
 interface IMessageUsersListProps {
-    onPenPalUserClick: (args: any) => void;
     currentUserId: number;
 }
 
-const MessageUserList: React.FC<IMessageUsersListProps> = ({onPenPalUserClick, currentUserId}) => {
+const MessageUserList: React.FC<IMessageUsersListProps> = ({currentUserId}) => {
 
     const { penPalUsers } = useAppSelector(state => state.messageReducer)
     const { id: authIdUser } = useAppSelector(state => state.authReducer.authUserInfo);
@@ -25,7 +24,6 @@ const MessageUserList: React.FC<IMessageUsersListProps> = ({onPenPalUserClick, c
                     key={penPalUser.id} 
                     userId={penPalUser.id} 
                     lastMessage={lastMessage} 
-                    onClick={() => onPenPalUserClick(penPalUser.id)}
                     isSelected={currentUserId === penPalUser.id}
                 />
             })}

@@ -8,7 +8,9 @@
     justify-content: center;
     border-radius: 15px;
     margin: 15px 5px;
-    min-width: 450px;
+    min-width: 400px;
+    max-width: 1000px;
+    width: 40vw;
     background-color: $color_minor_background;
 }
 
@@ -22,8 +24,13 @@
     @include desktop() {
         border-radius: 15px;
         margin: 15px 5px;
-        min-width: 450px;
-        width: auto;
+        min-width: 400px;
+        max-width: 1000px;
+        width: 40vw;
+    }
+
+    @include mobile() {
+        background-color: red;
     }
     
 }

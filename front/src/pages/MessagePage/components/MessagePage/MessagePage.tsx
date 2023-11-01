@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetUserMessagesQuery } from '../../../../app/api/messageApi';
+import { useGetUserByIdQuery } from '../../../../app/api/userApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import MessageDialogue from '../MessageDialogue/MessageDialogue';
@@ -10,14 +11,12 @@ import './styles/style.scss'
 const MessagePage = () => {
 
     const {id} = useParams();
-    const [currentPenPalUser, setCurrentPenPalUser] = useState<number>(id ? Number(id) : 0);
+    const {data: userData} = useGetUserByIdQuery(id);
     const {data, refetch} = useGetUserMessagesQuery('');
-    const {penPalUsers} = useAppSelector(state => state.messageReducer)
+    const {penPalUsers, currentPenPalUserInfo} = useAppSelector(state => state.messageReducer)
     const dispatch = useAppDispatch();
 
-    const handleCurrentPenPalUser = (id: number) => {
-        setCurrentPenPalUser(id);
-    }
+    console.log(currentPenPalUserInfo)
 
     useEffect(() => {
         if (data) dispatch(messageSlice.actions.setMessages(data))
@@ -28,13 +27,20 @@ const MessagePage = () => {
     }, [penPalUsers]);
 
     useEffect(() => {
+        if (id && userData) dispatch(messageSlice.actions.setCurrentPenPalUserInfo({
+            id: Number(id),
+            name: userData.first_name
+        }))
+    }, [userData, id])
+
+    useEffect(() => {
         if (data) dispatch(messageSlice.actions.setMessages(data))
     },[])
 
     return (
         <div className='message-page'>
-            <MessageUserList onPenPalUserClick={handleCurrentPenPalUser} currentUserId={currentPenPalUser}/>
-            <MessageDialogue penPalUserId={currentPenPalUser}/>
+            <MessageUserList currentUserId={currentPenPalUserInfo.id}/>
+            <MessageDialogue penPalUserId={currentPenPalUserInfo.id}/>
         </div>
     );
 };

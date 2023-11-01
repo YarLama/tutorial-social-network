@@ -1,7 +1,8 @@
 import React from 'react';
 import { userApi } from '../../../../app/api/userApi';
 import { getImageUrl } from '../../../../app/helpers/http';
-import { useAppSelector } from '../../../../app/hooks/redux/redux';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
+import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import { Avatar } from '../../../../components';
 import './styles/style.scss'
 
@@ -9,21 +10,28 @@ interface IMessageUserProps {
     userId: number;
     lastMessage: string | null;
     isSelected?: boolean;
-    onClick?: () => void;
 }
 
-const MessageUser: React.FC<IMessageUserProps> = ({userId, lastMessage, onClick, isSelected}) => {
+const MessageUser: React.FC<IMessageUserProps> = ({userId, lastMessage, isSelected}) => {
 
     const { data: avatarData } = userApi.useGetUserAvatarQuery(userId);
     const { data: userData } = userApi.useGetUserByIdQuery(userId);
     const { id: authUserId } = useAppSelector(state => state.authReducer.authUserInfo)
+    const dispatch = useAppDispatch();
     const messageClassName = ['message-user-box'];
 
     if (isSelected) messageClassName.push('selected')
     if (lastMessage) lastMessage = lastMessage?.length > 20 ? lastMessage?.slice(0, 20).concat('...') : lastMessage;
 
+    const handleClick = () => {
+        if (userData) dispatch(messageSlice.actions.setCurrentPenPalUserInfo({
+            id: userId,
+            name: userData.first_name
+        }))
+    }
+
     return (
-        <div className={messageClassName.join(' ')} onClick={onClick}>
+        <div className={messageClassName.join(' ')} onClick={handleClick}>
             <div className='message-user-avatar'>
                 <Avatar size='s' src={avatarData ? getImageUrl(avatarData.image) : undefined}/>
             </div>
