@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDate } from '../../../../app/helpers/common/time';
+import { getDate, getShortDate, getTime } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import './styles/style.scss'
 
@@ -24,7 +24,7 @@ const MessageLetter: React.FC<IMessageLetterProps> = ({penPalName, messages, own
                         {message.content}
                     </div>
                     <div className='message-letter-date'>
-                        {getDate(message.createdAt)}
+                        {getTime(message.createdAt)}
                     </div>
                 </div>  
             )}

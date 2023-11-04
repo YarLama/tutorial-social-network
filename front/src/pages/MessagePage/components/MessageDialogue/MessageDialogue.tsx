@@ -1,8 +1,7 @@
 import React from 'react';
-import { useGetUserByIdQuery } from '../../../../app/api/userApi';
+import { getShortDate } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
-import { LoaderRing } from '../../../../UI';
 import MessageLetter from '../MessageLetter/MessageLetter';
 import './styles/style.scss'
 
@@ -16,6 +15,7 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
     const {id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const currentUser = penPalUsers.find(penPalUser => penPalUser.id === penPalUserId);
     const {currentPenPalUserInfo} = useAppSelector(state => state.messageReducer);
+    const unqiueDate = new Set(currentUser?.messages.map(message => getShortDate(message.createdAt)))
 
     const sortByGroup = (arr?: MessageModelType[]): MessageModelType[][] => {
         if (!arr) return []
@@ -36,19 +36,28 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
         return finalArray;
     }
 
-    const sortedMessages = sortByGroup(currentUser?.messages);
+    const objectWithSortedMessages: {[date: string]: MessageModelType[][]} = {}
+
+    unqiueDate.forEach(date => {
+        objectWithSortedMessages[date] = sortByGroup(currentUser?.messages.filter(message => date === getShortDate(message.createdAt)))
+    })
 
     if (penPalUserId <= 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
 
     return (
         <div className='message-dialogue'>
-            {
-                sortedMessages.map(messageGroup => {
-                    const isOwner = messageGroup[0].from_userId === authId;
-                    const penPalName = isOwner ? 'I' : currentPenPalUserInfo.name ?? "Pen Pal";
-                    return <MessageLetter key={messageGroup[0].id} penPalName={penPalName} messages={messageGroup} owner={true}/>    
-                })
-            }
+            {Object.keys(objectWithSortedMessages).map(SortArr => 
+                <React.Fragment key={SortArr}>
+                    <p className='message-dialogue-date-group'>{SortArr}</p>
+                    {
+                        objectWithSortedMessages[SortArr].map(messageGroup => {
+                            const isOwner = messageGroup[0].from_userId === authId;
+                            const penPalName = isOwner ? 'You' : currentPenPalUserInfo.name ?? "Pen Pal";
+                            return <MessageLetter key={messageGroup[0].id} penPalName={penPalName} messages={messageGroup} owner={true}/>    
+                        })
+                    }
+                </React.Fragment>
+            )}
         </div>
     );
 };

@@ -7,3 +7,13 @@ export const getDate = (timestamp: string): string => {
 
     return `${addZeroPrefixToDate(date.getDate())}.${addZeroPrefixToDate(date.getMonth() + 1)}.${date.getFullYear()} ${addZeroPrefixToDate(date.getHours())}:${addZeroPrefixToDate(date.getMinutes())}`;
 }
+
+export const getTime = (timestamp: string): string => {
+    const fullDate = getDate(timestamp);
+    return fullDate.split(' ')[1];
+}
+
+export const getShortDate = (timestamp: string): string => {
+    const fullDate = getDate(timestamp);
+    return fullDate.split(' ')[0];
+}
