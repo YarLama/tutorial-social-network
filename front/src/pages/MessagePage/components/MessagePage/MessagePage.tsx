@@ -19,8 +19,6 @@ const MessagePage = () => {
     const {penPalUsers, currentPenPalUserInfo} = useAppSelector(state => state.messageReducer)
     const dispatch = useAppDispatch();
 
-    console.log(currentPenPalUserInfo)
-
     useEffect(() => {
         if (data) dispatch(messageSlice.actions.setMessages(data))
     }, [data])

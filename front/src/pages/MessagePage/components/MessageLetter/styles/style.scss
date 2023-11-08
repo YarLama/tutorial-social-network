@@ -2,6 +2,49 @@
 @import '/src/UI/styles_extension/variables';
 
 .messsage-letter {
-    background-color: red;
-    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+
+    .message-letter-onwer {
+        font-size: 14pt;
+        color: $color_comment_name_font;
+        padding: 5px 15px;
+    }
+
+    .message-letter-box {
+
+        display: flex;
+        flex-direction: row;
+        padding: 5px 15px;
+
+        .message-letter-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+    
+            .message-letter-content-text {
+                font-size: 12pt;
+            }
+    
+            .message-letter-content-image {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-top: 10px;
+    
+                img {
+                    max-width: 50%;
+                }
+                
+            }
+        }
+    
+        .message-letter-date {
+            position: relative;
+            right: 0;
+            color: $color_comment_name_font;
+        }
+    }
+    
 }
