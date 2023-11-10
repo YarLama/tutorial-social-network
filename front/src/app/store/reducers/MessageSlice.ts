@@ -55,7 +55,6 @@ export const messageSlice = createSlice({
                 }
                 penPalUsers.push(penPalUser);
             });
-
             state.penPalUsers = penPalUsers;
         },
         addMessage(state, action: PayloadAction<MessageModelType>) {

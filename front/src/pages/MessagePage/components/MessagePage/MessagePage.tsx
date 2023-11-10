@@ -14,7 +14,7 @@ const MessagePage = () => {
 
     const {id} = useParams();
     const {data: userData, error: userError, isLoading: userLoading} = useGetUserByIdQuery(id, { skip: id === undefined});
-    const {data, refetch} = useGetUserMessagesQuery('');
+    const {data, refetch} = useGetUserMessagesQuery('', {pollingInterval: 10000});
     const navigate = useNavigate();
     const {penPalUsers, currentPenPalUserInfo} = useAppSelector(state => state.messageReducer)
     const dispatch = useAppDispatch();

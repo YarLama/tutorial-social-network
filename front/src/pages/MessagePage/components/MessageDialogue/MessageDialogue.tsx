@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getShortDate } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
@@ -14,8 +14,11 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
     const {penPalUsers} = useAppSelector(state => state.messageReducer);
     const {id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
     const currentUser = penPalUsers.find(penPalUser => penPalUser.id === penPalUserId);
+    const totalImageCount = currentUser?.messages.filter(message => message.image).length;
     const {currentPenPalUserInfo} = useAppSelector(state => state.messageReducer);
-    const unqiueDate = new Set(currentUser?.messages.map(message => getShortDate(message.createdAt)))
+    const [objectWithSortedMessages, setObjectWithSortedMessages] = useState<{[date: string]: MessageModelType[][]}>({});
+    const [loadedImageCount, setLoadedImageCount] = useState<number>(0);
+    const lastGroupDiv = useRef<HTMLDivElement | null>(null);
     
     const sortByGroup = (arr?: MessageModelType[]): MessageModelType[][] => {
         if (!arr) return []
@@ -36,25 +39,27 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
         return finalArray;
     }
 
-    const objectWithSortedMessages: {[date: string]: MessageModelType[][]} = {}
-
-    unqiueDate.forEach(date => {
-        objectWithSortedMessages[date] = sortByGroup(currentUser?.messages.filter(message => date === getShortDate(message.createdAt)))
-    })
-
     const scrollToLastLetter = () => {
-        const letterDivs = document.querySelectorAll('.messsage-letter');
-        console.log(letterDivs)
-        if (letterDivs.length > 0) {
-            const lastLetterDiv = letterDivs[letterDivs.length - 1];
-            console.log(lastLetterDiv)
-            lastLetterDiv.scrollIntoView({block: 'end', behavior: 'smooth'})
-        }
+        if (lastGroupDiv.current) lastGroupDiv.current.scrollIntoView({block: 'end'})
+    }
+
+    const handleImageLoad = () => {
+        setLoadedImageCount(prev => prev + 1);
     }
 
     useEffect(() => {
-        if(penPalUserId != 0) scrollToLastLetter();
+        const unqiueDate = new Set(currentUser?.messages.map(message => getShortDate(message.createdAt)))
+        const sortedMessages: {[date: string]: MessageModelType[][]} = {};
+        unqiueDate.forEach(date => {
+            sortedMessages[date] = sortByGroup(currentUser?.messages.filter(message => date === getShortDate(message.createdAt)))
+        })
+        setObjectWithSortedMessages(sortedMessages);
+        setLoadedImageCount(0);
     }, [currentUser])
+
+    useEffect(() => {
+        if (loadedImageCount === totalImageCount) scrollToLastLetter()
+    }, [objectWithSortedMessages, loadedImageCount])
 
     if (penPalUserId <= 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
 
@@ -64,11 +69,11 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
                 <React.Fragment key={SortArr}>
                     <p className='message-dialogue-date-group'>{SortArr}</p>
                     {
-                        objectWithSortedMessages[SortArr].map((messageGroup, index) => {
+                        objectWithSortedMessages[SortArr].map((messageGroup) => {
                             const isOwner = messageGroup[0].from_userId === authId;
                             const penPalName = isOwner ? 'You' : currentPenPalUserInfo.name ?? "Pen Pal";
-                            return <div key={messageGroup[0].id}>
-                                <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner}/>
+                            return <div key={messageGroup[0].id} ref={lastGroupDiv}>
+                                <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner} onLoadComplete={handleImageLoad}/>
                             </div> 
                         })
                     }
