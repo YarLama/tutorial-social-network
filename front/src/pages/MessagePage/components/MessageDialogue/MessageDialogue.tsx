@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getShortDate } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
+import { MessageForm } from '../../../../modules/MessageForm/components/MessageForm/MessageForm';
 import MessageLetter from '../MessageLetter/MessageLetter';
 import './styles/style.scss'
 
@@ -65,20 +66,25 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
 
     return (
         <div className='message-dialogue'>
-            {Object.keys(objectWithSortedMessages).map(SortArr => 
-                <React.Fragment key={SortArr}>
-                    <p className='message-dialogue-date-group'>{SortArr}</p>
-                    {
-                        objectWithSortedMessages[SortArr].map((messageGroup) => {
-                            const isOwner = messageGroup[0].from_userId === authId;
-                            const penPalName = isOwner ? 'You' : currentPenPalUserInfo.name ?? "Pen Pal";
-                            return <div key={messageGroup[0].id} ref={lastGroupDiv}>
-                                <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner} onLoadComplete={handleImageLoad}/>
-                            </div> 
-                        })
-                    }
-                </React.Fragment>
-            )}
+            <div className='message-dialogue-content'>
+                {Object.keys(objectWithSortedMessages).map(SortArr => 
+                    <React.Fragment key={SortArr}>
+                        <p className='message-dialogue-date-group'>{SortArr}</p>
+                        {
+                            objectWithSortedMessages[SortArr].map((messageGroup) => {
+                                const isOwner = messageGroup[0].from_userId === authId;
+                                const penPalName = isOwner ? 'You' : currentPenPalUserInfo.name ?? "Pen Pal";
+                                return <div key={messageGroup[0].id} ref={lastGroupDiv}>
+                                    <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner} onLoadComplete={handleImageLoad}/>
+                                </div> 
+                            })
+                        }
+                    </React.Fragment>
+                )}
+            </div>
+            <div className='message-dialogue-form-create'>
+                <MessageForm from={authId as number} to={penPalUserId}/>
+            </div>
         </div>
     );
 };

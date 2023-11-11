@@ -11,6 +11,7 @@ interface IInputFileProps {
     value: File | string | undefined | null;
     content?: string;
     required?: boolean;
+    iconSize?: 'xs' | 's' | 'm' | 'l';
 }
 
 const InputFile: React.FC<IInputFileProps> = memo(({
@@ -18,7 +19,8 @@ const InputFile: React.FC<IInputFileProps> = memo(({
     contentError,
     required,
     content,
-    value
+    value,
+    iconSize
 }) => {
 
     const [inputFile, setInputFile] = useState<File>(value as File);
@@ -73,7 +75,7 @@ const InputFile: React.FC<IInputFileProps> = memo(({
                 hidden
             />
             <label htmlFor={name} className={classNames.join(' ')} >
-                {content ? content : <IconButton icon='attach' />}
+                {content ? content : <IconButton icon='attach' size={iconSize}/>}
             </label>
             {contentError ? <span className='error-message'>{contentError}</span> : null}
         </div>

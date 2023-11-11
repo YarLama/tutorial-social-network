@@ -1,0 +1,38 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.message-form {
+    background-color: $color_minor_background;
+    border-radius: 15px;
+    width: 100%;
+    padding: 15px 0;
+
+    form {
+
+        .message-form-toolkit {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .message-textarea {
+                flex-grow: 2;
+                padding-right: 30px;
+                
+                textarea {
+                    min-width: auto;
+                    width: 100%;
+                    margin: 0;
+                    padding: 5px 10px;
+                    font-size: 14pt;
+                }
+                
+            }
+        
+            .create-btn {
+                background-color: $color_minor_background;
+                border: none;
+            }
+        }
+    }
+}

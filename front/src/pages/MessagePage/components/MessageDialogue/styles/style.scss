@@ -15,24 +15,35 @@
 }
 
 .message-dialogue {
+    
+    width: 40vw;
     color: white;
-    display: flex;
-    flex-direction: column;
-    background-color: $color_minor_background;
-    overflow-y: auto;
-    min-width: 400px;
-    max-height: 800px;
     
-
-    .message-dialogue-date-group {
-        width: 100%;
+    .message-dialogue-content {
+        min-width: 400px;
+        max-height: 750px;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        color: $color_comment_name_font;
-        margin: 10px 0;
+        flex-direction: column;
+        overflow-y: auto;
+        background-color: $color_minor_background;
+        border-radius: 15px;
+        margin-bottom: 5px;
+        padding: 10px 0;
+
+        .message-dialogue-date-group {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $color_comment_name_font;
+            margin: 10px 0;
+        }
+
     }
-    
+
+    .message-dialogue-form-create {
+        width: 40vw;
+    }
 
     @include desktop() {
         border-radius: 15px;
@@ -43,5 +54,4 @@
     @include mobile() {
         //background-color: red;
     }
-    
 }

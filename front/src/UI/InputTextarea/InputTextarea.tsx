@@ -8,6 +8,7 @@ interface IInputTextareaProps {
     label?: string;
     contentError?: string;
     required?: boolean;
+    extraClassName?: string;
 }
 
 const InputTextarea: React.FC<IInputTextareaProps> = memo(({
@@ -16,11 +17,14 @@ const InputTextarea: React.FC<IInputTextareaProps> = memo(({
     label,
     contentError,
     required,
+    extraClassName
 }) => {
 
     const [inputText, setInputText] = useState<string>('');
     const {setFieldValue} = useFormikContext();
-    const classNames = ['input-textarea-field']
+    const classNames = ['input-textarea']
+
+    if (extraClassName) classNames.push(extraClassName);
 
     useEffect(() => {
         prepareDisplayText();
@@ -43,9 +47,9 @@ const InputTextarea: React.FC<IInputTextareaProps> = memo(({
     if (contentError) classNames.push('error-input');
 
     return (
-        <div className='input-textarea'>
+        <div className={classNames.join(' ')}>
             <textarea 
-                className={classNames.join(' ')} 
+                className='input-textarea-field' 
                 id={name} 
                 name={name} 
                 placeholder={label} 

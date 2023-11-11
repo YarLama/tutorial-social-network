@@ -2,7 +2,7 @@
 
 .image-preview-box {
     position: relative;
-    display: block;
+    display: flex;
     margin: 15px;
 
     @include mobile {
