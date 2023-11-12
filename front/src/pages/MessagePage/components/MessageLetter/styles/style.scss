@@ -6,6 +6,7 @@
     flex-direction: column;
     padding: 5px;
 
+
     .message-letter-onwer {
         font-size: 14pt;
         color: $color_comment_name_font;
@@ -13,10 +14,14 @@
     }
 
     .message-letter-box {
-
         display: flex;
         flex-direction: row;
         padding: 5px 15px;
+        margin: 3px 0;
+
+        &.selected-letter {
+            background-color: $color_tooltip_elements;
+        }
 
         .message-letter-content {
             display: flex;

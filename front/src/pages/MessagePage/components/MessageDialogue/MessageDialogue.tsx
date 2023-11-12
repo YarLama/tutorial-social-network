@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { getShortDate } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
@@ -10,7 +10,7 @@ interface IMessageDialogueProps {
     penPalUserId: number;
 }
 
-const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
+const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) => {
 
     const {penPalUsers} = useAppSelector(state => state.messageReducer);
     const {id: authId} = useAppSelector(state => state.authReducer.authUserInfo);
@@ -59,8 +59,9 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
     }, [currentUser])
 
     useEffect(() => {
+        scrollToLastLetter()
         if (loadedImageCount === totalImageCount) scrollToLastLetter()
-    }, [objectWithSortedMessages, loadedImageCount])
+    }, [currentUser?.messages, loadedImageCount])
 
     if (penPalUserId <= 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
 
@@ -87,6 +88,6 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = ({penPalUserId}) => {
             </div>
         </div>
     );
-};
+});
 
 export default MessageDialogue;
