@@ -7,7 +7,7 @@ export const useWindowSize = () => {
         height: window.innerHeight && 0
     });
 
-    const isMobile: boolean = windowSize.width < 768; 
+    const isMobile: boolean = window.innerWidth < 768;
 
     useEffect(() => {
 
