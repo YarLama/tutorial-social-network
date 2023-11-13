@@ -4,7 +4,8 @@
 .message-form {
     background-color: $color_minor_background;
     border-radius: 15px;
-    width: 100%;
+    width: calc(100% - 10px);
+    min-width: 400px;
     padding: 15px 0;
 
     form {
@@ -14,17 +15,20 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            height: 100px;
 
             .message-textarea {
                 flex-grow: 2;
                 padding-right: 30px;
+                height: 100%;
                 
                 textarea {
                     min-width: auto;
                     width: 100%;
+                    height: calc(100% - 20px);
                     margin: 0;
                     padding: 5px 10px;
-                    font-size: 14pt;
+                    font-size: 12pt;
                 }
                 
             }

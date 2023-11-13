@@ -12,21 +12,24 @@
     max-width: 800px;
     width: 40vw;
     background-color: $color_minor_background;
+
+    @include mobile() {
+        display: none;
+    }
 }
 
 .message-dialogue {
-    
     width: 40vw;
     color: white;
     
     .message-dialogue-content {
         min-width: 400px;
-        max-height: 750px;
+        max-height: 700px;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
         background-color: $color_minor_background;
-        border-radius: 15px;
+        border-radius: 0 0 15px 15px;
         margin-bottom: 5px;
         padding: 10px 0;
 

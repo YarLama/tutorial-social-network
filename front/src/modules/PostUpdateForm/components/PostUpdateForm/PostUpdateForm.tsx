@@ -85,7 +85,7 @@ const PostUpdateForm: React.FC<IPostUpdateFormProps> = ({postId, content, image,
                     </div>
                     <div className='post-update-form-preview'>
                         <InputFile name='updatedImage' value={values.updatedImage} content={'Attach Image'}/>
-                        {values.updatedImage ? <ImageUploadPreview image={values.updatedImage instanceof File ? values.updatedImage : null} inputFileName='updatedImage'/> : null}
+                        {values.updatedImage ? <ImageUploadPreview image={values.updatedImage} inputFileName='updatedImage'/> : null}
                     </div>
                     <div className='post-update-submit-btn'>
                         <Button content='Update Post' type='submit' disabled={!isPostUpdated || formik.isSubmitting}/>

@@ -1,0 +1,44 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.message-dialogue-toolkit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 10px);
+    min-width: 390px;
+    padding: 5px;
+    background-color: $color_minor_background;
+    border-bottom: $color_comment_background 1px solid;
+
+    .back-btn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .clear-btn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .control-btns {
+        display: flex;
+        flex-direction: row;
+
+        .edit-btn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+    
+        .delete-btn {
+            cursor: pointer;
+            display: flex;
+            align-self: flex-end;
+        }
+    }
+
+    
+}

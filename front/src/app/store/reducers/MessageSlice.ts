@@ -14,7 +14,8 @@ type PenPalUserInfo = {
 
 interface MessageState {
     penPalUsers: PenPalUser[],
-    currentPenPalUserInfo: PenPalUserInfo
+    currentPenPalUserInfo: PenPalUserInfo,
+    selectedMessages: number[]
 }
 
 const messagesToMyself: PenPalUser = {
@@ -27,7 +28,8 @@ const initialState: MessageState = {
     currentPenPalUserInfo: {
         id: 0,
         name: null
-    }
+    },
+    selectedMessages: []
 }
 
 export const messageSlice = createSlice({
@@ -96,7 +98,19 @@ export const messageSlice = createSlice({
         setCurrentPenPalUserInfo(state, action: PayloadAction<PenPalUserInfo>) {
             state.currentPenPalUserInfo = action.payload;
         },
-        resetMessages: () => initialState
+        addSelectedMessageId(state, action: PayloadAction<number>) {
+            state.selectedMessages.push(action.payload);
+        }, 
+        removeSelectedMessageId(state, action: PayloadAction<number>) {
+            state.selectedMessages = state.selectedMessages.filter(id => id !== action.payload)
+        },
+        resetSelectedMessages(state) {
+            state.selectedMessages = initialState.selectedMessages
+        },
+        resetMessages: () => initialState,
+        resetCurrentPenPalUserInfo(state) {
+            state.currentPenPalUserInfo = initialState.currentPenPalUserInfo
+        }
     }
 })
 

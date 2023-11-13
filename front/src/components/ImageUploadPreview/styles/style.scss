@@ -3,17 +3,16 @@
 .image-preview-box {
     position: relative;
     display: flex;
-    margin: 15px;
+    margin: 5px 15px;
 
     @include mobile {
         display: flex;
         flex-direction: row;
-        margin: 5px 15px;
     }
 
     .image-preview-content {
-        width: 72px;
-        height: 72px;
+        width: 48px;
+        height: 48px;
     }
 
     .image-preview-cancel {
