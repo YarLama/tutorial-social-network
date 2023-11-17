@@ -14,7 +14,7 @@ export const messageApi = api.injectEndpoints({
                 body: data
             })
         }),
-        updateMessage: builder.mutation<any, any>({
+        updateMessage: builder.mutation<any, {id: number, data: FormData}>({
             query: ({id, data}) => ({
                 url: `/messages/${id}`,
                 method: 'PUT',
