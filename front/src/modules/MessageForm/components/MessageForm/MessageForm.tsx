@@ -44,6 +44,7 @@ const MessageForm: React.FC<IMessageFormProps> = ({from, to, purpose}) => {
             const body = prepareCreateMessageData(values);
             const responce = await createMessage(body).unwrap();
             dispatch(messageSlice.actions.addMessage(responce));
+            actions.resetForm();
             actions.setSubmitting(false);
         } catch (e) {
             console.log(e);
@@ -53,12 +54,12 @@ const MessageForm: React.FC<IMessageFormProps> = ({from, to, purpose}) => {
     const handleUpdateSubmit = async (values: MessageFormValues, actions: FormikHelpers<MessageFormValues>) => {
         try {
             actions.setSubmitting(true)
-            console.log('update', values);
-            const body = prepareUpdateMessageData(values);
+            const body = await prepareUpdateMessageData(values);
             if (selectedMessage) {
                 const responce = await updateMessage({id: selectedMessage.id, data: body}).unwrap();
                 dispatch(messageSlice.actions.updateMessage(responce));
             }
+            actions.resetForm();
             actions.setSubmitting(false);
         } catch (e) {
             console.log(e);

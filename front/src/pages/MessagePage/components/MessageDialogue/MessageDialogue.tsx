@@ -1,8 +1,10 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
+import { Photo } from '../../../../app/api/photoApi/types';
 import { getShortDate } from '../../../../app/helpers/common/time';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
+import { MediaViewer } from '../../../../components';
 import { MessageForm } from '../../../../modules/MessageForm/components/MessageForm/MessageForm';
 import MessageLetter from '../MessageLetter/MessageLetter';
 import MessageToolkit from '../MessageToolkit/MessageToolkit';
@@ -22,11 +24,14 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
     const currentUser = penPalUsers.find(penPalUser => penPalUser.id === penPalUserId);
     const totalImageCount = currentUser?.messages.filter(message => message.image).length;
     
+    const [mediaForModal, setMediaForModal] = useState<Photo | null>(null);
+    const [mediaModalActive, setMediaModalActive] = useState<boolean>(false);
     const [objectWithSortedMessages, setObjectWithSortedMessages] = useState<{[date: string]: MessageModelType[][]}>({});
     const [loadedImageCount, setLoadedImageCount] = useState<number>(0);
     const [formPurpose, setFormPurpose] = useState<'create' | 'update'>('create');
 
     const lastGroupDiv = useRef<HTMLDivElement | null>(null);
+    const isCurrentUserChanged = useRef<boolean>(true);
     
     const sortByGroup = (arr?: MessageModelType[]): MessageModelType[][] => {
         if (!arr) return []
@@ -48,11 +53,16 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
     }
 
     const scrollToLastLetter = () => {
-        if (lastGroupDiv.current) lastGroupDiv.current.scrollIntoView({block: 'end'})
+        if (lastGroupDiv.current) lastGroupDiv.current.scrollIntoView({block: 'end'});
     }
 
     const handleImageLoad = () => {
         setLoadedImageCount(prev => prev + 1);
+    }
+
+    const handleImageClick = (media: Photo) => {
+        setMediaForModal(media)
+        setMediaModalActive(true)
     }
 
     useEffect(() => {
@@ -64,14 +74,25 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
         setObjectWithSortedMessages(sortedMessages);
         setLoadedImageCount(0);
         setFormPurpose('create');
-        dispatch(messageSlice.actions.resetSelectedMessages());
-    }, [currentUser])
+        const root = document.querySelector('.message-dialogue-content');
+        if (root) {
+            const messages = root.querySelectorAll('.selected-letter');
+            messages.forEach(message => message.classList.remove('selected-letter'));
+            dispatch(messageSlice.actions.resetSelectedMessages());
+        }
+    }, [currentUser, penPalUsers])
 
     useEffect(() => {
-        scrollToLastLetter()
-        if (loadedImageCount === totalImageCount) scrollToLastLetter()
-    }, [objectWithSortedMessages, loadedImageCount])
+        if (loadedImageCount === totalImageCount && isCurrentUserChanged.current) {
+            scrollToLastLetter()
+            isCurrentUserChanged.current = false;
+        }
+    }, [currentUser, loadedImageCount])
 
+    useEffect(() => {
+        isCurrentUserChanged.current = true;
+    }, [currentUser])
+    
     if (penPalUserId <= 0 || Object.keys(objectWithSortedMessages).length === 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
 
     return (
@@ -86,7 +107,7 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
                                 const isOwner = messageGroup[0].from_userId === authId;
                                 const penPalName = isOwner ? 'You' : currentPenPalUserInfo.name ?? "Pen Pal";
                                 return <div key={messageGroup[0].id} ref={lastGroupDiv}>
-                                    <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner} onLoadComplete={handleImageLoad} onSelectedChange={setFormPurpose}/>
+                                    <MessageLetter penPalName={penPalName} messages={messageGroup} owner={isOwner} onLoadComplete={handleImageLoad} onSelectedChange={setFormPurpose} onImageClick={handleImageClick}/>
                                 </div> 
                             })
                         }
@@ -96,6 +117,7 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
             <div className='message-dialogue-form-create'>
                 <MessageForm from={authId as number} to={penPalUserId} purpose={formPurpose}/>
             </div>
+            <MediaViewer active={mediaModalActive} setActive={setMediaModalActive} elements={mediaForModal ? [mediaForModal] : null}/>
         </div>
     );
 });

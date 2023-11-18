@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Photo } from '../../../../app/api/photoApi/types';
 import { getTime } from '../../../../app/helpers/common/time';
 import { getImageUrl } from '../../../../app/helpers/http';
 import { MessageModelType } from '../../../../app/helpers/types/models';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
-import { MediaViewer } from '../../../../components';
 import './styles/style.scss'
 
 interface IMessageLetterProps {
@@ -12,12 +12,13 @@ interface IMessageLetterProps {
     messages?: MessageModelType[];
     owner: boolean;
     onLoadComplete?: () => void;
+    onImageClick?: (media: Photo) => void;
     onSelectedChange?: Dispatch<SetStateAction<"create" | "update">>;
 }
 
-const MessageLetter: React.FC<IMessageLetterProps> = ({penPalName, messages, owner, onLoadComplete, onSelectedChange}) => {
+const MessageLetter: React.FC<IMessageLetterProps> = ({penPalName, messages, owner, onLoadComplete, onSelectedChange, onImageClick}) => {
     
-    const [mediaModalActive, setMediaModalActive] = useState<boolean>(false);
+    
     const classNames = ['messsage-letter', owner ? 'owner-letter' : 'penpal-letter']
 
     if (!messages) return null;
@@ -59,6 +60,10 @@ const MessageLetter: React.FC<IMessageLetterProps> = ({penPalName, messages, own
         holdStart();
     }
 
+    const handleImageClick = (message: MessageModelType) => {
+        if (message.image && onImageClick) onImageClick({id: message.id, image: message.image, is_avatar: false});
+    }
+
     useEffect(() => {
         if (onSelectedChange) onSelectedChange('create')
     }, [selectedMessages])
@@ -86,8 +91,10 @@ const MessageLetter: React.FC<IMessageLetterProps> = ({penPalName, messages, own
                         {message.content && <p className='message-letter-content-text'>{message.content}</p>}
                         {message.image && 
                             <div className='message-letter-content-image'>
-                                <img src={getImageUrl(message.image)} onLoad={onLoadComplete} onClick={() => setMediaModalActive(true)}/>
-                                <MediaViewer active={mediaModalActive} setActive={setMediaModalActive} elements={[{id: message.id, image: message.image, is_avatar: false}]}/>
+                                <img 
+                                src={getImageUrl(message.image)} 
+                                onLoad={onLoadComplete} 
+                                onClick={() => handleImageClick(message)}/>
                             </div>
                         }
                     </div>

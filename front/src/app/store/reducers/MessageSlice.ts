@@ -38,7 +38,7 @@ export const messageSlice = createSlice({
     reducers: {
         setMessages(state, action: PayloadAction<MessageModelType[]>) {
             const authUser = getUserInfoFromLocalToken();
-            let messages = action.payload;
+            let messages = [...action.payload].sort((a,b) => a.id - b.id);
             const combinedUserIdValue = messages.flatMap(message => [message.from_userId, message.to_userId]);
             const uniqueUserIdValues = [...new Set(combinedUserIdValue)].filter(id => id != authUser.id);
             const penPalUsers: PenPalUser[] = [messagesToMyself].map(penPalUser => {

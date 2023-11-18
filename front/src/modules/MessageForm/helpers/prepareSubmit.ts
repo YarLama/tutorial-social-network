@@ -1,3 +1,4 @@
+import { getImageUrl } from "../../../app/helpers/http";
 import { MessageFormValues } from "./types";
 
 
@@ -15,7 +16,7 @@ export const prepareCreateMessageData = (values: MessageFormValues) => {
     return body;
 }
 
-export const prepareUpdateMessageData = (values: MessageFormValues) => {
+export const prepareUpdateMessageData = async (values: MessageFormValues): Promise<FormData> => {
     const body = new FormData();
     body.append('from_userId', String(values.from_userId));
     body.append('to_userId', String(values.to_userId));
@@ -26,7 +27,10 @@ export const prepareUpdateMessageData = (values: MessageFormValues) => {
         body.append('image', blob);
     }
     if (values.image && (typeof values.image === 'string')) {
-        body.append('image', values.image);
+        const imageUrl = new URL(getImageUrl(values.image) as string)
+        await fetch(imageUrl)
+            .then(response => response.blob())
+            .then(blob => body.append('image', blob))
     }
 
     return body;
