@@ -120,7 +120,8 @@ export class MessagesService {
         const message = await this.messageRepository.findByPk(id);
         if (!message) throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
         const isOwner = await this.authService.isEqualUserId(request, message.from_userId);
-        if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+        const isPenpal = await this.authService.isEqualUserId(request, message.to_userId);
+        if (!isOwner && !isPenpal) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const response = { messageId: message.id, message: "Remove success."};
         const removedMessage = await this.messageRepository.destroy({where: {id}});
         if (message.image) {
