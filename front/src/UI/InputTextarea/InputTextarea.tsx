@@ -9,6 +9,7 @@ interface IInputTextareaProps {
     contentError?: string;
     required?: boolean;
     extraClassName?: string;
+    maxLength?: number;
 }
 
 const InputTextarea: React.FC<IInputTextareaProps> = memo(({
@@ -17,7 +18,8 @@ const InputTextarea: React.FC<IInputTextareaProps> = memo(({
     label,
     contentError,
     required,
-    extraClassName
+    extraClassName,
+    maxLength
 }) => {
 
     const [inputText, setInputText] = useState<string>('');
@@ -56,6 +58,7 @@ const InputTextarea: React.FC<IInputTextareaProps> = memo(({
                 value={value}
                 onChange={handleChange}
                 required={required}
+                maxLength={maxLength}
             />
             <label className='input-textarea-label' htmlFor={name}>{label}</label>
             {contentError ? <span className='error-message'>{contentError}</span> : null}

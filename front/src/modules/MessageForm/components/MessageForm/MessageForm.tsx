@@ -128,7 +128,7 @@ const MessageForm: React.FC<IMessageFormProps> = ({from, to, purpose}) => {
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
                     <div className='message-form-toolkit'>
                         <InputFile name='image' value={values.image} iconSize='s'/>
-                        <InputTextarea name='content' extraClassName='message-textarea' value={values.content}/>
+                        <InputTextarea name='content' extraClassName='message-textarea' value={values.content} maxLength={254}/>
                         <button className='submit-btn' type='submit' disabled={Object.keys(errors).length !== 0 || isSubmitting}>
                             {purpose === 'create' ? <IconButton icon='send' size='s'/> : <IconButton icon='edit' size='s'/>}
                         </button>
