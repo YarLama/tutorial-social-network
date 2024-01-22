@@ -95,6 +95,20 @@ export const messageSlice = createSlice({
             })
             state.penPalUsers = penPalUsersWithoutDeletedMessage;
         },
+        deleteSelectedMessages(state) {
+            const penPalUsers = [...state.penPalUsers];
+            const selectedMessages = [...state.selectedMessages];
+            const curPal = state.currentPenPalUserInfo;
+            const penPalUsersWithoutDeletedMessages = penPalUsers.map(penPalUser => {
+                if (penPalUser.id === curPal.id) {
+                    let penPalMessages = [...penPalUser.messages];
+                    let updatedMessages = penPalMessages.filter(message => !selectedMessages.includes(message.id))
+                    return {...penPalUser, messages: updatedMessages};
+                }
+                return penPalUser;
+            })
+            state.penPalUsers = penPalUsersWithoutDeletedMessages;
+        },
         setCurrentPenPalUserInfo(state, action: PayloadAction<PenPalUserInfo>) {
             state.currentPenPalUserInfo = action.payload;
         },

@@ -40,7 +40,6 @@ const MessageForm: React.FC<IMessageFormProps> = ({from, to, purpose}) => {
     const handleCreateSubmit = async (values: MessageFormValues, actions: FormikHelpers<MessageFormValues>) => {
         try {
             actions.setSubmitting(true)
-            console.log('create', values);
             const body = prepareCreateMessageData(values);
             const responce = await createMessage(body).unwrap();
             dispatch(messageSlice.actions.addMessage(responce));

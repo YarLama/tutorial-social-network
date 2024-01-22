@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { messageApi } from '../../../../app/api/messageApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import { IconButton } from '../../../../UI';
@@ -11,6 +12,7 @@ interface IMessageToolkitProps {
 const MessageToolkit: React.FC<IMessageToolkitProps> = ({onEditClick}) => {
 
     const dispatch = useAppDispatch();
+    const [deleteMessage] = messageApi.useDeleteMessageMutation();
     const { selectedMessages } = useAppSelector(state => state.messageReducer);
 
     const [isOwnerSelectedMessage, setIsOwnerSelectedMessage] = useState<boolean>(false);
@@ -36,8 +38,19 @@ const MessageToolkit: React.FC<IMessageToolkitProps> = ({onEditClick}) => {
         }
     }
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = async () => {
+        if (selectedMessages) {
+            const messageDeletePromise = async (id: number) => {
+                deleteMessage({id});
+            }
+            const deleteRequests = selectedMessages.map(id => messageDeletePromise(id))
+            await Promise.all(deleteRequests)
+                .then(results => {
+                    dispatch(messageSlice.actions.deleteSelectedMessages());
 
+                })
+        }
+        
     }
 
     useEffect(() => {
