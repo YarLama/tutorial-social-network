@@ -92,13 +92,14 @@ const MessageDialogue: React.FC<IMessageDialogueProps> = memo(({penPalUserId}) =
     useEffect(() => {
         isCurrentUserChanged.current = true;
     }, [currentUser])
-    
-    if (penPalUserId <= 0 || Object.keys(objectWithSortedMessages).length === 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
+
+    if (penPalUserId <= 0 && Object.keys(objectWithSortedMessages).length === 0) return <div className='message-dialogue-empty'>Choose your dialogue</div>
 
     return (
         <div className='message-dialogue'>
             <MessageToolkit onEditClick={setFormPurpose}/>
             <div className='message-dialogue-content'>
+                {Object.keys(objectWithSortedMessages).length === 0 ? <p className='message-dialogue-date-group'>Write your's first message</p> : null}
                 {Object.keys(objectWithSortedMessages).map(SortArr => 
                     <React.Fragment key={SortArr}>
                         <p className='message-dialogue-date-group'>{SortArr}</p>

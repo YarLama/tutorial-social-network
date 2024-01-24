@@ -14,9 +14,9 @@ const MessagePage = () => {
 
     const {id} = useParams();
     const {data: userData, error: userError, isLoading: userLoading} = useGetUserByIdQuery(id, { skip: id === undefined});
-    const {data, refetch} = useGetUserMessagesQuery('', {pollingInterval: 10000});
+    const {data} = useGetUserMessagesQuery('', {pollingInterval: 10000});
     const navigate = useNavigate();
-    const {penPalUsers, currentPenPalUserInfo} = useAppSelector(state => state.messageReducer)
+    const {currentPenPalUserInfo} = useAppSelector(state => state.messageReducer)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -24,19 +24,11 @@ const MessagePage = () => {
     }, [data])
 
     useEffect(() => {
-        refetch();
-    }, [penPalUsers]);
-
-    useEffect(() => {
         if (id && userData) dispatch(messageSlice.actions.setCurrentPenPalUserInfo({
             id: Number(id),
             name: userData.first_name
         }))
-    }, [userData, id])
-
-    useEffect(() => {
-        if (data) dispatch(messageSlice.actions.setMessages(data))
-    },[])
+    }, [userData, id, data])
 
     useEffect(() => {
         if ((userError as AxiosError)?.status === 500) navigate(RoutePaths.MESSAGE_PAGE);

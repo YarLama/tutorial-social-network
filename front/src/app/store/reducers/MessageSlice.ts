@@ -111,6 +111,8 @@ export const messageSlice = createSlice({
         },
         setCurrentPenPalUserInfo(state, action: PayloadAction<PenPalUserInfo>) {
             state.currentPenPalUserInfo = action.payload;
+            let isPenPal = state.penPalUsers.some(penPal => penPal.id === action.payload.id)
+            if (!isPenPal) state.penPalUsers.push({id: action.payload.id, messages: []})
         },
         addSelectedMessageId(state, action: PayloadAction<number>) {
             state.selectedMessages.push(action.payload);
