@@ -1,0 +1,10 @@
+@import '/src/UI/styles_extension/variables';
+
+.message-user-list {
+
+    @include mobile() {
+        &.hidden {
+            display: none;
+        }
+    }
+}

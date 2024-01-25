@@ -34,6 +34,12 @@
         margin-bottom: 5px;
         padding: 10px 0;
 
+        @include mobile() {
+            min-width: auto;
+            padding-top: 50px;
+            padding-bottom: 130px;
+        }
+
         .message-dialogue-date-group {
             width: 100%;
             display: flex;
@@ -56,6 +62,6 @@
     }
 
     @include mobile() {
-        //background-color: red;
+        width: 100vw;
     }
 }

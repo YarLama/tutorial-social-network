@@ -11,6 +11,12 @@
     background-color: $color_minor_background;
     border-bottom: $color_comment_background 1px solid;
 
+    @include mobile() {
+        min-width: auto;
+        position: fixed;
+        top: 40px;
+    }
+
     .back-btn {
         cursor: pointer;
         display: flex;
