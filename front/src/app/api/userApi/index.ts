@@ -1,5 +1,5 @@
 import api from "..";
-import { PostModelType } from "../../helpers/types/models";
+import { ContactModelType, PostModelType } from "../../helpers/types/models";
 import { Photo } from "../photoApi/types";
 import { User } from "./types";
 
@@ -20,6 +20,9 @@ export const userApi = api.injectEndpoints({
         getUserPhotos: builder.query<Photo[], any>({
             query: (id) => `/users/${id}/photos`
         }),
+        getUserContacts: builder.query<ContactModelType[], any>({
+            query: (id) => `/users/${id}/contacts`
+        }),
         updateUser: builder.mutation<any, any>({
             query: ({id, data}) => ({
                 url: `/users/${id}`,
@@ -36,4 +39,5 @@ export const {
     useGetUserAvatarQuery, 
     useGetUserPostsQuery, 
     useUpdateUserMutation,
-    useGetUserPhotosQuery } = userApi;
+    useGetUserPhotosQuery 
+} = userApi;

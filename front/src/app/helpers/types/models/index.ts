@@ -32,3 +32,10 @@ export type MessageModelType = {
 }
 
 export type UserModelType = User & {avatar: Photo | null};
+
+export type ContactModelType = {
+    id: number;
+    userId: number;
+    targetUserId: number;
+    description: string | null;
+}
