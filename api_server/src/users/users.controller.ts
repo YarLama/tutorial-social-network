@@ -86,4 +86,11 @@ export class UsersController {
         return this.userService.getUserById(id);
     }
 
+    @RolesForAccess(RoleNames.USER)
+    @UseGuards(RolesAccessGuard)
+    @Get('/:name/search/')
+    getUsersByName(@Param('name') name: string, @Req() request: Request) {
+        return this.userService.getUsersByName(name, request);
+    }
+
 }

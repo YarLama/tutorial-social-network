@@ -11,6 +11,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { Post } from 'src/posts/posts.model';
 import { Photo } from 'src/photos/photos.model';
 import { IUserEntity } from './users.entity';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UsersService {
@@ -75,6 +76,41 @@ export class UsersService {
             email: user.email
         };
         return responce;
+    }
+
+    async getUsersByName(name: string, request: Request): Promise<User[]> {
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+        const reqUser = await this.authService.getUserFromToken(request);
+        const users = await this.userRepository.findAll({
+            attributes: {
+                exclude: ['password', 'createdAt', 'updatedAt']
+            },
+            where: {
+                [Op.or]: [ 
+                    {
+                        first_name: {
+                            [Op.like]: `${name}%`
+                        }
+                    }, 
+                    {
+                        last_name: {
+                            [Op.like]: `${name}%`
+                        }
+                    }
+                ],
+                [Op.not]: {id: reqUser.id}
+            },
+            include: {
+                model: Photo,
+                where: {
+                    is_avatar: true
+                },
+                required: false
+            }
+        });
+        if (users.length === 0) throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
+
+        return users;
     }
 
     async getUserComments(id: number): Promise<Comment[]> {
