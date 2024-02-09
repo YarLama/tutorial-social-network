@@ -31,11 +31,12 @@ export type MessageModelType = {
     updatedAt: string
 }
 
-export type UserModelType = User & {avatar: Photo | null};
-
 export type ContactModelType = {
     id: number;
     userId: number;
     targetUserId: number;
     description: string | null;
 }
+
+export type UserModelType = User & {avatar: Photo | null};
+export type UserSearchModelType = User & {photos: Photo[]}

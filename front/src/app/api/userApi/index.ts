@@ -1,5 +1,5 @@
 import api from "..";
-import { ContactModelType, PostModelType } from "../../helpers/types/models";
+import { ContactModelType, UserSearchModelType, PostModelType } from "../../helpers/types/models";
 import { Photo } from "../photoApi/types";
 import { User } from "./types";
 
@@ -7,6 +7,9 @@ export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query<User[], any>({
             query: () => '/users'
+        }),
+        getUsersByName: builder.query<UserSearchModelType[], any>({
+            query: (name: string) => `users/${name}/search`
         }),
         getUserById: builder.query<User, any>({
             query: (id) => `/users/${id}`
@@ -35,6 +38,7 @@ export const userApi = api.injectEndpoints({
 
 export const { 
     useGetAllUsersQuery, 
+    useGetUsersByNameQuery,
     useGetUserByIdQuery, 
     useGetUserAvatarQuery, 
     useGetUserPostsQuery, 

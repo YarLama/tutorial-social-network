@@ -5,6 +5,7 @@ import postReducer from '../store/reducers/PostSlice';
 import userReducer from '../store/reducers/UserSlice';
 import commentReducer from '../store/reducers/CommentSlice';
 import messageReducer from '../store/reducers/MessageSlice';
+import contactReducer from '../store/reducers/ContactSlice';
 
 const rootReducer = combineReducers({
     authReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     userReducer,
     commentReducer,
     messageReducer,
+    contactReducer,
     [api.reducerPath]: api.reducer
 });
 
