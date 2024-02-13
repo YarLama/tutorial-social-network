@@ -37,9 +37,17 @@ const SettingPage = () => {
         }))
     }, [avatar])
 
+    useEffect(() => {
+        if (user && user.id !== userId) {
+            userRefetch().then((responce) => {
+                responce.data ? dispatch(userSlice.actions.setUser(responce.data)) : null;
+            })
+        }
+    }, [user])
+
     return (
         <div className='setting-page'>
-            {user && isAvatarDispatch ? <SettingPageContent user={user} avatar={avatar}/> : <LoaderRing />}
+            {user && user.id === userId && isAvatarDispatch ? <SettingPageContent user={user} avatar={avatar}/> : <LoaderRing />}
         </div>
     );
 };
