@@ -23,12 +23,12 @@ const AppRouter: React.FC<IAppRouterProps> = ({isAuthorizate = false}) => {
             {isAuthorizate && <div className='navbar'><NavBar /></div>}
             <div className={`content ${isAuthorizate ? 'page-block' : ''}`}>
                 <Routes>
-                {isAuthorizate 
-                ? privateRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> ) 
-                : publicRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> )}
-                <Route path={RoutePaths.ROOT} element={rootElement}/>
-                <Route path='*' element={<Navigate to={RoutePaths.ROOT}/>}/>
-            </Routes>
+                    {isAuthorizate 
+                    ? privateRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> ) 
+                    : publicRoutes.map((route) => <Route key={route.path} path={route.path} element={<route.element />}/> )}
+                    <Route path={RoutePaths.ROOT} element={rootElement}/>
+                    <Route path='*' element={<Navigate to={RoutePaths.ROOT}/>}/>
+                </Routes>
             </div>
         </div>
     );

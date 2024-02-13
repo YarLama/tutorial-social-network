@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
     }
 
     const handleClickContacts = () => {
-        console.log('navigate to Contacts')
+        navigateTo(RoutePaths.CONTACT_PAGE);
     }
 
     const handleClickSettings = () => {

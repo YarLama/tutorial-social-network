@@ -7,7 +7,6 @@ export enum RoutePaths {
     SETTING_PAGE = '/settings',
     MESSAGE_PAGE = '/messages',
     MESSAGE_PAGE_WITH_ID = '/messages/:id',
-    TEST_PAGE = '/test',
-    TEST_PAGE_WITH_ID = '/test/:id',
+    CONTACT_PAGE = '/contacts',
     PAGE_NOT_FOUND = '/page_not_found'
 }
