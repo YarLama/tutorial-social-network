@@ -12,6 +12,7 @@ import { Post } from 'src/posts/posts.model';
 import { Photo } from 'src/photos/photos.model';
 import { IUserEntity } from './users.entity';
 import { Op } from 'sequelize';
+import { ContactWithUser } from 'src/types/universal_const';
 
 @Injectable()
 export class UsersService {
@@ -155,7 +156,7 @@ export class UsersService {
         return avatar[0];
     }
 
-    async getUserContacts(id: number, request: Request): Promise<Contact[]> {
+    async getUserContacts(id: number, request: Request): Promise<ContactWithUser[]> {
         const isOwner = await this.authService.isEqualUserId(request, id);
         if (!isOwner) throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
         const user = await this.userRepository.findByPk(id, {
@@ -165,8 +166,36 @@ export class UsersService {
         });
         if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         const contacts = user.contacts;
-        if (!contacts.length) throw new HttpException('Contacts not found', HttpStatus.NOT_FOUND);
-        return contacts;
+        if (!!contacts.length) {
+            const responce = await Promise.all(contacts.map(async (contact): Promise<ContactWithUser> => {
+                const contactUser = await this.userRepository.findOne({
+                    attributes: {
+                        exclude: ['password', 'createdAt', 'updatedAt']
+                    },
+                    where: {
+                        id: contact.targetUserId
+                    },
+                    include: {
+                        model: Photo,
+                        where: {
+                            is_avatar: true
+                        },
+                        required: false
+                    }
+                });
+                if (!contactUser) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+                
+                const contactWithUserInfo = {
+                    id: contact.id,
+                    description: contact.description,
+                    user: contactUser
+                }
+                return contactWithUserInfo;
+            }))
+
+            return responce;
+        }
+        return [];
     }
 
     async updateUser(dto: CreateUserDto, id: number, request: Request): Promise<User> {
