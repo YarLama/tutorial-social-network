@@ -40,3 +40,8 @@ export type ContactModelType = {
 
 export type UserModelType = User & {avatar: Photo | null};
 export type UserSearchModelType = User & {photos: Photo[]}
+export type ContactWithUserInfoType = {
+    id: number,
+    description: string | null,
+    user: UserSearchModelType
+}

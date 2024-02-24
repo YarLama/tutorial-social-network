@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ContactModelType } from "../../helpers/types/models";
+import { ContactModelType, ContactWithUserInfoType } from "../../helpers/types/models";
 
 interface ContactState {
-    contacts: ContactModelType[];
+    contacts: ContactWithUserInfoType[];
 }
 
 const initialState: ContactState = {
@@ -13,10 +13,10 @@ export const contactSlice = createSlice({
     name: 'contact',
     initialState,
     reducers: {
-        setContacts(state, action: PayloadAction<ContactModelType[]>) {
+        setContacts(state, action: PayloadAction<ContactWithUserInfoType[]>) {
             state.contacts = action.payload;
         },
-        addContact(state, action: PayloadAction<ContactModelType>) {
+        addContact(state, action: PayloadAction<ContactWithUserInfoType>) {
             const contact = action.payload;
             const contacts = [...state.contacts];
             const contactExist = contacts.find(elem => elem.id === contact.id);
@@ -26,7 +26,7 @@ export const contactSlice = createSlice({
                 state.contacts = contacts;
             }
         },
-        updateContact(state, action: PayloadAction<ContactModelType>) {
+        updateContact(state, action: PayloadAction<ContactWithUserInfoType>) {
             const contact = action.payload;
             const contacts = [...state.contacts];
             const updatedContacts = contacts.map(elem => elem.id === contact.id ? contact : elem);
