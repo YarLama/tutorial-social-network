@@ -20,7 +20,7 @@ const UserPhotosMediaViewer: React.FC<IUserPhotosMediaViewer> = ({isOnwer, activ
     const [currentPhoto, setCurrentPhoto] = useState<Photo>();
     const { id: paramId } = useParams();
     const dispatch = useAppDispatch();
-    const { refetch: photosRefetch } = useGetUserPhotosQuery(paramId);
+    const { refetch: photosRefetch } = useGetUserPhotosQuery(Number(paramId));
     const [ deletePhoto ] = useDeletePhotoMutation();
     const [ setAvatarState ] = useSetAvatarStateMutation();
 

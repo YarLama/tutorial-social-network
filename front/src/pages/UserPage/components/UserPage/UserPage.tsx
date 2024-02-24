@@ -11,8 +11,8 @@ import './styles/style.scss'
 const UserPage = () => {
 
     const { id: paramId } = useParams();
-    const { data: userData, refetch: userRefetch, error: userError } = useGetUserByIdQuery(paramId);
-    const { data: userAvatar, isLoading: avatarLoading,refetch: avatarRefetch, error  } = useGetUserAvatarQuery(paramId);
+    const { data: userData, refetch: userRefetch, error: userError } = useGetUserByIdQuery(Number(paramId));
+    const { data: userAvatar, isLoading: avatarLoading,refetch: avatarRefetch, error  } = useGetUserAvatarQuery(Number(paramId));
     const dispatch = useAppDispatch();
     const { user, avatar} = useAppSelector(state => state.userReducer);
 

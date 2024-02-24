@@ -41,14 +41,10 @@ export const messageSlice = createSlice({
             let messages = [...action.payload].sort((a,b) => a.id - b.id);
             const combinedUserIdValue = messages.flatMap(message => [message.from_userId, message.to_userId]);
             const uniqueUserIdValues = [...new Set(combinedUserIdValue)].filter(id => id != authUser.id);
-            const penPalUsers: PenPalUser[] = [messagesToMyself].map(penPalUser => {
-                if ((penPalUser.id === authUser.id) || (penPalUser.id === 0)) {
-                    const myselfMessages = messages.filter(message => message.from_userId === message.to_userId);
-                    return {id: authUser.id as number, messages: myselfMessages}
-                }
-                return penPalUser;
-            });
-
+            const penPalUsers: PenPalUser[] = [{
+                id: authUser.id as number,
+                messages: messages.filter(message => message.from_userId === message.to_userId && (message.from_userId === authUser.id || message.to_userId === authUser.id))
+            }] 
             uniqueUserIdValues.forEach(id => {
                 const penPalMessages = messages.filter(message => [message.from_userId, message.to_userId].includes(id));
                 const penPalUser: PenPalUser = {
@@ -123,7 +119,13 @@ export const messageSlice = createSlice({
         resetSelectedMessages(state) {
             state.selectedMessages = initialState.selectedMessages
         },
-        resetMessages: () => initialState,
+        resetMessages(state) {
+            const mf: PenPalUser = {
+                id: getUserInfoFromLocalToken().id as number ?? 0,
+                messages: []
+            }
+            state.penPalUsers = [mf]
+        },
         resetCurrentPenPalUserInfo(state) {
             state.currentPenPalUserInfo = initialState.currentPenPalUserInfo
         }

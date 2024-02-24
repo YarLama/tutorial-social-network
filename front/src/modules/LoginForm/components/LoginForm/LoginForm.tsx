@@ -1,14 +1,10 @@
 import { AxiosError } from 'axios';
 import { FormikHelpers, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../../../app/api/authApi';
 import { AuthLoginRequest } from '../../../../app/api/authApi/types';
-import { replaceWithId } from '../../../../app/helpers/http';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
-import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { authSlice } from '../../../../app/store/reducers/AuthSlice';
-import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import { Button, FormError, InputText } from '../../../../UI';
 import { prepareLoginData } from '../../helpers/prepareSubmit';
 import { validateLoginValues } from '../../helpers/validateLoginValues';
@@ -17,7 +13,6 @@ const LoginForm: React.FC = () => {
 
     const [errorForm, setErrorForm] = useState<string>('');
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const [login] = authApi.useLoginMutation();
 
     // const initialValues: AuthLoginRequest = {

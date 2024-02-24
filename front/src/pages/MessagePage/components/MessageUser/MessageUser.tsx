@@ -14,11 +14,13 @@ interface IMessageUserProps {
 
 const MessageUser: React.FC<IMessageUserProps> = ({userId, lastMessage, isSelected}) => {
 
-    const { data: avatarData } = userApi.useGetUserAvatarQuery(userId);
-    const { data: userData } = userApi.useGetUserByIdQuery(userId);
+    const { data: avatarData, isLoading: userLoading } = userApi.useGetUserAvatarQuery(userId, {skip: userId === 0});
+    const { data: userData, isLoading: avatarLoading } = userApi.useGetUserByIdQuery(userId, {skip: userId === 0});
     const { id: authUserId } = useAppSelector(state => state.authReducer.authUserInfo)
     const dispatch = useAppDispatch();
     const messageClassName = ['message-user-box'];
+
+    if (userLoading && avatarLoading) return null;
 
     if (isSelected) messageClassName.push('selected')
     if (lastMessage) lastMessage = lastMessage?.length > 20 ? lastMessage?.slice(0, 20).concat('...') : lastMessage;
