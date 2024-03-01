@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetUserContactsQuery } from '../../../../app/api/userApi';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
 import { contactSlice } from '../../../../app/store/reducers/ContactSlice';
+import { ContactSearchForm } from '../../../../modules/ContactForm';
 import { LoaderRing } from '../../../../UI';
 import ContactUserList from '../ContactUserList/ContactUserList';
 
 const ContactPage = () => {
 
+    const [searchName, setSearchName] = useState<string>('')
     const dispatch = useAppDispatch();
     const {id: authId} = useAppSelector(state => state.authReducer.authUserInfo)
     const {data: userContactsData} = useGetUserContactsQuery(authId);
-    console.log(userContactsData)
 
     useEffect(() => {
         if (userContactsData) dispatch(contactSlice.actions.setContacts(userContactsData))
@@ -18,8 +19,8 @@ const ContactPage = () => {
 
     return (
         <div className='contact-page'>
-            {/* Search Form Component*/}
-            { userContactsData ? <ContactUserList /> : <LoaderRing />}
+            <ContactSearchForm searchDispatch={setSearchName}/>
+            { userContactsData ? <ContactUserList search={searchName}/> : <LoaderRing />}
         </div>
     );
 };

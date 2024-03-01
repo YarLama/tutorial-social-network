@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React, { memo, useEffect, useState } from 'react';
+import React, { ChangeEventHandler, memo, MutableRefObject, useEffect, useState } from 'react';
 import './styles/style.scss';
 
 interface IInputTextProps {
@@ -11,6 +11,11 @@ interface IInputTextProps {
     required?: boolean;
     readonly?: boolean;
     numberOnly?: boolean;
+}
+
+interface IInputTextWithTimeoutProps extends IInputTextProps {
+    callback?: (value: string) => void;
+    delay?: number;
 }
 
 const InputText: React.FC<IInputTextProps> = memo(({
@@ -69,4 +74,45 @@ const InputText: React.FC<IInputTextProps> = memo(({
     )
 });
 
-export { InputText };
+const InputTextWithTimeout: React.FC<IInputTextWithTimeoutProps> = memo(({
+    name,
+    value,
+    label,
+    type = 'text',
+    required,
+    readonly = false,
+    callback,
+    delay = 2000
+}) => {
+
+    const [fieldValue, setFieldValue] = useState('');
+    const classNames = ['input-text-field']
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFieldValue(e.target.value);
+    }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => callback ? callback(fieldValue) : null, delay)
+        return () => clearTimeout(timeout)
+    }, [fieldValue])
+
+    return (
+        <div className='input-text'>
+            <input 
+                type={type}
+                className={classNames.join(' ')} 
+                id={name} 
+                name={name} 
+                placeholder={label} 
+                value={fieldValue}
+                onChange={handleChange}
+                required={required}
+                readOnly={readonly}
+            />
+            <label className='input-text-label' htmlFor={name}>{label}</label>
+        </div>
+    )
+})
+
+export { InputText, InputTextWithTimeout };

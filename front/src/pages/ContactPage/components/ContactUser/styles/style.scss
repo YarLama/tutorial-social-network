@@ -1,0 +1,35 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.contact-user {
+    background-color: $color_minor_background;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 10px 0 10px 0;
+    width: 100%;
+    max-width: 800px;
+
+    .contact-user-info {
+
+        .contact-user-name {
+            color: $color_button_background;
+            font-size: 18pt;
+            border-bottom: 1px solid $color_tooltip_elements;
+            padding: 5px 0;
+        }
+
+        .contact-user-description {
+            color: $color_post_date_font;
+            font-size: 12pt;
+            padding: 5px;
+        }
+    }
+    
+    .contact-user-toolkit {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
