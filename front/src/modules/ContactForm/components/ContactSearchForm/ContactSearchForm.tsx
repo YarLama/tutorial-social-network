@@ -3,11 +3,10 @@ import { InputTextWithTimeout } from '../../../../UI';
 import './styles/style.scss'
 
 interface IContactSearchFormProps {
-    delay?: number,
     searchDispatch: (value: string) => void,
 }
 
-const ContactSearchForm: React.FC<IContactSearchFormProps> = ({delay = 2000,searchDispatch}) => {
+const ContactSearchForm: React.FC<IContactSearchFormProps> = ({searchDispatch}) => {
 
     const handleChange = (value: string) => {
         searchDispatch(value);

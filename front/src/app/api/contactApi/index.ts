@@ -1,4 +1,5 @@
 import api from "..";
+import { CreateContactRequest, DeleteContactRequest, UpdateContactRequest } from "../../constants/types";
 import { ContactModelType } from "../../helpers/types/models";
 
 
@@ -7,23 +8,26 @@ export const contactApi = api.injectEndpoints({
         getContact: builder.query<ContactModelType, any>({
             query: (id) => `/contacts/${id}`
         }),
-        createContact: builder.mutation<ContactModelType, any>({
+        createContact: builder.mutation<ContactModelType, CreateContactRequest>({
             query: (data) => ({
                 url: `/contacts`,
                 method: 'POST',
                 body: data
             })
         }),
-        updateContact: builder.mutation<ContactModelType, any>({
-            query: ({id, data}) => ({
-                url: `/contacts/${id}`,
+        updateContact: builder.mutation<ContactModelType, UpdateContactRequest>({
+            query: (data) => ({
+                url: `/contacts/${data.targetUserId}`,
                 method: 'PUT',
-                body: data
+                body: {
+                    userId: data.userId,
+                    description: data.description
+                }
             })
         }),
-        deleteContact: builder.mutation<any, any>({
-            query: (id) => ({
-                url: `/contacts/${id}`,
+        deleteContact: builder.mutation<any, DeleteContactRequest["targetUserId"]>({
+            query: (data) => ({
+                url: `/contacts/${data}`,
                 method: 'DELETE'
             })
         })

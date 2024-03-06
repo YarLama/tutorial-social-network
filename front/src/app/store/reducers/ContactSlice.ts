@@ -32,7 +32,7 @@ export const contactSlice = createSlice({
             const updatedContacts = contacts.map(elem => elem.id === contact.id ? contact : elem);
             state.contacts = updatedContacts;
         },
-        deleteContact(state, action: PayloadAction<ContactModelType>) {
+        deleteContact(state, action: PayloadAction<ContactWithUserInfoType>) {
             const contact = action.payload;
             const contacts = [...state.contacts];
             const contactsWithoutDeletedContact = contacts.filter(elem => elem.id !== contact.id);

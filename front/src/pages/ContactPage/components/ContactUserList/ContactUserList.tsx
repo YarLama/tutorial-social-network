@@ -44,6 +44,17 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
         }
     }, [data])
 
+    useEffect(() => {
+        if (searchedUsers.length) {
+            const userInContacts = contacts.reduce((arr: number[], elem) => {
+                if (!arr.includes(elem.user.id)) arr.push(elem.user.id)
+                return arr
+            }, []);
+            const withoutSavedUsers = searchedUsers.filter(user => !userInContacts.includes(user.id))
+            setSearchedUsers(withoutSavedUsers);
+        }
+    }, [contacts])
+
     return (
         <div className='contact-user-list'>
 
