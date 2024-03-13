@@ -1,1 +1,2 @@
-export {ContactSearchForm} from './components/ContactSearchForm/ContactSearchForm'
+export { ContactSearchForm } from './components/ContactSearchForm/ContactSearchForm';
+export { ContactDescriptionUpdateForm } from './components/ContactDescriptionUpdateForm/ContactDescriptionUpdateForm'

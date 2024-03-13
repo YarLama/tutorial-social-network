@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { useGetUsersByNameQuery } from '../../../../app/api/userApi';
-import { UserSearchModelType } from '../../../../app/helpers/types/models';
+import { ContactWithUserInfoType, UserSearchModelType } from '../../../../app/helpers/types/models';
 import { useAppSelector } from '../../../../app/hooks/redux/redux';
+import { ModalWindow } from '../../../../components';
+import { ContactDescriptionUpdateForm } from '../../../../modules/ContactForm';
 import ContactUser from '../ContactUser/ContactUser';
 import './styles/style.scss'
 
@@ -12,6 +14,9 @@ interface IContactUserListProps {
 const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
 
     const [searchedUsers, setSearchedUsers] = useState<UserSearchModelType[]>([]);
+    const [selectedContactUser, setSelectedContactUser] = useState<ContactWithUserInfoType>();
+    const [contactUserModalActive, setContactUserModalActive] = useState<boolean>(false);
+    const [modalType, setModalType] = useState<'description' | 'full'>('full')
     const { contacts } = useAppSelector(state => state.contactReducer)
     const contactsWithSearchName = search ? contacts.filter(contact => {
         const firstName = contact.user.first_name.charAt(0).toUpperCase() + contact.user.first_name.slice(1).toLowerCase();
@@ -26,6 +31,12 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
     const {data, refetch} = useGetUsersByNameQuery(search, {
         skip: !search
     })
+
+    const handleContactInfoClick = (contact: ContactWithUserInfoType, modalType: 'description' | 'full') => {
+        setSelectedContactUser(contact);
+        setModalType(modalType);
+        setContactUserModalActive(true);
+    }
 
     useEffect(() => {
         setSearchedUsers([])
@@ -56,7 +67,8 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
     }, [contacts])
 
     return (
-        <div className='contact-user-list'>
+        <>
+            <div className='contact-user-list'>
 
             {contacts.length && contactsWithSearchName.length ? 
                 <div className='contact-user-list-saved'>
@@ -66,6 +78,7 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
                         user={contact.user}
                         description={contact.description}
                         isSaved
+                        onContactUserInfoClick={handleContactInfoClick}
                     />)}
                 </div>   
                 : contacts.length ? null : <div className='contact-user-list-not-found'>{`You haven't contacts`}</div>
@@ -83,7 +96,17 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
                 : contactsWithSearchName.length ? null : <div className='contact-user-list-not-found'>{`Not found users with '${search}' name`}</div>
             }
 
-        </div>
+            </div>
+            {selectedContactUser && <ModalWindow active={contactUserModalActive} setActive={setContactUserModalActive} controls={false}>
+                {modalType === 'full' ? 
+                <ContactDescriptionUpdateForm 
+                    contactId={selectedContactUser.id} 
+                    desription={selectedContactUser.description}
+                /> 
+                : <div>{selectedContactUser?.description}</div>}
+            </ModalWindow>}
+            
+        </>
     );
 };
 

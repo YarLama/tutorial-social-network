@@ -1,6 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { messageApi } from '../../../../app/api/messageApi';
+import { replaceWithId } from '../../../../app/helpers/http';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
+import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { messageSlice } from '../../../../app/store/reducers/MessageSlice';
 import { IconButton } from '../../../../UI';
 import './styles/style.scss'
@@ -12,13 +15,18 @@ interface IMessageToolkitProps {
 const MessageToolkit: React.FC<IMessageToolkitProps> = ({onEditClick}) => {
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [deleteMessage] = messageApi.useDeleteMessageMutation();
-    const { selectedMessages } = useAppSelector(state => state.messageReducer);
+    const { selectedMessages, currentPenPalUserInfo } = useAppSelector(state => state.messageReducer);
 
     const [isOwnerSelectedMessage, setIsOwnerSelectedMessage] = useState<boolean>(false);
 
     const handleBackClick = () => {
         dispatch(messageSlice.actions.resetCurrentPenPalUserInfo())
+    }
+
+    const handleNameClick = () => {
+        navigate(replaceWithId(RoutePaths.USER_PAGE_WITH_ID, currentPenPalUserInfo.id))
     }
 
     const handleClearClick = () => {
@@ -69,7 +77,10 @@ const MessageToolkit: React.FC<IMessageToolkitProps> = ({onEditClick}) => {
         <div className='message-dialogue-toolkit'>
             {
                 selectedMessages.length === 0 ? 
-                    <div className='back-btn' onClick={handleBackClick}><IconButton icon='left' size='s' text={'back'}/></div>
+                    <>
+                        <div className='back-btn' onClick={handleBackClick}><IconButton icon='left' size='s' text={'back'}/></div>
+                        <div className='name-btn' onClick={handleNameClick}>{currentPenPalUserInfo.name}</div>
+                    </>
                 : 
                     <>
                         <div className='clear-btn' onClick={handleClearClick}><IconButton icon='cancel' size='s' text={'clear'}/></div>

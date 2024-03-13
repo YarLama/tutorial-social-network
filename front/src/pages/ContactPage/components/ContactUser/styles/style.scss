@@ -13,7 +13,14 @@
 
     .contact-user-info {
 
+        flex-grow: 1;
+        max-height: 120px;
+        padding: 5px;
+
         .contact-user-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: $color_button_background;
             font-size: 18pt;
             border-bottom: 1px solid $color_tooltip_elements;
@@ -21,6 +28,10 @@
         }
 
         .contact-user-description {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             color: $color_post_date_font;
             font-size: 12pt;
             padding: 5px;
