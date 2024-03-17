@@ -40,7 +40,7 @@ const ContactUser: React.FC<IContactUserProps> = ({user, isSaved = false, descri
     const handleDeleteClick = async () => {
         try {
             if (currentContact) {
-                await deleteContact(currentContact.id).unwrap();
+                await deleteContact({id: currentContact.id}).unwrap();
                 dispatch(contactSlice.actions.deleteContact(currentContact));
             }
         } catch (e) {

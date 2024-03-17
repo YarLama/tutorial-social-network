@@ -9,11 +9,16 @@ export type ContactCreateRequestErrors = {
 }
 
 export type ContactUpdateRequest = {
+    id: number,
     userId: number;
-    description: string;
+    description: string | null;
 }
 
 export type ContactUpdateRequestErrors = {
     userId?: number;
-    description?: string;
+    description?: string | null;
+}
+
+export type ContactDeleteRequest = {
+    id: number;
 }

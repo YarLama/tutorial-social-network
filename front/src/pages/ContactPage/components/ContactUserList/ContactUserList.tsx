@@ -99,10 +99,7 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
             </div>
             {selectedContactUser && <ModalWindow active={contactUserModalActive} setActive={setContactUserModalActive} controls={false}>
                 {modalType === 'full' ? 
-                <ContactDescriptionUpdateForm 
-                    contactId={selectedContactUser.id} 
-                    desription={selectedContactUser.description}
-                /> 
+                <ContactDescriptionUpdateForm contactId={selectedContactUser.id} /> 
                 : <div>{selectedContactUser?.description}</div>}
             </ModalWindow>}
             
