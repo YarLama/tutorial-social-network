@@ -5,12 +5,14 @@ import { useDeleteContactMutation, useUpdateContactMutation } from '../../../../
 import { convertToFullName } from '../../../../app/helpers/common/text';
 import { getImageUrl, replaceWithId } from '../../../../app/helpers/http';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks/redux/redux';
+import { useWindowSize } from '../../../../app/hooks/UI/useWindowSize';
 import { RoutePaths } from '../../../../app/routes/constants/routePaths';
 import { contactSlice } from '../../../../app/store/reducers/ContactSlice';
 import { Avatar } from '../../../../components';
 import { Button, InputTextarea } from '../../../../UI';
 import { prepareContactDescriptionUpdateData } from './helpers/prepareSubmit';
 import { ContactDesriptionFormUpdateValues } from './helpers/types';
+import './styles/style.scss'
 
 interface IContactDescriptionUpdateFormProps {
     contactId: number;
@@ -25,6 +27,7 @@ const ContactDescriptionUpdateForm: React.FC<IContactDescriptionUpdateFormProps>
 
     const [isDescriptionUpdated, setIsDescriptionUpdated] = useState<boolean>(false);
     const { user } = currentContact;
+    const { isMobile } = useWindowSize()
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [ deleteContact ] = useDeleteContactMutation();
@@ -36,7 +39,6 @@ const ContactDescriptionUpdateForm: React.FC<IContactDescriptionUpdateFormProps>
 
     const handleSubmit = async (values: ContactDesriptionFormUpdateValues, actions: FormikHelpers<ContactDesriptionFormUpdateValues>) => {
         try {
-            console.log(values);
             const data = prepareContactDescriptionUpdateData(values, currentContact.id);
             const responce = await updateContact(data).unwrap();
             dispatch(contactSlice.actions.updateContact({
@@ -97,19 +99,19 @@ const ContactDescriptionUpdateForm: React.FC<IContactDescriptionUpdateFormProps>
         <div className='contact-description-update-form'>
             <FormikProvider value={formik}>
                 <form onSubmit={formik.handleSubmit} autoComplete='off'>
-                    <div onClick={handleAvatarClick}>
+                    <div onClick={handleAvatarClick} className='avatar-box'>
                         <Avatar 
                             src={user.photos.length ? getImageUrl(user.photos[0].image) : undefined}
                             size='m'
                         />
                     </div>
-                    <div>
+                    <div className='name-box'>
                         {convertToFullName(user.first_name, user.last_name, user.middle_name)}
                     </div>
                     <div className='description-box'>
                         <InputTextarea 
                             name='description'
-                            label='Description'
+                            label={ !isMobile ? 'Description' : undefined}
                             value={values.description ?? ''}
                             maxLength={254}
                         />

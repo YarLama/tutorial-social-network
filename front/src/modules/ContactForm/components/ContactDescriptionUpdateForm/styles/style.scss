@@ -1,0 +1,27 @@
+@import '/src/UI/styles_extension/colors';
+@import '/src/UI/styles_extension/variables';
+
+.contact-description-update-form {
+
+    form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        grid-gap:20px;
+
+        .name-box {
+            font-size: 18pt;
+        }
+
+        .description-box {
+
+            textarea {
+                font-size: 14pt;
+                height: 100vh;
+                max-height: 150px;
+            }
+            
+        }
+    }
+    
+}
