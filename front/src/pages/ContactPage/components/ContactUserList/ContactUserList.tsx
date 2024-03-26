@@ -99,7 +99,7 @@ const ContactUserList: React.FC<IContactUserListProps> = ({search = ''}) => {
                 : contacts.length ? null : <div className='contact-user-list-not-found'>{`You haven't contacts`}</div>
             }
 
-            {searchedUsers.length ? 
+            {search === '' ? null : searchedUsers.length ? 
                 <div className='contact-user-list-found'>
                     <div className='contact-user-list-found-label'>{`Found ${searchedUsers.length} users`}</div> 
                     {searchedUsers.map(user => <ContactUser 

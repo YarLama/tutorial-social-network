@@ -17,6 +17,15 @@ services:
       - postgres
     restart: always
 
+  web_server:
+    container_name: web_server
+    build: 
+      context: ./front
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always 
+
   postgres:
     container_name: postgres
     image: postgres:12
@@ -39,7 +48,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "5050:80"
+      - "5050:81"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 

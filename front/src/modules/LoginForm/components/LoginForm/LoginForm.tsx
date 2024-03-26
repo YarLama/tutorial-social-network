@@ -15,19 +15,9 @@ const LoginForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const [login] = authApi.useLoginMutation();
 
-    // const initialValues: AuthLoginRequest = {
-    //     email: '',
-    //     password: ''
-    // }
-
-    // const initialValues: AuthLoginRequest = {
-    //     email: 'SichulyAdmin@kek.ru',
-    //     password: 'kekar1025'
-    // }
-
     const initialValues: AuthLoginRequest = {
-        email: 'chuhin228@mail.ru',
-        password: 'chuhin228'
+        email: '',
+        password: ''
     }
 
     const handleSubmit = async (values: AuthLoginRequest, actions: FormikHelpers<AuthLoginRequest>) => {
